@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CMSCore.Content.GrainInterfaces.Types
+namespace CMSCore.Content.ViewModels
 {
     #region Read
 
-     public class FeedItemPreviewViewModel
+    public class FeedItemPreviewViewModel
     {
-        private string[] _tags = new string[] { };
         public string Id { get; set; }
 
         public string Title { get; set; }
@@ -16,20 +15,24 @@ namespace CMSCore.Content.GrainInterfaces.Types
 
         public string Description { get; set; }
 
-        public DateTime Created { get; set; }
+        public DateTime Date { get; set; }
         public DateTime Modified { get; set; }
 
         public IEnumerable<TagViewModel> Tags { get; set; }
     }
 
-     public class FeedViewModel
+    public class FeedViewModel
     {
         public string Id { get; set; }
+        public DateTime Date { get; set; }
+
         public string Name { get; set; }
         public string NormalizedName { get; set; }
 
         public IEnumerable<FeedItemPreviewViewModel> FeedItems { get; set; }
+        public DateTime Modified { get; set; }
     }
+
     public class TagViewModel
     {
         public TagViewModel(string id, string normalizedName, string name)
@@ -38,6 +41,7 @@ namespace CMSCore.Content.GrainInterfaces.Types
             NormalizedName = normalizedName;
             Name = name;
         }
+
         public string Id { get; set; }
         public string NormalizedName { get; set; }
         public string Name { get; set; }

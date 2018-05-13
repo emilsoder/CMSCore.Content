@@ -21,7 +21,11 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="2.0.0-preview1" />
     <PackageReference Include="System.Runtime" Version="4.3.0" /> 
   </ItemGroup>
-
+  
+  <ItemGroup>
+     <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.1.0-preview1-final" />
+   </ItemGroup>
+  
   <ItemGroup>
     <ProjectReference Include="..\CMSCore.Content.Models\CMSCore.Content.Models.csproj" />
     <ProjectReference Include="..\CMSCore.Content.ViewModels\CMSCore.Content.ViewModels.csproj" />

@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CMSCore.Content.GrainInterfaces.Types
+namespace CMSCore.Content.ViewModels
 {
     #region Read
 
@@ -16,12 +17,13 @@ namespace CMSCore.Content.GrainInterfaces.Types
         public string Description { get; set; }
 
         public string Content { get; set; }
-        public bool isContentMarkdown { get; set; } = true;
-
+ 
         public bool CommentsEnabled { get; set; } = true;
 
         public IEnumerable<TagViewModel> Tags { get; set; }
         public IEnumerable<CommentViewModel> Comments { get; set; }
+        public DateTime Date { get; set; }
+        public DateTime Modified { get; set; }
     }
 
     #endregion

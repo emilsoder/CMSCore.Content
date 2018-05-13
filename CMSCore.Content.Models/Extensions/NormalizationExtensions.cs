@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-namespace CMSCore.Content.Models
+namespace CMSCore.Content.Models.Extensions
 {
     public static class NormalizationExtensions
     {

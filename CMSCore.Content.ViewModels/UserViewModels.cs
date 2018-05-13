@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace CMSCore.Content.GrainInterfaces.Types
+namespace CMSCore.Content.ViewModels
 {
     #region Read
 

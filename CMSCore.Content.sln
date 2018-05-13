@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{46039532
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMSCore.Content.Repository", "CMSCore.Content.Repository\CMSCore.Content.Repository.csproj", "{286E76C7-B16E-499E-8C54-1B50C2E19C34}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMSCore.Content.IntegrationTests", "Tests\CMSCore.Content.IntegrationTests\CMSCore.Content.IntegrationTests.csproj", "{4FB8BDF5-3252-4421-9828-65A243F5FBC0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,9 +37,16 @@ Global
 		{286E76C7-B16E-499E-8C54-1B50C2E19C34}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{286E76C7-B16E-499E-8C54-1B50C2E19C34}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{286E76C7-B16E-499E-8C54-1B50C2E19C34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FB8BDF5-3252-4421-9828-65A243F5FBC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FB8BDF5-3252-4421-9828-65A243F5FBC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FB8BDF5-3252-4421-9828-65A243F5FBC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FB8BDF5-3252-4421-9828-65A243F5FBC0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4FB8BDF5-3252-4421-9828-65A243F5FBC0} = {46039532-9064-4028-9CCB-E33555FF7E94}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {57D01A70-8D36-41DC-A508-564F27323377}

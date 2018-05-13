@@ -1,4 +1,5 @@
 ﻿using System;
+using CMSCore.Content.Models.Extensions;
 
 namespace CMSCore.Content.Models
 {

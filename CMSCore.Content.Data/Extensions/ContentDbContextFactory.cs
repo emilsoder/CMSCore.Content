@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace CMSCore.Content.Data
+namespace CMSCore.Content.Data.Extensions
 {
     public class ContentDbContextFactory : IDesignTimeDbContextFactory<ContentDbContext>
     {
@@ -9,7 +9,7 @@ namespace CMSCore.Content.Data
         {
             var optionsBuilder = new DbContextOptionsBuilder();
 
-            optionsBuilder.UseSqlServer(DatabaseConnectionConst.Localdb);
+            optionsBuilder.UseSqlServer(DatabaseConnectionConst.SqlServer);
 
             return new ContentDbContext(optionsBuilder.Options);
         }

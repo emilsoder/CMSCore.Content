@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
-namespace CMSCore.Content.GrainInterfaces.Types
+namespace CMSCore.Content.ViewModels
 {
     public class CommentViewModel
     {
         public string CommentId { get; set; }
+        public DateTime Date { get; set; }
         public string Text { get; set; }
         public string FullName { get; set; }
     }

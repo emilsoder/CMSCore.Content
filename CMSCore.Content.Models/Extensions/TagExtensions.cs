@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace CMSCore.Content.Models
+namespace CMSCore.Content.Models.Extensions
 {
     public static class TagExtensions
     {
-        public static IEnumerable<Tag> AsTagsEnumerable(this IList<string> tagNames)
+        public static IEnumerable<Tag> AsTagsEnumerable(this IList<string> tagNames, string feedItemId)
         {
-            return tagNames?.Select(x => new Tag(x));
+            return tagNames?.Select(tagName => new Tag(feedItemId: feedItemId, name:tagName ));
         }
 
         public static ICollection<Tag> AsTagCollection(this ICollection<Tag> tags, IList<string> tagNames)

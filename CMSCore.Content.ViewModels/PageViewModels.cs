@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
-namespace CMSCore.Content.GrainInterfaces.Types
+namespace CMSCore.Content.ViewModels
 {
     #region Read
 
@@ -9,15 +10,18 @@ namespace CMSCore.Content.GrainInterfaces.Types
         public string Id { get; set; }
         public string Name { get; set; }
         public string NormalizedName { get; set; }
-
+        public DateTime Date { get; set; }
         public string Content { get; set; }
 
         public FeedViewModel Feed { get; set; }
+        public DateTime Modified { get; set; }
     }
 
     public class PageTreeViewModel
     {
         public string Id { get; set; }
+        public DateTime Date { get; set; }
+
         public string Name { get; set; }
         public string NormalizedName { get; set; }
     }
