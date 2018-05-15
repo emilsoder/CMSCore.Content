@@ -1,10 +1,11 @@
-﻿using System;
-using CMSCore.Content.Models.Extensions;
+﻿using CMSCore.Content.Models.Extensions;
 
 namespace CMSCore.Content.Models
 {
     public class Page : EntityBase
     {
+        private string _name;
+
         public Page()
         {
         }
@@ -14,8 +15,6 @@ namespace CMSCore.Content.Models
             Name = name;
             FeedEnabled = feedEnabled;
         }
-
-        private string _name;
 
         public string Name
         {

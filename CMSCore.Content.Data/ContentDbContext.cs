@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using CMSCore.Content.Models;
+﻿using CMSCore.Content.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace CMSCore.Content.Data
 {
@@ -40,4 +34,3 @@ namespace CMSCore.Content.Data
         }
     }
 }
- 

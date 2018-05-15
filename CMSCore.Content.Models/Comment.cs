@@ -1,11 +1,7 @@
-﻿using System;
-
-namespace CMSCore.Content.Models
+﻿namespace CMSCore.Content.Models
 {
     public class Comment : EntityBase
     {
-        public string FeedItemId { get; set; }
-
         public Comment()
         {
         }
@@ -16,6 +12,8 @@ namespace CMSCore.Content.Models
             Text = text;
             FullName = fullName;
         }
+
+        public string FeedItemId { get; set; }
 
         public string Text { get; set; }
         public string FullName { get; set; }

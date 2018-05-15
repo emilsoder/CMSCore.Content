@@ -8,8 +8,8 @@ namespace CMSCore.Content.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Comments",
-                columns: table => new
+                "Comments",
+                table => new
                 {
                     Id = table.Column<string>(nullable: false),
                     EntityId = table.Column<string>(nullable: true),
@@ -24,14 +24,11 @@ namespace CMSCore.Content.Data.Migrations
                     Text = table.Column<string>(nullable: true),
                     FullName = table.Column<string>(nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Comments", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Comments", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "FeedItems",
-                columns: table => new
+                "FeedItems",
+                table => new
                 {
                     Id = table.Column<string>(nullable: false),
                     EntityId = table.Column<string>(nullable: true),
@@ -49,14 +46,11 @@ namespace CMSCore.Content.Data.Migrations
                     Content = table.Column<string>(nullable: true),
                     CommentsEnabled = table.Column<bool>(nullable: false)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FeedItems", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_FeedItems", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "Feeds",
-                columns: table => new
+                "Feeds",
+                table => new
                 {
                     Id = table.Column<string>(nullable: false),
                     EntityId = table.Column<string>(nullable: true),
@@ -71,14 +65,11 @@ namespace CMSCore.Content.Data.Migrations
                     Name = table.Column<string>(nullable: true),
                     NormalizedName = table.Column<string>(nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Feeds", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Feeds", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "Pages",
-                columns: table => new
+                "Pages",
+                table => new
                 {
                     Id = table.Column<string>(nullable: false),
                     EntityId = table.Column<string>(nullable: true),
@@ -94,14 +85,11 @@ namespace CMSCore.Content.Data.Migrations
                     FeedEnabled = table.Column<bool>(nullable: false),
                     Content = table.Column<string>(nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Pages", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Pages", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "Tags",
-                columns: table => new
+                "Tags",
+                table => new
                 {
                     Id = table.Column<string>(nullable: false),
                     EntityId = table.Column<string>(nullable: true),
@@ -116,14 +104,11 @@ namespace CMSCore.Content.Data.Migrations
                     Name = table.Column<string>(nullable: true),
                     NormalizedName = table.Column<string>(nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tags", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Tags", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
+                "Users",
+                table => new
                 {
                     Id = table.Column<string>(nullable: false),
                     EntityId = table.Column<string>(nullable: true),
@@ -139,15 +124,12 @@ namespace CMSCore.Content.Data.Migrations
                     Email = table.Column<string>(nullable: true),
                     IdentityUserId = table.Column<string>(nullable: true)
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Users", x => x.Id); });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_IdentityUserId",
-                table: "Users",
-                column: "IdentityUserId",
+                "IX_Users_IdentityUserId",
+                "Users",
+                "IdentityUserId",
                 unique: true,
                 filter: "[IdentityUserId] IS NOT NULL");
         }
@@ -155,22 +137,22 @@ namespace CMSCore.Content.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Comments");
+                "Comments");
 
             migrationBuilder.DropTable(
-                name: "FeedItems");
+                "FeedItems");
 
             migrationBuilder.DropTable(
-                name: "Feeds");
+                "Feeds");
 
             migrationBuilder.DropTable(
-                name: "Pages");
+                "Pages");
 
             migrationBuilder.DropTable(
-                name: "Tags");
+                "Tags");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                "Users");
         }
     }
 }

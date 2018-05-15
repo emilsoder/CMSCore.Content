@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using CMSCore.Content.Models.Extensions;
+﻿using CMSCore.Content.Models.Extensions;
 
 namespace CMSCore.Content.Models
 {
     public class FeedItem : EntityBase
     {
-        public string FeedId { get; set; }
+        private string _title;
 
         public FeedItem()
         {
@@ -20,6 +19,8 @@ namespace CMSCore.Content.Models
             CommentsEnabled = commentsEnabled;
         }
 
+        public string FeedId { get; set; }
+
         public string Title
         {
             get => _title;
@@ -29,8 +30,6 @@ namespace CMSCore.Content.Models
                 NormalizedTitle = _title.NormalizeToSlug();
             }
         }
-
-        private string _title;
 
         public string NormalizedTitle { get; set; }
         public string Description { get; set; }

@@ -98,10 +98,7 @@ namespace CMSCore.Content.Repository
         {
             var foundActivePage =
                 _context.Pages.FirstOrDefault(x => x.IsActiveVersion && x.EntityId == entityId);
-            if (foundActivePage == null)
-            {
-                return Task.FromException(new Exception("Page to update not found."));
-            }
+            if (foundActivePage == null) return Task.FromException(new Exception("Page to update not found."));
 
             foundActivePage.IsActiveVersion = false;
             foundActivePage.Modified = DateTime.Now;
@@ -124,10 +121,7 @@ namespace CMSCore.Content.Repository
         {
             var foundActiveFeed =
                 _context.Feeds.FirstOrDefault(x => x.IsActiveVersion && x.EntityId == entityId);
-            if (foundActiveFeed == null)
-            {
-                return Task.FromException(new Exception("Feed to update not found."));
-            }
+            if (foundActiveFeed == null) return Task.FromException(new Exception("Feed to update not found."));
 
             foundActiveFeed.IsActiveVersion = false;
             foundActiveFeed.Modified = DateTime.Now;
@@ -149,10 +143,7 @@ namespace CMSCore.Content.Repository
             var foundActiveFeed =
                 _context.FeedItems.FirstOrDefault(x => x.IsActiveVersion && x.EntityId == entityId);
 
-            if (foundActiveFeed == null)
-            {
-                return Task.FromException(new Exception("FeedItem to update not found."));
-            }
+            if (foundActiveFeed == null) return Task.FromException(new Exception("FeedItem to update not found."));
 
             foundActiveFeed.IsActiveVersion = false;
             foundActiveFeed.Modified = DateTime.Now;
@@ -188,10 +179,7 @@ namespace CMSCore.Content.Repository
         Task IUpdateContentRepository.UpdateTag(string newTagName, string tagId)
         {
             var activeTag = _context.Tags.FirstOrDefault(x => x.IsActiveVersion && x.EntityId == tagId);
-            if (activeTag == null)
-            {
-                return Task.FromException(new Exception("Tag to update not found."));
-            }
+            if (activeTag == null) return Task.FromException(new Exception("Tag to update not found."));
 
             activeTag.Name = newTagName;
             activeTag.Modified = DateTime.Now;
@@ -610,13 +598,11 @@ namespace CMSCore.Content.Repository
 
             var ids = feedItems.Select(x => x.EntityId);
             if (ids.Any())
-            {
                 foreach (var entityId in ids)
                 {
                     MarkCommentsAsDeletedByFeedItemId(entityId);
                     MarkTagsAsDeletedByFeedItemId(entityId);
                 }
-            }
 
             MarkAsDeletedAndUpdate(feedItems);
         }
@@ -624,19 +610,13 @@ namespace CMSCore.Content.Repository
         private void MarkCommentsAsDeletedByFeedItemId(string feedItemId)
         {
             var comments = _context.Comments?.Where(x => x.FeedItemId == feedItemId);
-            if (comments != null && comments.Any())
-            {
-                MarkAsDeletedAndUpdate(comments);
-            }
+            if (comments != null && comments.Any()) MarkAsDeletedAndUpdate(comments);
         }
 
         private void MarkTagsAsDeletedByFeedItemId(string feedItemId)
         {
             var tags = _context.Tags?.Where(x => x.FeedItemId == feedItemId);
-            if (tags != null && tags.Any())
-            {
-                MarkAsDeletedAndUpdate(tags);
-            }
+            if (tags != null && tags.Any()) MarkAsDeletedAndUpdate(tags);
         }
 
         private void MarkAsDeletedAndUpdate<TEntity>(IEnumerable<TEntity> entities) where TEntity : EntityBase

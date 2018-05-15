@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using CMSCore.Content.Models.Extensions;
+﻿using CMSCore.Content.Models.Extensions;
 
 namespace CMSCore.Content.Models
 {
     public class Tag : EntityBase
     {
-        public string FeedItemId { get; set; }
+        private string _name;
 
         public Tag()
         {
@@ -23,7 +21,7 @@ namespace CMSCore.Content.Models
             Name = name;
         }
 
-        private string _name;
+        public string FeedItemId { get; set; }
 
         public string Name
         {

@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using CMSCore.Content.Models.Extensions;
+﻿using CMSCore.Content.Models.Extensions;
 
 namespace CMSCore.Content.Models
 {
     public class Feed : EntityBase
     {
-        public string PageId { get; set; }
+        private string _name;
 
         public Feed()
         {
@@ -18,7 +16,7 @@ namespace CMSCore.Content.Models
             Name = name;
         }
 
-        private string _name;
+        public string PageId { get; set; }
 
         public string Name
         {
