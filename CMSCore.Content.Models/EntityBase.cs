@@ -29,27 +29,5 @@ namespace CMSCore.Content.Models
 
         public virtual bool MarkedToDelete { get; set; }
     }
-
-    //public abstract class EntityVersion
-    //{
-    //    protected EntityVersion()
-    //    {
-    //        Id = Guid.NewGuid().ToString();
-    //        EntityId = Guid.NewGuid().ToString();
-    //        Version = 1.0;
-    //        Date = DateTime.Now;
-    //    }
-
-    //    [Key]
-    //    public virtual string Id { get; set; }
-
-    //    public virtual string EntityId { get; set; }
-
-    //    public virtual double Version { get;set; }
-    //    public virtual bool IsActiveVersion { get; set; }
-
-    //    public virtual DateTime Date { get; set; }
-
-    //    public string UserId { get; set; }
-    //}
+     
 }

@@ -5,6 +5,8 @@ using CMSCore.Content.Data;
 using CMSCore.Content.Data.Extensions;
 using CMSCore.Content.Models;
 using CMSCore.Content.Repository;
+using CMSCore.Content.Repository.Implementations;
+using CMSCore.Content.Repository.Interfaces;
 using CMSCore.Content.ViewModels;
 using Newtonsoft.Json;
 using Xunit;
@@ -22,15 +24,26 @@ namespace CMSCore.Content.IntegrationTests
 
     public class UnitTest1
     {
-        private readonly IContentRepository _repository;
+        private readonly IRecycleBinRepository _recycleBinRepository;
+        private readonly IDeleteContentRepository _deleteContentRepository;
+        private readonly ICreateContentRepository _createContentRepository;
+        private readonly IUpdateContentRepository _updateContentRepository;
+        private readonly IReadContentRepository _readContentRepository;
+
         private readonly ContentDbContext _context;
         private readonly ITestOutputHelper _output;
 
         public UnitTest1(ITestOutputHelper output)
         {
             _output = output;
+
             _context = new ContentDbContext(ContentDbContextOptions.DefaultSqlServerOptions);
-            _repository = new ContentRepository(_context);
+
+            _recycleBinRepository = new RecycleBinRepository(_context);
+            _deleteContentRepository = new DeleteContentRepository(_context);
+            _createContentRepository = new CreateContentRepository(_context);
+            _updateContentRepository = new UpdateContentRepository(_context);
+            _readContentRepository = new ReadContentRepository(_context);
         }
 
         private string _outputBuilder;
@@ -49,7 +62,7 @@ namespace CMSCore.Content.IntegrationTests
         [Fact]
         public void Get_Page_ById()
         {
-            var page = _repository.GetPage(pageId);
+            var page = _readContentRepository.GetPage(pageId);
 
             Assert.NotNull(page);
 
@@ -68,14 +81,15 @@ namespace CMSCore.Content.IntegrationTests
                 Id = pageId
             };
 
-            _repository.UpdatePage(model, pageId).GetAwaiter().GetResult();
+            _updateContentRepository.UpdatePage(model, pageId, "14954581-3432-4e11-9e46-299b1d6fe097").GetAwaiter()
+                .GetResult();
             Assert.True(true);
         }
 
         [Fact]
         public void Page_MarkAsDeleted_ById()
         {
-            _repository.MovePageToRecycleBinByEntityId(pageId).GetAwaiter().GetResult();
+            _recycleBinRepository.MovePageToRecycleBinByEntityId(pageId).GetAwaiter().GetResult();
 
             Assert.True(true);
         }
@@ -83,7 +97,8 @@ namespace CMSCore.Content.IntegrationTests
         [Fact]
         public void Feed_MarkAsDeleted_ById()
         {
-            _repository.MoveFeedToRecycleBinByEntityId("c255a68f-3a21-4487-9774-a69601ed81da").GetAwaiter().GetResult();
+            _recycleBinRepository.MoveFeedToRecycleBinByEntityId("c255a68f-3a21-4487-9774-a69601ed81da").GetAwaiter()
+                .GetResult();
 
             Assert.True(true);
         }
@@ -91,13 +106,17 @@ namespace CMSCore.Content.IntegrationTests
         [Fact]
         public void FeedItem_MarkAsDeleted_ById()
         {
-            _repository.DeleteTagsByFeedItemId("9c054ffe-df0e-4fce-a36a-827ec0d9aab4").GetAwaiter().GetResult();
+            _deleteContentRepository.DeleteTagsByFeedItemId("9c054ffe-df0e-4fce-a36a-827ec0d9aab4").GetAwaiter()
+                .GetResult();
 
             Assert.True(true);
-        } [Fact]
+        }
+
+        [Fact]
         public void Tag_MarkAsDeleted_ById()
         {
-            _repository.DeleteTagByEntityId("1294af4c-8c48-40ce-ac79-2ecc0c136c78").GetAwaiter().GetResult();
+            _deleteContentRepository.DeleteTagByEntityId("1294af4c-8c48-40ce-ac79-2ecc0c136c78").GetAwaiter()
+                .GetResult();
 
             Assert.True(true);
         }
@@ -105,7 +124,7 @@ namespace CMSCore.Content.IntegrationTests
         [Fact]
         public void Page_Delete_ById()
         {
-            _repository.DeletePageAndRelatedEntities(pageId).GetAwaiter().GetResult();
+            _deleteContentRepository.DeletePageAndRelatedEntities(pageId).GetAwaiter().GetResult();
 
             Assert.True(true);
         }
@@ -113,20 +132,24 @@ namespace CMSCore.Content.IntegrationTests
         [Fact]
         public void Feed_Delete_ById()
         {
-            _repository.DeleteFeedByEntityId("c255a68f-3a21-4487-9774-a69601ed81da").GetAwaiter().GetResult();
+            _deleteContentRepository.DeleteFeedByEntityId("c255a68f-3a21-4487-9774-a69601ed81da").GetAwaiter()
+                .GetResult();
 
             Assert.True(true);
         }
+
         [Fact]
         public void Tags_Delete_ById()
         {
-            _repository.EmptyRecycleBin<Tag>().GetAwaiter().GetResult();
+            _recycleBinRepository.EmptyRecycleBin<Tag>().GetAwaiter().GetResult();
 
             Assert.True(true);
-        }  [Fact]
+        }
+
+        [Fact]
         public void Tag_Delete_ById()
         {
-            _repository.EmptyRecycleBin<Tag>().GetAwaiter().GetResult();
+            _recycleBinRepository.EmptyRecycleBin<Tag>().GetAwaiter().GetResult();
 
             Assert.True(true);
         }
@@ -149,7 +172,8 @@ namespace CMSCore.Content.IntegrationTests
                 Tags = Mock.TagWordsArray(),
                 FeedId = feedId
             };
-            var feedItemId = _repository.CreateFeedItem(feedItem, feedId).GetAwaiter().GetResult();
+            var feedItemId = _createContentRepository
+                .CreateFeedItem(feedItem, feedId, "14954581-3432-4e11-9e46-299b1d6fe097").GetAwaiter().GetResult();
             OutputBuilder = "feedItemId: " + feedItemId;
 
             _output.WriteLine(OutputBuilder);
@@ -162,7 +186,8 @@ namespace CMSCore.Content.IntegrationTests
 
             var tags = new List<string>() {"Tag 1", "Tag 2"};
 
-            _repository.CreateTags(tags, feedItemId).GetAwaiter().GetResult();
+            _createContentRepository.CreateTags(tags, feedItemId, "14954581-3432-4e11-9e46-299b1d6fe097").GetAwaiter()
+                .GetResult();
         }
 
         [Fact]
@@ -176,7 +201,7 @@ namespace CMSCore.Content.IntegrationTests
                 IdentityUserId = Guid.NewGuid().ToString()
             };
 
-            var userId = _repository.CreateUser(user).GetAwaiter().GetResult();
+            var userId = _createContentRepository.CreateUser(user).GetAwaiter().GetResult();
             OutputBuilder = "UserId: " + userId;
             var page = new CreatePageViewModel()
             {
@@ -186,10 +211,11 @@ namespace CMSCore.Content.IntegrationTests
             };
 
 
-            var pageId = _repository.CreatePage(page, Mock.Title).GetAwaiter().GetResult();
+            var pageId = _createContentRepository.CreatePage(page, "14954581-3432-4e11-9e46-299b1d6fe097", Mock.Title)
+                .GetAwaiter().GetResult();
             OutputBuilder = "pageId: " + pageId;
 
-            var feedId = _repository.GetPage(pageId).Feed.Id;
+            var feedId = _readContentRepository.GetPage(pageId).Feed.Id;
             OutputBuilder = "feedId: " + feedId;
 
             var feedItem = new CreateFeedItemViewModel()
@@ -202,7 +228,8 @@ namespace CMSCore.Content.IntegrationTests
                 FeedId = feedId
             };
 
-            var feedItemId = _repository.CreateFeedItem(feedItem, feedId).GetAwaiter().GetResult();
+            var feedItemId = _createContentRepository
+                .CreateFeedItem(feedItem, feedId, "14954581-3432-4e11-9e46-299b1d6fe097").GetAwaiter().GetResult();
             OutputBuilder = "feedItemId: " + feedItemId;
 
             _output.WriteLine(OutputBuilder);
@@ -219,7 +246,7 @@ namespace CMSCore.Content.IntegrationTests
                 IdentityUserId = Guid.NewGuid().ToString()
             };
 
-            _repository.CreateUser(user).GetAwaiter().GetResult();
+            _createContentRepository.CreateUser(user).GetAwaiter().GetResult();
             Assert.True(true);
         }
 
@@ -235,7 +262,8 @@ namespace CMSCore.Content.IntegrationTests
 
             var pageFeedName = Mock.Title;
 
-            _repository.CreatePage(page, pageFeedName).GetAwaiter().GetResult();
+            _createContentRepository.CreatePage(page, "14954581-3432-4e11-9e46-299b1d6fe097", pageFeedName).GetAwaiter()
+                .GetResult();
             Assert.True(true);
         }
 
@@ -254,7 +282,7 @@ namespace CMSCore.Content.IntegrationTests
         [Fact]
         public void Get_All_Pages()
         {
-            var pages = _repository.GetAllPages();
+            var pages = _readContentRepository.GetAllPages();
             Assert.NotNull(pages);
 
             var resultAsJson = JsonConvert.SerializeObject(pages);
@@ -266,7 +294,7 @@ namespace CMSCore.Content.IntegrationTests
         {
             var id = "70a9ce75-b761-49e8-98f8-5f7cedbf2e9a";
 
-            _repository.MovePageToRecycleBinByEntityId(id).GetAwaiter().GetResult();
+            _recycleBinRepository.MovePageToRecycleBinByEntityId(id).GetAwaiter().GetResult();
             Assert.True(true);
         }
 
@@ -276,7 +304,7 @@ namespace CMSCore.Content.IntegrationTests
         {
             const string id = "8c27f779-efef-4771-992e-02cf912b1794";
             //9f42d180-797c-475f-96a2-d2e967d828c5
-            _repository.MoveFeedItemToRecycleBinByEntityId(id).GetAwaiter().GetResult();
+            _recycleBinRepository.MoveFeedItemToRecycleBinByEntityId(id).GetAwaiter().GetResult();
             Assert.True(true);
         }
 
@@ -286,10 +314,10 @@ namespace CMSCore.Content.IntegrationTests
             //var id = "d5e8a2d2-3a44-4e70-848d-77de696b809d";
 
             //_repository.EmptyRecycleBin<Page>().GetAwaiter().GetResult();
-            _repository.EmptyRecycleBin<Feed>().GetAwaiter().GetResult();
-            _repository.EmptyRecycleBin<FeedItem>().GetAwaiter().GetResult();
-            _repository.EmptyRecycleBin<Tag>().GetAwaiter().GetResult();
-            _repository.EmptyRecycleBin<Comment>().GetAwaiter().GetResult();
+            _recycleBinRepository.EmptyRecycleBin<Feed>().GetAwaiter().GetResult();
+            _recycleBinRepository.EmptyRecycleBin<FeedItem>().GetAwaiter().GetResult();
+            _recycleBinRepository.EmptyRecycleBin<Tag>().GetAwaiter().GetResult();
+            _recycleBinRepository.EmptyRecycleBin<Comment>().GetAwaiter().GetResult();
             Assert.True(true);
         }
 
@@ -298,7 +326,7 @@ namespace CMSCore.Content.IntegrationTests
         {
             // var id = "8c27f779-efef-4771-992e-02cf912b1794";
 
-            _repository.EmptyRecycleBin<FeedItem>().GetAwaiter().GetResult();
+            _recycleBinRepository.EmptyRecycleBin<FeedItem>().GetAwaiter().GetResult();
             Assert.True(true);
         }
 
@@ -307,7 +335,7 @@ namespace CMSCore.Content.IntegrationTests
         {
             const string id = "d5e8a2d2-3a44-4e70-848d-77de696b809d";
 
-            _repository.RestoreOnePageFromRecycleBinByEntityId(id).GetAwaiter().GetResult();
+            _recycleBinRepository.RestoreOnePageFromRecycleBinByEntityId(id).GetAwaiter().GetResult();
             Assert.True(true);
         }
 
@@ -327,7 +355,8 @@ namespace CMSCore.Content.IntegrationTests
                 FeedId = feedId
             };
 
-            _repository.CreateFeedItem(feedItem, feedId).GetAwaiter().GetResult();
+            _createContentRepository.CreateFeedItem(feedItem, feedId, "14954581-3432-4e11-9e46-299b1d6fe097")
+                .GetAwaiter().GetResult();
             Assert.True(true);
         }
 
@@ -337,7 +366,7 @@ namespace CMSCore.Content.IntegrationTests
         [Fact]
         public void Get_Pages_Preview()
         {
-            var page = _repository.GetPageTree();
+            var page = _readContentRepository.GetPageTree();
 
             Assert.NotNull(page);
 
@@ -363,7 +392,7 @@ namespace CMSCore.Content.IntegrationTests
         {
             //var id = "8c27f779-efef-4771-992e-02cf912b1794";
             var id = "c1305de4-c2d0-48e8-a1bc-c858588a5221";
-            var page = _repository.GetFeedItem(id);
+            var page = _readContentRepository.GetFeedItem(id);
 
             Assert.NotNull(page);
 

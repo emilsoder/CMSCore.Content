@@ -1,5 +1,7 @@
-﻿using CMSCore.Content.Models;
+﻿using System;
+using CMSCore.Content.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace CMSCore.Content.Data
 {
@@ -26,7 +28,6 @@ namespace CMSCore.Content.Data
             //modelBuilder.Entity<FeedItem>().HasKey(x => x.Id);
             //modelBuilder.Entity<Tag>().HasKey(x => x.Id);
             //modelBuilder.Entity<Comment>().HasKey(x => x.Id);
-
 
             modelBuilder.Entity<User>()
                 .HasIndex(x => x.IdentityUserId)
