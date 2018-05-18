@@ -65,7 +65,7 @@ namespace CMSCore.Content.Repository.Implementations
             return _context.SaveChangesAsync();
         }
 
-        Task IUpdateContentRepository.UpdateFeedItem(UpdateFeedItemViewModel model, string entityId, string userId)
+     public   Task  UpdateFeedItem(UpdateFeedItemViewModel model, string entityId, string userId)
         {
             var foundActiveFeed =
                 _context.FeedItems.FirstOrDefault(x => x.IsActiveVersion && x.EntityId == entityId);

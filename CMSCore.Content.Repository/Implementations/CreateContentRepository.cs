@@ -9,11 +9,13 @@ using CMSCore.Content.ViewModels;
 
 namespace CMSCore.Content.Repository.Implementations
 {
+    using Microsoft.EntityFrameworkCore;
+
     public class CreateContentRepository : ICreateContentRepository
     {
-        private readonly ContentDbContext _context;
+        private readonly DbContext _context;
 
-        public CreateContentRepository(ContentDbContext context)
+        public CreateContentRepository(DbContext context)
         {
             _context = context;
         }

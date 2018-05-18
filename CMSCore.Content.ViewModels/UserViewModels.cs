@@ -3,9 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CMSCore.Content.ViewModels
 {
+
     #region Read
 
-     public class UserViewModel
+    public class UserViewModel
     {
         public string Id { get; set; }
 

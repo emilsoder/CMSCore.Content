@@ -11,9 +11,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMSCore.Content.ViewModels"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{46039532-9064-4028-9CCB-E33555FF7E94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMSCore.Content.Repository", "CMSCore.Content.Repository\CMSCore.Content.Repository.csproj", "{286E76C7-B16E-499E-8C54-1B50C2E19C34}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMSCore.Content.Repository", "CMSCore.Content.Repository\CMSCore.Content.Repository.csproj", "{286E76C7-B16E-499E-8C54-1B50C2E19C34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMSCore.Content.IntegrationTests", "Tests\CMSCore.Content.IntegrationTests\CMSCore.Content.IntegrationTests.csproj", "{4FB8BDF5-3252-4421-9828-65A243F5FBC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMSCore.Content.IntegrationTests", "Tests\CMSCore.Content.IntegrationTests\CMSCore.Content.IntegrationTests.csproj", "{4FB8BDF5-3252-4421-9828-65A243F5FBC0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Grains", "Grains", "{DB4F49B9-D093-4E96-9C0A-41A2E76E1DF2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Silos", "Silos", "{C771B690-B68B-4081-BB98-21224E39AF8C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Interfaces", "Interfaces", "{0F2503D0-44F5-4729-8B1A-3EE8E01D16DC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMSCore.Content.Grains", "CMSCore.Content.Grains\CMSCore.Content.Grains.csproj", "{7281AAED-8E0B-49CD-9C1B-DA4F2C2C1F12}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMSCore.Content.GrainInterfaces", "CMSCore.Content.GrainInterfaces\CMSCore.Content.GrainInterfaces.csproj", "{51CEDEB3-909A-4F2E-9AD6-C0B42C952656}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMSCore.Content.Silo", "CMSCore.Content.Silo\CMSCore.Content.Silo.csproj", "{FDD32F38-6614-4DBB-90AD-BAB408F07327}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,12 +53,27 @@ Global
 		{4FB8BDF5-3252-4421-9828-65A243F5FBC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FB8BDF5-3252-4421-9828-65A243F5FBC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FB8BDF5-3252-4421-9828-65A243F5FBC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7281AAED-8E0B-49CD-9C1B-DA4F2C2C1F12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7281AAED-8E0B-49CD-9C1B-DA4F2C2C1F12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7281AAED-8E0B-49CD-9C1B-DA4F2C2C1F12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7281AAED-8E0B-49CD-9C1B-DA4F2C2C1F12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51CEDEB3-909A-4F2E-9AD6-C0B42C952656}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51CEDEB3-909A-4F2E-9AD6-C0B42C952656}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51CEDEB3-909A-4F2E-9AD6-C0B42C952656}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51CEDEB3-909A-4F2E-9AD6-C0B42C952656}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDD32F38-6614-4DBB-90AD-BAB408F07327}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDD32F38-6614-4DBB-90AD-BAB408F07327}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDD32F38-6614-4DBB-90AD-BAB408F07327}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDD32F38-6614-4DBB-90AD-BAB408F07327}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{4FB8BDF5-3252-4421-9828-65A243F5FBC0} = {46039532-9064-4028-9CCB-E33555FF7E94}
+		{7281AAED-8E0B-49CD-9C1B-DA4F2C2C1F12} = {DB4F49B9-D093-4E96-9C0A-41A2E76E1DF2}
+		{51CEDEB3-909A-4F2E-9AD6-C0B42C952656} = {0F2503D0-44F5-4729-8B1A-3EE8E01D16DC}
+		{FDD32F38-6614-4DBB-90AD-BAB408F07327} = {C771B690-B68B-4081-BB98-21224E39AF8C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {57D01A70-8D36-41DC-A508-564F27323377}
