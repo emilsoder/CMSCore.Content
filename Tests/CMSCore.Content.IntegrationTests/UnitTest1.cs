@@ -37,7 +37,7 @@ namespace CMSCore.Content.IntegrationTests
         {
             _output = output;
 
-            _context = new ContentDbContext(ContentDbContextOptions.DefaultSqlServerOptions);
+            _context = new ContentDbContext( );
 
             _recycleBinRepository = new RecycleBinRepository(_context);
             _deleteContentRepository = new DeleteContentRepository(_context);
@@ -78,7 +78,7 @@ namespace CMSCore.Content.IntegrationTests
                 Content = "POOPFACE PAGE 5",
                 FeedEnabled = true,
                 Name = "POOPFACE PAGE 5",
-                Id = pageId
+                EntityId = pageId
             };
 
             _updateContentRepository.UpdatePage(model, pageId, "14954581-3432-4e11-9e46-299b1d6fe097").GetAwaiter()
@@ -160,23 +160,27 @@ namespace CMSCore.Content.IntegrationTests
         [Fact] //18b33205-186d-4375-915d-2c79f327830e
         public void FeedUtem_Create()
         {
-            const string feedId = "a186658d-727a-40e2-b1e7-6d03c5d4c673";
-            OutputBuilder = "feedId: " + feedId;
-
-            var feedItem = new CreateFeedItemViewModel()
+            for (int i = 0; i < 3; i++)
             {
-                Title = Mock.CatchPhrase,
-                Content = Mock.Paragraph,
-                CommentsEnabled = true,
-                Description = Mock.Slogan,
-                Tags = Mock.TagWordsArray(),
-                FeedId = feedId
-            };
-            var feedItemId = _createContentRepository
-                .CreateFeedItem(feedItem, feedId, "14954581-3432-4e11-9e46-299b1d6fe097").GetAwaiter().GetResult();
-            OutputBuilder = "feedItemId: " + feedItemId;
 
-            _output.WriteLine(OutputBuilder);
+                const string feedId = "f8747218-39e1-4eea-809e-0763a83a0ff5";
+                OutputBuilder = "feedId: " + feedId;
+
+                var feedItem = new CreateFeedItemViewModel()
+                {
+                    Title = Mock.CatchPhrase,
+                    Content = Mock.Paragraph,
+                    CommentsEnabled = true,
+                    Description = Mock.Slogan,
+                    Tags = Mock.TagWordsArray(),
+                    FeedId = feedId
+                };
+                var feedItemId = _createContentRepository
+                    .CreateFeedItem(feedItem, feedId, "14954581-3432-4e11-9e46-299b1d6fe097").GetAwaiter().GetResult();
+                OutputBuilder = "feedItemId: " + feedItemId;
+
+                //_output.WriteLine(OutputBuilder); 
+            }
         }
 
         [Fact] //18b33205-186d-4375-915d-2c79f327830e
@@ -215,7 +219,7 @@ namespace CMSCore.Content.IntegrationTests
                 .GetAwaiter().GetResult();
             OutputBuilder = "pageId: " + pageId;
 
-            var feedId = _readContentRepository.GetPage(pageId).Feed.Id;
+            var feedId = _readContentRepository.GetPage(pageId).Feed.EntityId;
             OutputBuilder = "feedId: " + feedId;
 
             var feedItem = new CreateFeedItemViewModel()

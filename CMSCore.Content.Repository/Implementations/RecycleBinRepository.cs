@@ -1,37 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CMSCore.Content.Data;
-using CMSCore.Content.Models;
-using CMSCore.Content.Repository.Interfaces;
-
-namespace CMSCore.Content.Repository.Implementations
+﻿namespace CMSCore.Content.Repository.Implementations
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using CMSCore.Content.Data;
+    using CMSCore.Content.Models;
+    using CMSCore.Content.Repository.Interfaces;
     using Microsoft.EntityFrameworkCore;
 
     public class RecycleBinRepository : IRecycleBinRepository
     {
-        private readonly DbContext _context;
+        private readonly ContentDbContext _context;
 
-        public RecycleBinRepository(DbContext context)
+        public RecycleBinRepository(ContentDbContext context) => _context = context;
+
+        Task IRecycleBinRepository.EmptyRecycleBin<TEntityType>()
         {
-            _context = context;
-        }
+            var set = _context.Set<TEntityType>()?.Where(x => x.MarkedToDelete);
 
-        #region RecycleBinRepository
+            if (set == null || !set.Any())
+                return Task.CompletedTask;
 
-        Task IRecycleBinRepository.MovePageToRecycleBinByEntityId(string pageId)
-        {
-            MarkPageAsDeletedByEntityId(pageId);
+            _context.RemoveRange(set);
 
             return _context.SaveChangesAsync();
         }
 
-        Task IRecycleBinRepository.MoveFeedToRecycleBinByEntityId(string feedId)
+        Task IRecycleBinRepository.MoveCommentToRecycleBinByEntityId(string commentId)
         {
-            MarkFeedAsDeletedByEntityId(feedId);
+            var comments = _context.Set<Comment>()?.Where(x => x.EntityId == commentId);
 
+            if (comments == null || !comments.Any())
+                return Task.FromException(new Exception("Comment to recycle not found"));
+
+            MarkAsDeletedAndUpdate(comments);
             return _context.SaveChangesAsync();
         }
 
@@ -47,14 +50,17 @@ namespace CMSCore.Content.Repository.Implementations
             return _context.SaveChangesAsync();
         }
 
-        Task IRecycleBinRepository.MoveCommentToRecycleBinByEntityId(string commentId)
+        Task IRecycleBinRepository.MoveFeedToRecycleBinByEntityId(string feedId)
         {
-            var comments = _context.Set<Comment>()?.Where(x => x.EntityId == commentId);
+            MarkFeedAsDeletedByEntityId(feedId);
 
-            if (comments == null || !comments.Any())
-                return Task.FromException(new Exception("Comment to recycle not found"));
+            return _context.SaveChangesAsync();
+        }
 
-            MarkAsDeletedAndUpdate(comments);
+        Task IRecycleBinRepository.MovePageToRecycleBinByEntityId(string pageId)
+        {
+            MarkPageAsDeletedByEntityId(pageId);
+
             return _context.SaveChangesAsync();
         }
 
@@ -68,183 +74,33 @@ namespace CMSCore.Content.Repository.Implementations
             return _context.SaveChangesAsync();
         }
 
-        Task IRecycleBinRepository.RestoreFromRecycleBin<TEntityType>(string entityId)
+        private void MarkAsDeletedAndUpdate<TEntity>(IEnumerable<TEntity> entities) where TEntity : EntityBase
         {
-            var entitiesToRestore = _context.Set<TEntityType>()?.Where(x => x.EntityId == entityId);
-            if (entitiesToRestore == null || !entitiesToRestore.Any()) return _context.SaveChangesAsync();
-            foreach (var entity in entitiesToRestore)
+            foreach (var entity in entities)
             {
-                entity.MarkedToDelete = false;
+                entity.MarkedToDelete = true;
+                entity.Modified = DateTime.Now;
                 _context.Update(entity);
             }
-
-            return _context.SaveChangesAsync();
         }
 
-        Task IRecycleBinRepository.RestoreOnePageFromRecycleBinByEntityId(string entityId, bool saveChanges)
+        private void MarkCommentsAsDeletedByFeedItemId(string feedItemId)
         {
-            var page = _context.Set<Page>()?.Where(x => x.EntityId == entityId && x.MarkedToDelete);
-            if (page == null || !page.Any()) return Task.CompletedTask;
-            foreach (var p in page)
-            {
-                p.MarkedToDelete = false;
-                p.Modified = DateTime.Now;
-                _context.Update(p);
-            }
-
-            ((IRecycleBinRepository) this).RestoreFeedsFromRecycleBinByPageId(entityId, false);
-
-
-            return saveChanges ? _context.SaveChangesAsync() : Task.CompletedTask;
-        }
-
-        public Task RestoreOneFeedFromRecycleBinByEntityId(string entityId, bool saveChanges = true)
-        {
-            var feeds = _context.Set<Feed>()?.Where(x => x.EntityId == entityId && x.MarkedToDelete);
-            if (feeds == null || !feeds.Any()) return Task.CompletedTask;
-            foreach (var feed in feeds)
-            {
-                feed.MarkedToDelete = false;
-                feed.Modified = DateTime.Now;
-                ((IRecycleBinRepository) this).RestoreFeedItemsFromRecycleBinByFeedId(entityId, false);
-                _context.Update(feed);
-            }
-
-            return saveChanges ? _context.SaveChangesAsync() : Task.CompletedTask;
-        }
-
-        Task IRecycleBinRepository.RestoreOneFeedItemFromRecycleBinByEntityId(string entityId, bool saveChanges)
-        {
-            var feedItems = _context.Set<FeedItem>()?.Where(x => x.EntityId == entityId && x.MarkedToDelete);
-            if (feedItems == null || !feedItems.Any()) return Task.CompletedTask;
-            foreach (var feedItem in feedItems)
-            {
-                feedItem.MarkedToDelete = false;
-                feedItem.Modified = DateTime.Now;
-                _context.Update(feedItem);
-            }
-
-            return saveChanges ? _context.SaveChangesAsync() : Task.CompletedTask;
-        }
-
-        Task IRecycleBinRepository.RestoreFeedsFromRecycleBinByPageId(string pageId, bool saveChanges)
-        {
-            var feeds = _context.Set<Feed>()?.Where(x => x.PageId == pageId && x.MarkedToDelete);
-            if (feeds == null || !feeds.Any()) return Task.CompletedTask;
-            foreach (var feed in feeds)
-            {
-                feed.MarkedToDelete = false;
-                feed.Modified = DateTime.Now;
-                ((IRecycleBinRepository) this).RestoreFeedItemsFromRecycleBinByFeedId(feed.EntityId, false);
-                _context.Update(feed);
-            }
-
-            return saveChanges ? _context.SaveChangesAsync() : Task.CompletedTask;
-        }
-
-        Task IRecycleBinRepository.RestoreFeedItemsFromRecycleBinByFeedId(string feedId, bool saveChanges)
-        {
-            var feedItems = _context.Set<FeedItem>()?.Where(x => x.FeedId == feedId && x.MarkedToDelete);
-            if (feedItems == null || !feedItems.Any()) return Task.CompletedTask;
-            foreach (var feedItem in feedItems)
-            {
-                feedItem.MarkedToDelete = false;
-                feedItem.Modified = DateTime.Now;
-                _context.Update(feedItem);
-            }
-
-            return saveChanges ? _context.SaveChangesAsync() : Task.CompletedTask;
-        }
-
-        Task IRecycleBinRepository.RestoreCommentsFromRecycleBinByFeedItemId(string feedItemId, bool saveChanges)
-        {
-            var comments = _context.Set<Comment>()?.Where(x => x.FeedItemId == feedItemId && x.MarkedToDelete);
-            if (comments == null || !comments.Any()) return Task.CompletedTask;
-            foreach (var comment in comments)
-            {
-                comment.MarkedToDelete = false;
-                comment.Modified = DateTime.Now;
-                _context.Update(comment);
-            }
-
-            return saveChanges ? _context.SaveChangesAsync() : Task.CompletedTask;
-        }
-
-        Task IRecycleBinRepository.RestoreTagsFromRecycleBinByFeedItemId(string feedItemId, bool saveChanges)
-        {
-            var tags = _context.Set<Tag>()?.Where(x => x.FeedItemId == feedItemId && x.MarkedToDelete);
-            if (tags == null || !tags.Any()) return Task.CompletedTask;
-            foreach (var tag in tags)
-            {
-                tag.MarkedToDelete = false;
-                tag.Modified = DateTime.Now;
-                _context.Update(tag);
-            }
-
-            return saveChanges ? _context.SaveChangesAsync() : Task.CompletedTask;
-        }
-
-        Task IRecycleBinRepository.RestoreCommentsFromRecycleBinByEntityId(string entityId, bool saveChanges)
-        {
-            var comments = _context.Set<Comment>()?.Where(x => x.EntityId == entityId && x.MarkedToDelete);
-            if (comments == null || !comments.Any()) return Task.CompletedTask;
-            foreach (var comment in comments)
-            {
-                comment.MarkedToDelete = false;
-                comment.Modified = DateTime.Now;
-                _context.Update(comment);
-            }
-
-            return saveChanges ? _context.SaveChangesAsync() : Task.CompletedTask;
-        }
-
-        Task IRecycleBinRepository.RestoreTagsFromRecycleBinByEntityId(string entityId, bool saveChanges)
-        {
-            var tags = _context.Set<Tag>()?.Where(x => x.EntityId == entityId && x.MarkedToDelete);
-            if (tags == null || !tags.Any()) return Task.CompletedTask;
-            foreach (var tag in tags)
-            {
-                tag.MarkedToDelete = false;
-                tag.Modified = DateTime.Now;
-                _context.Update(tag);
-            }
-
-            return saveChanges ? _context.SaveChangesAsync() : Task.CompletedTask;
-        }
-
-        Task IRecycleBinRepository.EmptyRecycleBin<TEntityType>()
-        {
-            var set = _context.Set<TEntityType>()?.Where(x => x.MarkedToDelete);
-
-            if (set == null || !set.Any())
-                return Task.CompletedTask;
-
-            _context.RemoveRange(set);
-
-            return _context.SaveChangesAsync();
-        }
-
-        #region Private helpers
-
-        private void MarkPageAsDeletedByEntityId(string entityId)
-        {
-            var pages = _context.Set<Page>()?.Where(x => x.EntityId == entityId);
-            if (pages == null || !pages.Any()) return;
-            MarkFeedAsDeletedByPageId(pages.First().EntityId);
-            MarkAsDeletedAndUpdate(pages);
-        }
-
-        private void MarkFeedAsDeletedByPageId(string pageId)
-        {
-            var feed = _context.Set<Feed>()?.Where(x => x.PageId == pageId);
-            if (feed == null || !feed.Any()) return;
-            MarkFeedItemsAsDeletedByFeedId(feed.First().EntityId);
-            MarkAsDeletedAndUpdate(feed);
+            var comments = _context.Set<Comment>()?.Where(x => x.FeedItemId == feedItemId);
+            if (comments != null && comments.Any()) MarkAsDeletedAndUpdate(comments);
         }
 
         private void MarkFeedAsDeletedByEntityId(string entityId)
         {
             var feed = _context.Set<Feed>()?.Where(x => x.EntityId == entityId);
+            if (feed == null || !feed.Any()) return;
+            MarkFeedItemsAsDeletedByFeedId(feed.First().EntityId);
+            MarkAsDeletedAndUpdate(feed);
+        }
+
+        private void MarkFeedAsDeletedByPageId(string pageId)
+        {
+            var feed = _context.Set<Feed>()?.Where(x => x.PageId == pageId);
             if (feed == null || !feed.Any()) return;
             MarkFeedItemsAsDeletedByFeedId(feed.First().EntityId);
             MarkAsDeletedAndUpdate(feed);
@@ -267,10 +123,12 @@ namespace CMSCore.Content.Repository.Implementations
             MarkAsDeletedAndUpdate(feedItems);
         }
 
-        private void MarkCommentsAsDeletedByFeedItemId(string feedItemId)
+        private void MarkPageAsDeletedByEntityId(string entityId)
         {
-            var comments = _context.Set<Comment>()?.Where(x => x.FeedItemId == feedItemId);
-            if (comments != null && comments.Any()) MarkAsDeletedAndUpdate(comments);
+            var pages = _context.Set<Page>()?.Where(x => x.EntityId == entityId);
+            if (pages == null || !pages.Any()) return;
+            MarkFeedAsDeletedByPageId(pages.First().EntityId);
+            MarkAsDeletedAndUpdate(pages);
         }
 
         private void MarkTagsAsDeletedByFeedItemId(string feedItemId)
@@ -278,19 +136,5 @@ namespace CMSCore.Content.Repository.Implementations
             var tags = _context.Set<Tag>()?.Where(x => x.FeedItemId == feedItemId);
             if (tags != null && tags.Any()) MarkAsDeletedAndUpdate(tags);
         }
-
-        private void MarkAsDeletedAndUpdate<TEntity>(IEnumerable<TEntity> entities) where TEntity : EntityBase
-        {
-            foreach (var entity in entities)
-            {
-                entity.MarkedToDelete = true;
-                entity.Modified = DateTime.Now;
-                _context.Update(entity);
-            }
-        }
-
-        #endregion
-
-        #endregion
     }
 }

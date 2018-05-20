@@ -13,6 +13,10 @@ namespace CMSCore.Content.ViewModels
 
     public class CreateCommentViewModel
     {
+
+        [Required(ErrorMessage = nameof(FeedItemId) + " is required")]
+        public string FeedItemId { get; set; }
+
         [Required(ErrorMessage = nameof(Text) + " is required"),
          MinLength(5, ErrorMessage = "Text must be longer than 5 characters")]
         public string Text { get; set; }

@@ -55,8 +55,8 @@ namespace CMSCore.Content.ViewModels
 
     public class UpdateFeedItemViewModel
     {
-        [Required(ErrorMessage = nameof(Id) + " is required")]
-        public string Id { get; set; }
+        [Required(ErrorMessage = nameof(EntityId) + " is required")]
+        public string EntityId { get; set; }
 
         [Required(ErrorMessage = nameof(Title) + " is required")]
         public string Title { get; set; }
@@ -80,10 +80,10 @@ namespace CMSCore.Content.ViewModels
     {
         public DeleteFeedItemViewModel(string entityId)
         {
-            Id = entityId;
+            EntityId = entityId;
         }
 
-        public string Id { get; set; }
+        public string EntityId { get; set; }
 
         public static DeleteFeedItemViewModel Initialize(string entityId) => new DeleteFeedItemViewModel(entityId);
     }

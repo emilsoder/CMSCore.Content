@@ -7,7 +7,7 @@ namespace CMSCore.Content.ViewModels
 
     public class PageViewModel
     {
-        public string Id { get; set; }
+        public string EntityId { get; set; }
         public string Name { get; set; }
         public string NormalizedName { get; set; }
         public DateTime Date { get; set; }
@@ -19,7 +19,7 @@ namespace CMSCore.Content.ViewModels
 
     public class PageTreeViewModel
     {
-        public string Id { get; set; }
+        public string EntityId { get; set; }
         public DateTime Date { get; set; }
 
         public string Name { get; set; }
@@ -32,8 +32,8 @@ namespace CMSCore.Content.ViewModels
 
     public class UpdatePageViewModel
     {
-        [Required(ErrorMessage = nameof(Id) + " is required")]
-        public string Id { get; set; }
+        [Required(ErrorMessage = nameof(EntityId) + " is required")]
+        public string EntityId { get; set; }
 
         [Required(ErrorMessage = nameof(Name) + " is required")]
         public string Name { get; set; }

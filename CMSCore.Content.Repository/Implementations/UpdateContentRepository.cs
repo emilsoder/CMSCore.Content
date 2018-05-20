@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CMSCore.Content.Data;
-using CMSCore.Content.Models;
-using CMSCore.Content.Models.Extensions;
-using CMSCore.Content.Repository.Interfaces;
-using CMSCore.Content.ViewModels;
-
-namespace CMSCore.Content.Repository.Implementations
+﻿namespace CMSCore.Content.Repository.Implementations
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using CMSCore.Content.Data;
+    using CMSCore.Content.Models;
+    using CMSCore.Content.Models.Extensions;
+    using CMSCore.Content.Repository.Interfaces;
+    using CMSCore.Content.ViewModels;
+ 
     public class UpdateContentRepository : IUpdateContentRepository
     {
         private readonly ContentDbContext _context;
@@ -19,12 +19,60 @@ namespace CMSCore.Content.Repository.Implementations
             _context = context;
         }
 
-        #region Update
+        public Task UpdateFeedItem(UpdateFeedItemViewModel model, string entityId, string userId)
+        {
+            var foundActiveFeed =
+                _context.Set<FeedItem>().FirstOrDefault(x => x.IsActiveVersion && x.EntityId == entityId);
+
+            if (foundActiveFeed == null) return Task.FromException(new Exception("FeedItem to update not found."));
+
+            foundActiveFeed.IsActiveVersion = false;
+            foundActiveFeed.Modified = DateTime.Now;
+            _context.Update(foundActiveFeed);
+            _context.SaveChanges();
+
+            var newFeed = foundActiveFeed;
+            newFeed.Id = Guid.NewGuid().ToString();
+            newFeed.IsActiveVersion = true;
+            newFeed.Version = GetNextVersion<FeedItem>(foundActiveFeed.EntityId);
+             
+            newFeed.CommentsEnabled = model.CommentsEnabled;
+            newFeed.Content = model.Content;
+            newFeed.Title = model.Title;
+            newFeed.CommentsEnabled = model.CommentsEnabled;
+
+            UpdateTagsIfChanged(newFeed.EntityId, model.Tags);
+
+            _context.Add(newFeed);
+
+            return _context.SaveChangesAsync();
+        }
+
+        Task IUpdateContentRepository.UpdateFeed(UpdateFeedViewModel model, string entityId, string userId)
+        {
+            var foundActiveFeed =
+                _context.Set<Feed>().FirstOrDefault(x => x.IsActiveVersion && x.EntityId == entityId);
+            if (foundActiveFeed == null) return Task.FromException(new Exception("Feed to update not found."));
+
+            foundActiveFeed.IsActiveVersion = false;
+            foundActiveFeed.Modified = DateTime.Now;
+            _context.Update(foundActiveFeed);
+            _context.SaveChanges();
+
+            var newFeed = foundActiveFeed;
+            newFeed.Id = Guid.NewGuid().ToString();
+            newFeed.IsActiveVersion = true;
+            newFeed.Version = GetNextVersion<Feed>(foundActiveFeed.EntityId);
+            newFeed.Name = model.Name;
+            _context.Add(newFeed);
+
+            return _context.SaveChangesAsync();
+        }
 
         Task IUpdateContentRepository.UpdatePage(UpdatePageViewModel model, string entityId, string userId)
         {
             var foundActivePage =
-                _context.Pages.FirstOrDefault(x => x.IsActiveVersion && x.EntityId == entityId);
+                _context.Set<Page>().FirstOrDefault(x => x.IsActiveVersion && x.EntityId == entityId);
             if (foundActivePage == null) return Task.FromException(new Exception("Page to update not found."));
 
             foundActivePage.IsActiveVersion = false;
@@ -44,68 +92,9 @@ namespace CMSCore.Content.Repository.Implementations
             return _context.SaveChangesAsync();
         }
 
-        Task IUpdateContentRepository.UpdateFeed(UpdateFeedViewModel model, string entityId, string userId)
-        {
-            var foundActiveFeed =
-                _context.Feeds.FirstOrDefault(x => x.IsActiveVersion && x.EntityId == entityId);
-            if (foundActiveFeed == null) return Task.FromException(new Exception("Feed to update not found."));
-
-            foundActiveFeed.IsActiveVersion = false;
-            foundActiveFeed.Modified = DateTime.Now;
-            _context.Update(foundActiveFeed);
-            _context.SaveChanges();
-
-            var newFeed = foundActiveFeed;
-            newFeed.Id = Guid.NewGuid().ToString();
-            newFeed.IsActiveVersion = true;
-            newFeed.Version = GetNextVersion<Feed>(foundActiveFeed.EntityId);
-            newFeed.Name = model.Name;
-            _context.Add(newFeed);
-
-            return _context.SaveChangesAsync();
-        }
-
-     public   Task  UpdateFeedItem(UpdateFeedItemViewModel model, string entityId, string userId)
-        {
-            var foundActiveFeed =
-                _context.FeedItems.FirstOrDefault(x => x.IsActiveVersion && x.EntityId == entityId);
-
-            if (foundActiveFeed == null) return Task.FromException(new Exception("FeedItem to update not found."));
-
-            foundActiveFeed.IsActiveVersion = false;
-            foundActiveFeed.Modified = DateTime.Now;
-            _context.Update(foundActiveFeed);
-            _context.SaveChanges();
-
-            var newFeed = foundActiveFeed;
-            newFeed.Id = Guid.NewGuid().ToString();
-            newFeed.IsActiveVersion = true;
-            newFeed.Version = GetNextVersion<FeedItem>(foundActiveFeed.EntityId);
-
-            newFeed.CommentsEnabled = model.CommentsEnabled;
-            newFeed.Content = model.Content;
-            newFeed.Title = model.Title;
-            newFeed.CommentsEnabled = model.CommentsEnabled;
-
-            UpdateTagsIfChanged(newFeed.EntityId, model.Tags);
-
-            _context.Add(newFeed);
-
-            return _context.SaveChangesAsync();
-        }
-
-        private void UpdateTagsIfChanged(string feedItemId, IList<string> tags)
-        {
-            var feedItemTags = _context.Tags.Where(x => x.FeedItemId == feedItemId);
-            _context.RemoveRange(feedItemTags);
-
-            var tagsToAdd = tags.AsTagsEnumerable(feedItemId);
-            _context.AddRange(tagsToAdd);
-        }
-
         Task IUpdateContentRepository.UpdateTag(string newTagName, string tagId, string userId)
         {
-            var activeTag = _context.Tags.FirstOrDefault(x => x.IsActiveVersion && x.EntityId == tagId);
+            var activeTag = _context.Set<Tag>().FirstOrDefault(x => x.IsActiveVersion && x.EntityId == tagId);
             if (activeTag == null) return Task.FromException(new Exception("Tag to update not found."));
 
             activeTag.Name = newTagName;
@@ -124,6 +113,13 @@ namespace CMSCore.Content.Repository.Implementations
             return v + 1;
         }
 
-        #endregion
+        private void UpdateTagsIfChanged(string feedItemId, IList<string> tags)
+        {
+            var feedItemTags = _context.Set<Tag>().Where(x => x.FeedItemId == feedItemId);
+            _context.RemoveRange(feedItemTags);
+
+            var tagsToAdd = tags.AsTagsEnumerable(feedItemId);
+            _context.AddRange(tagsToAdd);
+        }
     }
 }

@@ -27,6 +27,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMSCore.Content.GrainInterf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMSCore.Content.Silo", "CMSCore.Content.Silo\CMSCore.Content.Silo.csproj", "{FDD32F38-6614-4DBB-90AD-BAB408F07327}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{92CB42D9-3060-4D14-BD6D-A0278D83BCF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMSCore.Content.Api", "CMSCore.Content.Api\CMSCore.Content.Api.csproj", "{F87A36C0-8D68-4759-BC68-770CA36D947A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +69,10 @@ Global
 		{FDD32F38-6614-4DBB-90AD-BAB408F07327}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDD32F38-6614-4DBB-90AD-BAB408F07327}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDD32F38-6614-4DBB-90AD-BAB408F07327}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F87A36C0-8D68-4759-BC68-770CA36D947A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F87A36C0-8D68-4759-BC68-770CA36D947A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F87A36C0-8D68-4759-BC68-770CA36D947A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F87A36C0-8D68-4759-BC68-770CA36D947A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +82,7 @@ Global
 		{7281AAED-8E0B-49CD-9C1B-DA4F2C2C1F12} = {DB4F49B9-D093-4E96-9C0A-41A2E76E1DF2}
 		{51CEDEB3-909A-4F2E-9AD6-C0B42C952656} = {0F2503D0-44F5-4729-8B1A-3EE8E01D16DC}
 		{FDD32F38-6614-4DBB-90AD-BAB408F07327} = {C771B690-B68B-4081-BB98-21224E39AF8C}
+		{F87A36C0-8D68-4759-BC68-770CA36D947A} = {92CB42D9-3060-4D14-BD6D-A0278D83BCF8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {57D01A70-8D36-41DC-A508-564F27323377}

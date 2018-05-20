@@ -8,7 +8,7 @@ namespace CMSCore.Content.ViewModels
 
     public class FeedItemPreviewViewModel
     {
-        public string Id { get; set; }
+        public string EntityId { get; set; }
 
         public string Title { get; set; }
         public string NormalizedTitle { get; set; }
@@ -23,7 +23,7 @@ namespace CMSCore.Content.ViewModels
 
     public class FeedViewModel
     {
-        public string Id { get; set; }
+        public string EntityId { get; set; }
         public DateTime Date { get; set; }
 
         public string Name { get; set; }
@@ -32,17 +32,24 @@ namespace CMSCore.Content.ViewModels
         public IEnumerable<FeedItemPreviewViewModel> FeedItems { get; set; }
         public DateTime Modified { get; set; }
     }
+    public class CreateTagsViewModel
+    {
+        [Required(ErrorMessage = nameof(Tags) + " is required")]
+        public IList<string> Tags { get; set; }
 
+        [Required(ErrorMessage = nameof(FeedItemId) + " is required")]
+        public string FeedItemId { get; set; }
+    }
     public class TagViewModel
     {
-        public TagViewModel(string id, string normalizedName, string name)
+        public TagViewModel(string entityId, string normalizedName, string name)
         {
-            Id = id;
+            EntityId = entityId;
             NormalizedName = normalizedName;
             Name = name;
         }
 
-        public string Id { get; set; }
+        public string EntityId { get; set; }
         public string NormalizedName { get; set; }
         public string Name { get; set; }
     }
@@ -53,8 +60,8 @@ namespace CMSCore.Content.ViewModels
 
     public class UpdateFeedViewModel
     {
-        [Required(ErrorMessage = nameof(Id) + " is required")]
-        public string Id { get; set; }
+        [Required(ErrorMessage = nameof(EntityId) + " is required")]
+        public string EntityId { get; set; }
 
         [Required(ErrorMessage = nameof(Name) + " is required")]
         public string Name { get; set; }
@@ -63,12 +70,12 @@ namespace CMSCore.Content.ViewModels
 
     public class DeleteFeedViewModel
     {
-        public DeleteFeedViewModel(string entityId)
+        public DeleteFeedViewModel(string  entityId)
         {
-            Id = entityId;
+           EntityId = entityId;
         }
 
-        public string Id { get; set; }
+        public string EntityId { get; set; }
 
         public static DeleteFeedViewModel Initialize(string entityId) => new DeleteFeedViewModel(entityId);
     }

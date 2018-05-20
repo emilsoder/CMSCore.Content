@@ -2,9 +2,9 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using CMSCore.Content.GrainInterfaces;
     using CMSCore.Content.Repository.Interfaces;
     using CMSCore.Content.ViewModels;
-    using GrainInterfaces;
     using Orleans;
 
     public class ReadContentGrain : Grain, IReadContentGrain
@@ -16,54 +16,54 @@
             _repository = repository;
         }
 
-        public Task<IEnumerable<CommentViewModel>> GetComments(string feedItemId)
+        public async Task<IEnumerable<CommentViewModel>> GetComments(string feedItemId)
         {
-            return Task.FromResult(_repository.GetComments(feedItemId));
+            return await Task.FromResult(_repository.GetComments(feedItemId));
         }
 
-        public Task<FeedViewModel> GetFeed(string pageId)
+        public async Task<FeedViewModel> GetFeed(string pageId)
         {
-            return Task.FromResult(_repository.GetFeed(pageId));
+            return await Task.FromResult(_repository.GetFeed(pageId));
         }
 
-        public Task<FeedItemViewModel> GetFeedItem(string feedItemId)
+        public async Task<FeedItemViewModel> GetFeedItem(string feedItemId)
         {
-            return Task.FromResult(_repository.GetFeedItem(feedItemId));
+            return await Task.FromResult(_repository.GetFeedItem(feedItemId));
         }
 
-        public Task<IEnumerable<FeedItemViewModel>> GetFeedItemHistory(string feedItemId)
+        public async Task<IEnumerable<FeedItemViewModel>> GetFeedItemHistory(string feedItemId)
         {
-            return Task.FromResult(_repository.GetFeedItemHistory(feedItemId));
+            return await Task.FromResult(_repository.GetFeedItemHistory(feedItemId));
         }
 
-        public Task<IEnumerable<FeedItemPreviewViewModel>> GetFeedItems(string feedId)
+        public async Task<IEnumerable<FeedItemPreviewViewModel>> GetFeedItems(string feedId)
         {
-            return Task.FromResult(_repository.GetFeedItems(feedId));
+            return await Task.FromResult(_repository.GetFeedItems(feedId));
         }
 
-        public Task<PageViewModel> GetPage(string pageId)
+        public async Task<PageViewModel> GetPage(string pageId)
         {
-            return Task.FromResult(_repository.GetPage(pageId));
+            return await Task.FromResult(_repository.GetPage(pageId));
         }
 
-        public Task<IEnumerable<TagViewModel>> GetTags(string feedItemId)
+        public async Task<IEnumerable<TagViewModel>> GetTags(string feedItemId)
         {
-            return Task.FromResult(_repository.GetTags(feedItemId));
+            return await Task.FromResult(_repository.GetTags(feedItemId));
         }
 
-        public Task<IEnumerable<UserViewModel>> GetUsers()
+        public async Task<IEnumerable<UserViewModel>> GetUsers()
         {
-            return Task.FromResult(_repository.GetUsers());
+            return await Task.FromResult(_repository.GetUsers());
         }
 
-        public Task<IEnumerable<PageTreeViewModel>> GetPageTree()
+        public async Task<IEnumerable<PageTreeViewModel>> GetPageTree()
         {
-            return Task.FromResult(_repository.GetPageTree());
+            return await Task.FromResult(_repository.GetPageTree());
         }
 
-        public Task<PageViewModel> GetPageByNormalizedName(string normalizedName)
+        public async Task<PageViewModel> GetPageByNormalizedName(string normalizedName)
         {
-            return Task.FromResult(_repository.GetPageByNormalizedName(normalizedName));
+            return await Task.FromResult(_repository.GetPageByNormalizedName(normalizedName));
         }
     }
 }

@@ -1,24 +1,22 @@
-﻿using System.Collections.Generic;
-using CMSCore.Content.ViewModels;
-
-namespace CMSCore.Content.Repository.Interfaces
+﻿namespace CMSCore.Content.Repository.Interfaces
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
-    using CMSCore.Content.Models;
+    using CMSCore.Content.ViewModels;
 
     public interface IReadContentRepository
     {
+        IEnumerable<PageViewModel> GetAllPages();
         IEnumerable<CommentViewModel> GetComments(string feedItemId);
         FeedViewModel GetFeed(string pageId);
         FeedItemViewModel GetFeedItem(string feedItemId);
         IEnumerable<FeedItemViewModel> GetFeedItemHistory(string feedItemId);
         IEnumerable<FeedItemPreviewViewModel> GetFeedItems(string feedId);
         PageViewModel GetPage(string pageId);
+        PageViewModel GetPageByNormalizedName(string normalizedName);
+        IEnumerable<PageTreeViewModel> GetPageTree();
         IEnumerable<TagViewModel> GetTags(string feedItemId);
         IEnumerable<UserViewModel> GetUsers();
-        IEnumerable<PageTreeViewModel> GetPageTree();
-        PageViewModel GetPageByNormalizedName(string normalizedName);
-        IEnumerable<PageViewModel> GetAllPages();
     }
 
     public interface IReadAsyncRepository
@@ -28,11 +26,11 @@ namespace CMSCore.Content.Repository.Interfaces
         Task<FeedItemViewModel> GetFeedItem(string feedItemId);
         Task<IEnumerable<FeedItemViewModel>> GetFeedItemHistory(string feedItemId);
         Task<IEnumerable<FeedItemPreviewViewModel>> GetFeedItems(string feedId);
+        Task<FeedItemViewModel> GetFeedItemViewModel(object feedItemObject);
         Task<PageViewModel> GetPage(string pageId);
+        Task<PageViewModel> GetPageByNormalizedName(string normalizedName);
+        Task<IEnumerable<PageTreeViewModel>> GetPageTree();
         Task<IEnumerable<TagViewModel>> GetTags(string feedItemId);
         Task<IEnumerable<UserViewModel>> GetUsers();
-        Task<IEnumerable<PageTreeViewModel>> GetPageTree();
-        Task<PageViewModel> GetPageByNormalizedName(string normalizedName);
-        Task<FeedItemViewModel> GetFeedItemViewModel(object feedItemObject);
     }
 }

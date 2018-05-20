@@ -11,9 +11,9 @@
 
     public class ReadContentRepository : IReadContentRepository
     {
-        private readonly DbContext _context;
+        private readonly ContentDbContext _context;
 
-        public ReadContentRepository(DbContext context)
+        public ReadContentRepository(ContentDbContext context)
         {
             _context = context;
         }
@@ -49,7 +49,7 @@
 
             var feedItems = ((IReadContentRepository) this).GetFeedItems(feed.EntityId);
 
-            returnModel.Id = feed.EntityId;
+            returnModel.EntityId = feed.EntityId;
             returnModel.Date = feed.Date;
             returnModel.Modified = feed.Modified;
             returnModel.Name = feed.Name;
@@ -88,7 +88,7 @@
 
                 returnModel.Add(new FeedItemPreviewViewModel
                 {
-                    Id = feedItem.Id,
+                    EntityId = feedItem.Id,
                     Date = feedItem.Date,
                     Modified = feedItem.Modified,
                     Description = feedItem.Description,
@@ -111,7 +111,7 @@
             return new PageViewModel
             {
                 Content = page.Content,
-                Id = page.EntityId,
+                EntityId = page.EntityId,
                 Date = page.Date,
                 Modified = page.Modified,
                 Name = page.Name,
@@ -131,7 +131,7 @@
             return new PageViewModel
             {
                 Content = page.Content,
-                Id = page.EntityId,
+                EntityId = page.EntityId,
                 Date = page.Date,
                 Modified = page.Modified,
                 Name = page.Name,
@@ -147,7 +147,7 @@
 
             return pages.Select(x => new PageTreeViewModel
                 {
-                    Id = x.EntityId,
+                    EntityId = x.EntityId,
                     Date = x.Date,
                     Name = x.Name,
                     NormalizedName = x.NormalizedName
@@ -208,6 +208,7 @@
         {
             return set.Where(DefaultPredicate<TEntity>());
         }
+
         public static IQueryable<TEntity> ActiveOnlyAsQueryable<TEntity>(this IQueryable<TEntity> set) where TEntity : EntityBase
         {
             return set.AsEnumerable().Where(DefaultPredicate<TEntity>()).AsQueryable();

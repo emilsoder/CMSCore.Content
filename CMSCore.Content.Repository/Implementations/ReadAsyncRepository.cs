@@ -19,34 +19,44 @@
             _context = context;
         }
 
-        public async Task<IEnumerable<CommentViewModel>> GetComments(string feedItemId)
+        public Task<IEnumerable<CommentViewModel>> GetComments(string feedItemId)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<FeedViewModel> GetFeed(string pageId)
+        public Task<FeedViewModel> GetFeed(string pageId)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<FeedItemViewModel> GetFeedItem(string feedItemId)
+        public Task<FeedItemViewModel> GetFeedItem(string feedItemId)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<FeedItemViewModel>> GetFeedItemHistory(string feedItemId)
+        public Task<IEnumerable<FeedItemViewModel>> GetFeedItemHistory(string feedItemId)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<FeedItemPreviewViewModel>> GetFeedItems(string feedId)
+        public Task<IEnumerable<FeedItemPreviewViewModel>> GetFeedItems(string feedId)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<FeedItemViewModel> GetFeedItemViewModel(object feedItemObject)
+        {
+            if (!(feedItemObject is FeedItem))
+            {
+                return null;
+            }
+
+            return await GetFeedItemViewModel((FeedItem) feedItemObject);
         }
 
         public async Task<PageViewModel> GetPage(string pageId)
         {
-            var pages = _context.Pages.ActiveOnlyAsQueryable();
+            var pages = _context.Set<Page>().ActiveOnlyAsQueryable();
             if (pages == null || !pages.Any()) return null;
 
             var page = await pages.FirstOrDefaultAsync(x => x.EntityId == pageId);
@@ -57,7 +67,7 @@
             return new PageViewModel
             {
                 Content = page.Content,
-                Id = page.EntityId,
+                EntityId = page.EntityId,
                 Date = page.Date,
                 Modified = page.Modified,
                 Name = page.Name,
@@ -66,16 +76,26 @@
             };
         }
 
+        public Task<PageViewModel> GetPageByNormalizedName(string normalizedName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<PageTreeViewModel>> GetPageTree()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<IEnumerable<TagViewModel>> GetTags(string feedItemId)
         {
-            var tags = _context.Tags?.ActiveOnly()?.Where(x => x.FeedItemId == feedItemId);
+            var tags = _context.Set<Tag>()?.ActiveOnly()?.Where(x => x.FeedItemId == feedItemId);
             var vm = tags?.Select(x => new TagViewModel(x.Id, x.NormalizedName, x.Name));
             return Task.FromResult(vm);
         }
 
         public Task<IEnumerable<UserViewModel>> GetUsers()
         {
-            var users = _context.Users.ActiveOnly();
+            var users = _context.Set<User>().ActiveOnly();
             var vms = users?.Select(x => new UserViewModel
             {
                 Id = x.Id,
@@ -88,16 +108,6 @@
             });
 
             return Task.FromResult(vms);
-        }
-
-        public async Task<IEnumerable<PageTreeViewModel>> GetPageTree()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<PageViewModel> GetPageByNormalizedName(string normalizedName)
-        {
-            throw new NotImplementedException();
         }
 
         private async Task<FeedItemViewModel> GetFeedItemViewModel(FeedItem feedItem)
@@ -120,16 +130,6 @@
             returnModel.Modified = feedItem.Modified;
 
             return returnModel;
-        }
-
-        public async Task<FeedItemViewModel> GetFeedItemViewModel(object feedItemObject)
-        {
-            if (!(feedItemObject is FeedItem))
-            {
-                return null;
-            }
-
-            return await GetFeedItemViewModel((FeedItem) feedItemObject);
         }
     }
 }

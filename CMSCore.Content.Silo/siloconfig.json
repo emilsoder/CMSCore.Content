@@ -1,0 +1,7 @@
+﻿{
+  "ClusterConfiguration": {
+    "AzureTableStorage": "",
+    "SqlServer":
+      "Data Source=STO-PC-681;Initial Catalog=cmscore-content;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
+  }
+}

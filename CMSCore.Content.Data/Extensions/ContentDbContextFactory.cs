@@ -11,7 +11,7 @@ namespace CMSCore.Content.Data.Extensions
 
             optionsBuilder.UseSqlServer(DatabaseConnectionConst.SqlServer);
 
-            return new ContentDbContext(optionsBuilder.Options);
+            return new ContentDbContext( );
         }
     }
 }

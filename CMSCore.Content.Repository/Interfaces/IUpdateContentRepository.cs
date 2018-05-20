@@ -1,8 +1,8 @@
-﻿using System.Threading.Tasks;
-using CMSCore.Content.ViewModels;
-
-namespace CMSCore.Content.Repository.Interfaces
+﻿namespace CMSCore.Content.Repository.Interfaces
 {
+    using System.Threading.Tasks;
+    using CMSCore.Content.ViewModels;
+
     public interface IUpdateContentRepository
     {
         Task UpdateFeed(UpdateFeedViewModel model, string entityId, string userId);

@@ -1,10 +1,12 @@
 ﻿namespace CMSCore.Content.Grains
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using CMSCore.Content.GrainInterfaces;
+    using CMSCore.Content.Grains.Extensions;
     using CMSCore.Content.Repository.Interfaces;
     using CMSCore.Content.ViewModels;
-    using GrainInterfaces;
     using Orleans;
 
     public class CreateContentGrain : Grain, ICreateContentGrain
@@ -20,27 +22,67 @@
 
         public async Task<GrainOperationResult> CreateComment(CreateCommentViewModel model, string feedItemId)
         {
-            return await _repository.CreateComment(model, feedItemId, GrainUserId).ExecuteTask();
+            try
+            {
+                await _repository.CreateComment(model, feedItemId, GrainUserId);
+                return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
+            }
+            catch (Exception ex)
+            {
+                return ex.ResultFromException();
+            }
         }
 
         public async Task<GrainOperationResult> CreateFeedItem(CreateFeedItemViewModel model, string feedId)
         {
-            return await _repository.CreateFeedItem(model, feedId, GrainUserId).ExecuteTask();
+             try
+             {
+                 await _repository.CreateFeedItem(model, feedId, GrainUserId);
+                return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
+            }
+            catch (Exception ex)
+            {
+                return ex.ResultFromException();
+            }
         }
 
-        public async Task<GrainOperationResult> CreatePage(CreatePageViewModel model, string userId)
+        public async Task<GrainOperationResult> CreatePage(CreatePageViewModel model)
         {
-            return await _repository.CreatePage(model, GrainUserId).ExecuteTask();
-        }
+            try
+            {
+                await _repository.CreatePage(model, GrainUserId);
+                return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
+            }
+            catch (Exception ex)
+            {
+                return ex.ResultFromException();
+            }
+         }
 
         public async Task<GrainOperationResult> CreateTags(IList<string> tags, string feedItemId)
         {
-            return await _repository.CreateTags(tags, feedItemId, GrainUserId).ExecuteTask();
-        }
+            try
+            {
+                await _repository.CreateTags(tags, feedItemId, GrainUserId);
+                return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
+            }
+            catch (Exception ex)
+            {
+                return ex.ResultFromException();
+            }
+         }
 
         public async Task<GrainOperationResult> CreateUser(CreateUserViewModel model)
         {
-            return await _repository.CreateUser(model).ExecuteTask();
-        }
+            try
+            {
+                await _repository.CreateUser(model);
+                return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
+            }
+            catch (Exception ex)
+            {
+                return ex.ResultFromException();
+            }
+         }
     }
 }
