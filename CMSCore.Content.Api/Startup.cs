@@ -36,13 +36,19 @@
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseCors(x =>
+            {
+                x.WithOrigins("http://localhost:4200");
+                x.AllowAnyHeader();
+                x.AllowAnyOrigin();
+                x.AllowAnyMethod();
+            });
             app.UseAuthentication();
             app.UseMvc();
 
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "CMSCore Content API"); });
-
+           
             app.UseDefaultFiles();
             app.UseStaticFiles();
         }
@@ -52,7 +58,12 @@
             services.AddMvc(options => { options.Filters.Add(typeof(ValidateModelStateAttribute)); });
             services.AddSingleton(CreateClusterClient);
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

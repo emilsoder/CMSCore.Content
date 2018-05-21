@@ -1,0 +1,26 @@
+<mat-card>
+  <mat-card-title>
+    {{page?.name}}
+  </mat-card-title>
+  <mat-card-subtitle>
+    {{page?.date}}
+  </mat-card-subtitle>
+
+  <mat-card-content>
+    {{page?.content}}
+  </mat-card-content>
+
+  <mat-card *ngFor="let feedItem of page?.feed?.feedItems">
+    <mat-card-title>
+      <button mat-button routerLink="/feeditem/{{feedItem.entityId}}" style="width: 100%"> {{feedItem?.title}}</button>
+    </mat-card-title>
+    <mat-card-subtitle>
+      {{feedItem?.description}}
+    </mat-card-subtitle>
+    <p> {{feedItem?.date}}</p>
+
+    <mat-chip-list>
+      <mat-chip *ngFor="let tag of feedItem.tags">{{tag.name}}</mat-chip>
+    </mat-chip-list>
+  </mat-card>
+</mat-card>

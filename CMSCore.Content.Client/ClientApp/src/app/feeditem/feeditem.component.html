@@ -1,0 +1,62 @@
+<mat-card *ngIf="feedItem">
+  <mat-card-title>
+    {{feedItem.title}}
+  </mat-card-title>
+  <mat-card-subtitle>
+    {{feedItem.description}}
+  </mat-card-subtitle>
+  <mat-card-content>
+    {{feedItem.content}}
+  </mat-card-content>
+  <mat-chip-list>
+    <mat-chip *ngFor="let tag of feedItem.tags">{{tag.name}}</mat-chip>
+  </mat-chip-list>
+
+</mat-card>
+
+<mat-card *ngIf="feedItem && feedItem.commentsEnabled">
+
+  <mat-card-header>
+    <mat-card-title>Comments</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Leave a comment
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <form class="example-form" fxLayout="column">
+
+          <div fxFlex>
+            <mat-form-field class="form-input-full-width">
+              <textarea matInput placeholder="Leave a comment" [formControl]="text" required [(ngModel)]="comment.text"></textarea>
+            </mat-form-field>
+          </div>
+
+          <div fxFlex>
+            <mat-form-field class="form-input-full-width">
+              <input matInput placeholder="Enter your email" [formControl]="email" required [(ngModel)]="comment.fullName">
+              <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+            </mat-form-field>
+          </div>
+          <div fxFlex>
+            <button mat-raised-button [disabled]="text.invalid || email.invalid" (click)="submitComment()">Submit</button>
+          </div>
+        </form>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-card-content>
+  <div *ngIf="feedItem?.comments">
+    <mat-card class="example-card" *ngFor="let comment of feedItem?.comments" style="padding: 5px;">
+      <mat-card-header>
+        <mat-card-title>{{comment.fullName}}</mat-card-title>
+        <mat-card-subtitle>
+          {{comment.text}}
+        </mat-card-subtitle>
+      </mat-card-header>
+    </mat-card>
+  </div>
+</mat-card>
