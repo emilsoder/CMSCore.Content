@@ -1,14 +1,19 @@
-﻿using System;
-using CMSCore.Content.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-
-namespace CMSCore.Content.Data
+﻿namespace CMSCore.Content.Data
 {
+    using CMSCore.Content.Models;
+    using Microsoft.EntityFrameworkCore;
+
     public class ContentDbContext : DbContext
     {
         private const string _dbConnectionString =
             "Data Source=STO-PC-681;Initial Catalog=cmscore-content;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<FeedItem> FeedItems { get; set; }
+
+        public DbSet<Feed> Feeds { get; set; }
+        public DbSet<Page> Pages { get; set; }
+        public DbSet<Tag> Tags { get; set; }
 
         //public ContentDbContext(DbContextOptions options) : base(options) { }
 
@@ -18,12 +23,12 @@ namespace CMSCore.Content.Data
         //}
 
         public DbSet<User> Users { get; set; }
-        public DbSet<Page> Pages { get; set; }
 
-        public DbSet<Feed> Feeds { get; set; }
-        public DbSet<FeedItem> FeedItems { get; set; }
-        public DbSet<Tag> Tags { get; set; }
-        public DbSet<Comment> Comments { get; set; }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(_dbConnectionString);
+            base.OnConfiguring(optionsBuilder);
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -38,12 +43,6 @@ namespace CMSCore.Content.Data
             modelBuilder.Entity<User>()
                 .HasIndex(x => x.IdentityUserId)
                 .IsUnique();
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(_dbConnectionString);
-            base.OnConfiguring(optionsBuilder);
         }
     }
 }

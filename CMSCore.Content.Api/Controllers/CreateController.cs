@@ -27,24 +27,25 @@
         public CreateController(IClusterClient client, IHttpContextAccessor httpContextAccessor)
         {
             _client = client;
-            this._httpContextAccessor = httpContextAccessor;
+            _httpContextAccessor = httpContextAccessor;
         }
+
+        private ICreateContentGrain _createContentGrain => _client.GetGrain<ICreateContentGrain>(GrainUserId);
 
         private string GrainUserId => User?.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
         private string UserIPAddress => _httpContextAccessor?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
-        private ICreateContentGrain _createContentGrain => _client.GetGrain<ICreateContentGrain>(GrainUserId);
 
         [AllowAnonymous]
         [HttpPost("[action]")]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType(typeof(BadRequestObjectResult), 400)] 
+        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
         public async Task<IActionResult> Comment([FromBody] CreateCommentViewModel model)
         {
             try
             {
                 var _grain = _client.GetGrain<ICreateContentGrain>(GrainUserId ?? UserIPAddress);
-                return base.Json(await _grain.CreateComment(model, model.FeedItemId));
+                return Json(await _grain.CreateComment(model, model.FeedItemId));
             }
             catch (Exception ex)
             {
@@ -59,7 +60,7 @@
         {
             try
             {
-                return base.Json(await _createContentGrain.CreateFeedItem(model, model.FeedId));
+                return Json(await _createContentGrain.CreateFeedItem(model, model.FeedId));
             }
             catch (Exception ex)
             {
@@ -74,7 +75,7 @@
         {
             try
             {
-                return base.Json(await _createContentGrain.CreatePage(model));
+                return Json(await _createContentGrain.CreatePage(model));
             }
             catch (Exception ex)
             {
@@ -89,7 +90,7 @@
         {
             try
             {
-                return base.Json(await _createContentGrain.CreateTags(model.Tags, model.FeedItemId));
+                return Json(await _createContentGrain.CreateTags(model.Tags, model.FeedItemId));
             }
             catch (Exception ex)
             {
@@ -104,7 +105,7 @@
         {
             try
             {
-                return base.Json(await _createContentGrain.CreateUser(model));
+                return Json(await _createContentGrain.CreateUser(model));
             }
             catch (Exception ex)
             {

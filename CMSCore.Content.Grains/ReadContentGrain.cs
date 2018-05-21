@@ -46,6 +46,16 @@
             return await Task.FromResult(_repository.GetPage(pageId));
         }
 
+        public async Task<PageViewModel> GetPageByNormalizedName(string normalizedName)
+        {
+            return await Task.FromResult(_repository.GetPageByNormalizedName(normalizedName));
+        }
+
+        public async Task<IEnumerable<PageTreeViewModel>> GetPageTree()
+        {
+            return await Task.FromResult(_repository.GetPageTree());
+        }
+
         public async Task<IEnumerable<TagViewModel>> GetTags(string feedItemId)
         {
             return await Task.FromResult(_repository.GetTags(feedItemId));
@@ -54,16 +64,6 @@
         public async Task<IEnumerable<UserViewModel>> GetUsers()
         {
             return await Task.FromResult(_repository.GetUsers());
-        }
-
-        public async Task<IEnumerable<PageTreeViewModel>> GetPageTree()
-        {
-            return await Task.FromResult(_repository.GetPageTree());
-        }
-
-        public async Task<PageViewModel> GetPageByNormalizedName(string normalizedName)
-        {
-            return await Task.FromResult(_repository.GetPageByNormalizedName(normalizedName));
         }
     }
 }

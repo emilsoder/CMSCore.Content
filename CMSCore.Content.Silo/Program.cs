@@ -7,8 +7,6 @@
     using CMSCore.Content.Data;
     using CMSCore.Content.Grains;
     using CMSCore.Content.Repository;
-    using CMSCore.Content.Repository.Interfaces;
-    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
@@ -17,9 +15,9 @@
 
     public class Program
     {
+        public static IConfiguration Configuration;
         private static readonly ManualResetEvent siloStopped = new ManualResetEvent(false);
         private static ISiloHost silo;
-        public static IConfiguration Configuration;
 
 
         private static void Main(string [ ] args)
@@ -71,4 +69,4 @@
             siloStopped.Set();
         }
     }
-} 
+}

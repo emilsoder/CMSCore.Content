@@ -1,10 +1,31 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace CMSCore.Content.Data.Migrations
+﻿namespace CMSCore.Content.Data.Migrations
 {
+    using System;
+    using Microsoft.EntityFrameworkCore.Migrations;
+
     public partial class contentmig1 : Migration
     {
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                "Comments");
+
+            migrationBuilder.DropTable(
+                "FeedItems");
+
+            migrationBuilder.DropTable(
+                "Feeds");
+
+            migrationBuilder.DropTable(
+                "Pages");
+
+            migrationBuilder.DropTable(
+                "Tags");
+
+            migrationBuilder.DropTable(
+                "Users");
+        }
+
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -132,27 +153,6 @@ namespace CMSCore.Content.Data.Migrations
                 "IdentityUserId",
                 unique: true,
                 filter: "[IdentityUserId] IS NOT NULL");
-        }
-
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropTable(
-                "Comments");
-
-            migrationBuilder.DropTable(
-                "FeedItems");
-
-            migrationBuilder.DropTable(
-                "Feeds");
-
-            migrationBuilder.DropTable(
-                "Pages");
-
-            migrationBuilder.DropTable(
-                "Tags");
-
-            migrationBuilder.DropTable(
-                "Users");
         }
     }
 }

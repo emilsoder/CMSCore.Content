@@ -18,20 +18,23 @@
     {
         private readonly IClusterClient _client;
 
-        public RestoreController(IClusterClient client) => _client = client;
-
-        private string GrainUserId => User?.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+        public RestoreController(IClusterClient client)
+        {
+            _client = client;
+        }
 
         private IRestoreContentGrain _recyclebinGrain => _client.GetGrain<IRestoreContentGrain>(GrainUserId);
 
-        [HttpPut("[action]/{entityid}")]
+        private string GrainUserId => User?.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+        [HttpPut("[action]/{feedItemId}")]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
         [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
-        public async Task<IActionResult> Page(string entityId)
+        public async Task<IActionResult> CommentsByFeedItemId(string feedItemId)
         {
             try
             {
-                return base.Json(await _recyclebinGrain.RestoreOnePageFromRecycleBinByEntityId(entityId));
+                return Json(await _recyclebinGrain.RestoreCommentsFromRecycleBinByFeedItemId(feedItemId));
             }
             catch (Exception ex)
             {
@@ -46,7 +49,7 @@
         {
             try
             {
-                return base.Json(await _recyclebinGrain.RestoreOneFeedFromRecycleBinByEntityId(entityId));
+                return Json(await _recyclebinGrain.RestoreOneFeedFromRecycleBinByEntityId(entityId));
             }
             catch (Exception ex)
             {
@@ -61,7 +64,7 @@
         {
             try
             {
-                return base.Json(await _recyclebinGrain.RestoreFeedsFromRecycleBinByPageId(pageId));
+                return Json(await _recyclebinGrain.RestoreFeedsFromRecycleBinByPageId(pageId));
             }
             catch (Exception ex)
             {
@@ -76,7 +79,7 @@
         {
             try
             {
-                return base.Json(await _recyclebinGrain.RestoreOneFeedItemFromRecycleBinByEntityId(entityId));
+                return Json(await _recyclebinGrain.RestoreOneFeedItemFromRecycleBinByEntityId(entityId));
             }
             catch (Exception ex)
             {
@@ -91,7 +94,22 @@
         {
             try
             {
-                return base.Json(await _recyclebinGrain.RestoreFeedItemsFromRecycleBinByFeedId(feedId));
+                return Json(await _recyclebinGrain.RestoreFeedItemsFromRecycleBinByFeedId(feedId));
+            }
+            catch (Exception ex)
+            {
+                return ex.BadRequestFromException();
+            }
+        }
+
+        [HttpPut("[action]/{entityid}")]
+        [ProducesResponseType(typeof(GrainOperationResult), 200)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
+        public async Task<IActionResult> Page(string entityId)
+        {
+            try
+            {
+                return Json(await _recyclebinGrain.RestoreOnePageFromRecycleBinByEntityId(entityId));
             }
             catch (Exception ex)
             {
@@ -106,7 +124,7 @@
         {
             try
             {
-                return base.Json(await _recyclebinGrain.RestoreTagsFromRecycleBinByEntityId(entityId));
+                return Json(await _recyclebinGrain.RestoreTagsFromRecycleBinByEntityId(entityId));
             }
             catch (Exception ex)
             {
@@ -121,22 +139,7 @@
         {
             try
             {
-                return base.Json(await _recyclebinGrain.RestoreTagsFromRecycleBinByFeedItemId(feedItemId));
-            }
-            catch (Exception ex)
-            {
-                return ex.BadRequestFromException();
-            }
-        }
-
-        [HttpPut("[action]/{feedItemId}")]
-        [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
-        public async Task<IActionResult> CommentsByFeedItemId(string feedItemId)
-        {
-            try
-            {
-                return base.Json(await _recyclebinGrain.RestoreCommentsFromRecycleBinByFeedItemId(feedItemId));
+                return Json(await _recyclebinGrain.RestoreTagsFromRecycleBinByFeedItemId(feedItemId));
             }
             catch (Exception ex)
             {

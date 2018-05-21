@@ -1,17 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-
-namespace CMSCore.Content.Data.Extensions
+﻿namespace CMSCore.Content.Data.Extensions
 {
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Design;
+
     public class ContentDbContextFactory : IDesignTimeDbContextFactory<ContentDbContext>
     {
-        public ContentDbContext CreateDbContext(string[] args)
+        public ContentDbContext CreateDbContext(string [ ] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder();
 
             optionsBuilder.UseSqlServer(DatabaseConnectionConst.SqlServer);
 
-            return new ContentDbContext( );
+            return new ContentDbContext();
         }
     }
 }

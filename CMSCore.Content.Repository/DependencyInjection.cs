@@ -1,9 +1,9 @@
 ﻿namespace CMSCore.Content.Repository
 {
-    using Interfaces;
-    using Implementations;
+    using CMSCore.Content.Repository.Implementations;
+    using CMSCore.Content.Repository.Interfaces;
     using Microsoft.Extensions.DependencyInjection;
-     
+
     public static class DependencyInjection
     {
         public static IServiceCollection AddRepositories(this IServiceCollection services)

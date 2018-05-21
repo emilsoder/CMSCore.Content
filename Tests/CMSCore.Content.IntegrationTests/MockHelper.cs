@@ -1,23 +1,18 @@
-using System;
-using System.Collections.Generic;
-
 namespace CMSCore.Content.IntegrationTests
 {
+    using System;
+    using System.Collections.Generic;
+
     public static class Mock
     {
-        private static int GetRandomValue()
-        {
-            var randomNumber = new Random().Next(0, 50);
-            return randomNumber;
-        }
+        public static string Buzzword => MockDataArrays.Buzzwords()[GetRandomValue()];
+        public static string CatchPhrase => MockDataArrays.CatchPhrases()[GetRandomValue()];
 
         public static string Paragraph => MockDataArrays.Contents()[GetRandomValue()];
-        public static string Title => MockDataArrays.Titles()[GetRandomValue()];
         public static string Slogan => MockDataArrays.Slogans()[GetRandomValue()];
-        public static string CatchPhrase => MockDataArrays.CatchPhrases()[GetRandomValue()];
-        public static string Buzzword => MockDataArrays.Buzzwords()[GetRandomValue()];
+        public static string Title => MockDataArrays.Titles()[GetRandomValue()];
 
-        public static string[] TagWordsArray()
+        public static string [ ] TagWordsArray()
         {
             var r = new Random();
             var count = r.Next(1, 4);
@@ -29,14 +24,92 @@ namespace CMSCore.Content.IntegrationTests
             }
 
             return items.ToArray();
-        } 
+        }
+
+        private static int GetRandomValue()
+        {
+            var randomNumber = new Random().Next(0, 50);
+            return randomNumber;
+        }
     }
 
     public static class MockDataArrays
     {
-        public static string[] Contents()
+        public static string [ ] Buzzwords()
         {
-            return new[]
+            return new [ ]
+            {
+                "Frame", "24 hour", "Extended", "Advanced", "Fundamental", "Enterprise-wide", "Local", "Automated",
+                "Empowering", "Leading edge", "Profit-focused", "Seamless", "Reactive", "Assimilated", "Uniform",
+                "Impactful", "Reverse-engineered", "Polarised", "Contingency", "Multi-tasking", "Bandwidth-monitored",
+                "Solution-oriented", "Even-keeled", "Face to face", "Flexibility", "Coherent", "Forecast",
+                "Implementation", "Intermediate", "Pricing structure", "Extranet", "Content-based",
+                "Contextually-based", "Fault-tolerant", "Challenge", "Organized", "Customizable", "Coherent",
+                "Groupware", "Multi-lateral", "Hybrid", "Customer loyalty", "Migration", "Team-oriented", "Policy",
+                "Organized", "Eco-centric", "Contingency", "Operative", "User-facing"
+            };
+        }
+
+        public static string [ ] CatchPhrases()
+        {
+            return new [ ]
+            {
+                "Business-focused bottom-line infrastructure",
+                "Decentralized non-volatile success",
+                "Ergonomic executive flexibility",
+                "Stand-alone stable groupware",
+                "Assimilated context-sensitive success",
+                "Assimilated fault-tolerant knowledge user",
+                "Ergonomic system-worthy throughput",
+                "Object-based dynamic software",
+                "Object-based empowering hierarchy",
+                "Profit-focused hybrid methodology",
+                "Self-enabling value-added installation",
+                "Vision-oriented discrete website",
+                "Synergistic grid-enabled concept",
+                "Managed intangible process improvement",
+                "Upgradable leading edge hardware",
+                "Decentralized modular secured line",
+                "Compatible cohesive access",
+                "Grass-roots needs-based website",
+                "Advanced eco-centric pricing structure",
+                "Implemented secondary synergy",
+                "Total attitude-oriented paradigm",
+                "Synergized client-driven benchmark",
+                "Team-oriented uniform policy",
+                "Implemented interactive collaboration",
+                "Proactive eco-centric moratorium",
+                "Innovative next generation interface",
+                "Self-enabling dynamic database",
+                "Managed optimizing collaboration",
+                "Multi-lateral stable workforce",
+                "Managed methodical alliance",
+                "Quality-focused uniform secured line",
+                "Advanced dynamic open system",
+                "Cloned 3rd generation encryption",
+                "Innovative modular access",
+                "Business-focused multi-state algorithm",
+                "Sharable exuding utilisation",
+                "Organized zero tolerance product",
+                "Multi-lateral 3rd generation array",
+                "Horizontal contextually-based synergy",
+                "Down-sized asymmetric database",
+                "Distributed value-added policy",
+                "Advanced reciprocal help-desk",
+                "Re-engineered clear-thinking challenge",
+                "Optional analyzing workforce",
+                "Polarised interactive standardization",
+                "Operative uniform utilisation",
+                "Multi-layered high-level array",
+                "Mandatory context-sensitive system engine",
+                "Focused client-driven infrastructure",
+                "Centralized systemic service-desk"
+            };
+        }
+
+        public static string [ ] Contents()
+        {
+            return new [ ]
             {
                 "Proin interdum mauris non ligula pellentesque ultrices. Phasellus id sapien in sapien iaculis congue. Vivamus metus arcu, adipiscing molestie, hendrerit at, vulputate vitae, nisl.\n\nAenean lectus. Pellentesque eget nunc. Donec quis orci eget orci vehicula condimentum.\n\nCurabitur in libero ut massa volutpat convallis. Morbi odio odio, elementum eu, interdum eu, tincidunt in, leo. Maecenas pulvinar lobortis est.\n\nPhasellus sit amet erat. Nulla tempus. Vivamus in felis eu sapien cursus vestibulum.",
                 "Pellentesque at nulla. Suspendisse potenti. Cras in purus eu magna vulputate luctus.\n\nCum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vivamus vestibulum sagittis sapien. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.\n\nEtiam vel augue. Vestibulum rutrum rutrum neque. Aenean auctor gravida sem.\n\nPraesent id massa id nisl venenatis lacinia. Aenean sit amet justo. Morbi ut odio.",
@@ -91,9 +164,35 @@ namespace CMSCore.Content.IntegrationTests
             };
         }
 
-        public static string[] TagWords()
+        public static string [ ] Slogans()
         {
-            return new[]
+            return new [ ]
+            {
+                "Implement dynamic paradigms", "Reinvent B2B systems", "Empower value-added metrics",
+                "Engineer viral e-commerce", "Generate magnetic action-items", "Streamline value-added bandwidth",
+                "Strategize next-generation communities", "Implement interactive architectures",
+                "Incentivize best-of-breed action-items", "Redefine bricks-and-clicks channels",
+                "Enable dot-com initiatives", "Drive best-of-breed synergies", "Deploy B2C architectures",
+                "Repurpose killer web-readiness", "Incubate visionary metrics", "Empower one-to-one initiatives",
+                "Repurpose cutting-edge users", "Embrace efficient synergies", "Deploy world-class infomediaries",
+                "Orchestrate 24/365 networks", "Revolutionize enterprise markets", "Mesh cross-media architectures",
+                "Cultivate compelling channels", "Whiteboard next-generation users", "Exploit innovative partnerships",
+                "Exploit leading-edge applications", "Facilitate user-centric infrastructures",
+                "Optimize intuitive schemas", "Generate world-class experiences", "Recontextualize vertical niches",
+                "Expedite strategic synergies", "Synergize one-to-one convergence",
+                "Reintermediate cross-media eyeballs", "Leverage cross-platform communities",
+                "Benchmark granular functionalities", "Whiteboard 24/365 niches", "Implement back-end deliverables",
+                "Architect user-centric portals", "Strategize bleeding-edge schemas", "Seize transparent methodologies",
+                "Scale killer methodologies", "Implement back-end e-markets", "Transition back-end infomediaries",
+                "Maximize web-enabled content", "Deploy seamless portals", "Target best-of-breed portals",
+                "Leverage efficient experiences", "Harness ubiquitous experiences",
+                "Revolutionize compelling e-markets", "Incubate transparent infrastructures"
+            };
+        }
+
+        public static string [ ] TagWords()
+        {
+            return new [ ]
             {
                 "Vi", "Cyber Defense", "Agile Project Management", "Air Freight", "NCAA Compliance", "SVT",
                 "Metro Ethernet", "ML", "Oracle RDC", "DH+", "Project Estimation", "SAP MDM", "EASA", "Rhythm Guitar",
@@ -105,24 +204,9 @@ namespace CMSCore.Content.IntegrationTests
             };
         }
 
-        public static string[] Buzzwords()
+        public static string [ ] Titles()
         {
-            return new[]
-            {
-                "Frame", "24 hour", "Extended", "Advanced", "Fundamental", "Enterprise-wide", "Local", "Automated",
-                "Empowering", "Leading edge", "Profit-focused", "Seamless", "Reactive", "Assimilated", "Uniform",
-                "Impactful", "Reverse-engineered", "Polarised", "Contingency", "Multi-tasking", "Bandwidth-monitored",
-                "Solution-oriented", "Even-keeled", "Face to face", "Flexibility", "Coherent", "Forecast",
-                "Implementation", "Intermediate", "Pricing structure", "Extranet", "Content-based",
-                "Contextually-based", "Fault-tolerant", "Challenge", "Organized", "Customizable", "Coherent",
-                "Groupware", "Multi-lateral", "Hybrid", "Customer loyalty", "Migration", "Team-oriented", "Policy",
-                "Organized", "Eco-centric", "Contingency", "Operative", "User-facing"
-            };
-        }
-
-        public static string[] Titles()
-        {
-            return new[]
+            return new [ ]
             {
                 "Universitas Negeri Manado",
                 "Urumqi Vocational University",
@@ -174,89 +258,6 @@ namespace CMSCore.Content.IntegrationTests
                 "Chonbuk Sanup University of Technology (Howon University)",
                 "Manhattanville College",
                 "Université d'Alger"
-            };
-        }
-
-        public static string[] Slogans()
-        {
-            return new[]
-            {
-                "Implement dynamic paradigms", "Reinvent B2B systems", "Empower value-added metrics",
-                "Engineer viral e-commerce", "Generate magnetic action-items", "Streamline value-added bandwidth",
-                "Strategize next-generation communities", "Implement interactive architectures",
-                "Incentivize best-of-breed action-items", "Redefine bricks-and-clicks channels",
-                "Enable dot-com initiatives", "Drive best-of-breed synergies", "Deploy B2C architectures",
-                "Repurpose killer web-readiness", "Incubate visionary metrics", "Empower one-to-one initiatives",
-                "Repurpose cutting-edge users", "Embrace efficient synergies", "Deploy world-class infomediaries",
-                "Orchestrate 24/365 networks", "Revolutionize enterprise markets", "Mesh cross-media architectures",
-                "Cultivate compelling channels", "Whiteboard next-generation users", "Exploit innovative partnerships",
-                "Exploit leading-edge applications", "Facilitate user-centric infrastructures",
-                "Optimize intuitive schemas", "Generate world-class experiences", "Recontextualize vertical niches",
-                "Expedite strategic synergies", "Synergize one-to-one convergence",
-                "Reintermediate cross-media eyeballs", "Leverage cross-platform communities",
-                "Benchmark granular functionalities", "Whiteboard 24/365 niches", "Implement back-end deliverables",
-                "Architect user-centric portals", "Strategize bleeding-edge schemas", "Seize transparent methodologies",
-                "Scale killer methodologies", "Implement back-end e-markets", "Transition back-end infomediaries",
-                "Maximize web-enabled content", "Deploy seamless portals", "Target best-of-breed portals",
-                "Leverage efficient experiences", "Harness ubiquitous experiences",
-                "Revolutionize compelling e-markets", "Incubate transparent infrastructures"
-            };
-        }
-
-        public static string[] CatchPhrases()
-        {
-            return new[]
-            {
-                "Business-focused bottom-line infrastructure",
-                "Decentralized non-volatile success",
-                "Ergonomic executive flexibility",
-                "Stand-alone stable groupware",
-                "Assimilated context-sensitive success",
-                "Assimilated fault-tolerant knowledge user",
-                "Ergonomic system-worthy throughput",
-                "Object-based dynamic software",
-                "Object-based empowering hierarchy",
-                "Profit-focused hybrid methodology",
-                "Self-enabling value-added installation",
-                "Vision-oriented discrete website",
-                "Synergistic grid-enabled concept",
-                "Managed intangible process improvement",
-                "Upgradable leading edge hardware",
-                "Decentralized modular secured line",
-                "Compatible cohesive access",
-                "Grass-roots needs-based website",
-                "Advanced eco-centric pricing structure",
-                "Implemented secondary synergy",
-                "Total attitude-oriented paradigm",
-                "Synergized client-driven benchmark",
-                "Team-oriented uniform policy",
-                "Implemented interactive collaboration",
-                "Proactive eco-centric moratorium",
-                "Innovative next generation interface",
-                "Self-enabling dynamic database",
-                "Managed optimizing collaboration",
-                "Multi-lateral stable workforce",
-                "Managed methodical alliance",
-                "Quality-focused uniform secured line",
-                "Advanced dynamic open system",
-                "Cloned 3rd generation encryption",
-                "Innovative modular access",
-                "Business-focused multi-state algorithm",
-                "Sharable exuding utilisation",
-                "Organized zero tolerance product",
-                "Multi-lateral 3rd generation array",
-                "Horizontal contextually-based synergy",
-                "Down-sized asymmetric database",
-                "Distributed value-added policy",
-                "Advanced reciprocal help-desk",
-                "Re-engineered clear-thinking challenge",
-                "Optional analyzing workforce",
-                "Polarised interactive standardization",
-                "Operative uniform utilisation",
-                "Multi-layered high-level array",
-                "Mandatory context-sensitive system engine",
-                "Focused client-driven infrastructure",
-                "Centralized systemic service-desk"
             };
         }
     }

@@ -11,12 +11,13 @@
     public class UpdateContentGrain : Grain, IUpdateContentGrain
     {
         private readonly IUpdateContentRepository _repository;
-        private string GrainUserId => this.GetPrimaryKeyString();
 
         public UpdateContentGrain(IUpdateContentRepository repository)
         {
             _repository = repository;
         }
+
+        private string GrainUserId => this.GetPrimaryKeyString();
 
         public async Task<GrainOperationResult> UpdateFeed(UpdateFeedViewModel model, string entityId)
         {

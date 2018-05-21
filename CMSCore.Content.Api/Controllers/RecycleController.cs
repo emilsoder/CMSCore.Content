@@ -23,18 +23,18 @@
             _client = client;
         }
 
-        private string GrainUserId => User.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-
         private IRecycleBinGrain _repository => _client.GetGrain<IRecycleBinGrain>(GrainUserId);
+
+        private string GrainUserId => User.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
         [HttpDelete("[action]/{entityid}")]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
         [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
-        public async Task<IActionResult> FeedItem(string entityId)
+        public async Task<IActionResult> Comment(string entityId)
         {
             try
             {
-                return base.Json(await _repository.MoveFeedItemToRecycleBinByEntityId(entityId));
+                return Json(await _repository.MoveCommentToRecycleBinByEntityId(entityId));
             }
             catch (Exception ex)
             {
@@ -49,7 +49,22 @@
         {
             try
             {
-                return base.Json(await _repository.MoveFeedToRecycleBinByEntityId(entityId));
+                return Json(await _repository.MoveFeedToRecycleBinByEntityId(entityId));
+            }
+            catch (Exception ex)
+            {
+                return ex.BadRequestFromException();
+            }
+        }
+
+        [HttpDelete("[action]/{entityid}")]
+        [ProducesResponseType(typeof(GrainOperationResult), 200)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
+        public async Task<IActionResult> FeedItem(string entityId)
+        {
+            try
+            {
+                return Json(await _repository.MoveFeedItemToRecycleBinByEntityId(entityId));
             }
             catch (Exception ex)
             {
@@ -64,7 +79,7 @@
         {
             try
             {
-                return base.Json(await _repository.MovePageToRecycleBinByEntityId(entityId));
+                return Json(await _repository.MovePageToRecycleBinByEntityId(entityId));
             }
             catch (Exception ex)
             {
@@ -79,22 +94,7 @@
         {
             try
             {
-                return base.Json(await _repository.MoveTagToRecycleBinByEntityId(entityId));
-            }
-            catch (Exception ex)
-            {
-                return ex.BadRequestFromException();
-            }
-        }
-
-        [HttpDelete("[action]/{entityid}")]
-        [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
-        public async Task<IActionResult> Comment(string entityId)
-        {
-            try
-            {
-                return base.Json(await _repository.MoveCommentToRecycleBinByEntityId(entityId));
+                return Json(await _repository.MoveTagToRecycleBinByEntityId(entityId));
             }
             catch (Exception ex)
             {

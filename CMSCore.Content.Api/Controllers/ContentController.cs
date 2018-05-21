@@ -21,16 +21,6 @@
             _client = client;
         }
 
-        [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<PageTreeViewModel>), 200)]
-        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
-        public async Task<IActionResult> GetPageTree()
-        {
-            var readGrain = _client.GetGrain<IReadContentGrain>(_grainKey);
-            var result = await readGrain.GetPageTree();
-            return Json(result);
-        }
-
         [HttpGet("feed/{id}")]
         [ProducesResponseType(typeof(FeedViewModel), 200)]
         [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
@@ -58,6 +48,16 @@
         {
             var readGrain = _client.GetGrain<IReadContentGrain>(_grainKey);
             var result = await readGrain.GetPage(id);
+            return Json(result);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<PageTreeViewModel>), 200)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
+        public async Task<IActionResult> GetPageTree()
+        {
+            var readGrain = _client.GetGrain<IReadContentGrain>(_grainKey);
+            var result = await readGrain.GetPageTree();
             return Json(result);
         }
     }

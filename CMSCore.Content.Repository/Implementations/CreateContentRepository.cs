@@ -8,7 +8,6 @@
     using CMSCore.Content.Models.Extensions;
     using CMSCore.Content.Repository.Interfaces;
     using CMSCore.Content.ViewModels;
-    using Microsoft.EntityFrameworkCore;
 
     public class CreateContentRepository : ICreateContentRepository
     {

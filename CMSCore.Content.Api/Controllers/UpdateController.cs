@@ -7,7 +7,6 @@
     using CMSCore.Content.Api.Extensions;
     using CMSCore.Content.GrainInterfaces;
     using CMSCore.Content.ViewModels;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Orleans;
 
@@ -22,8 +21,9 @@
             _client = client;
         }
 
-        private string GrainUserId => User?.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
         private IUpdateContentGrain _updateContentGrain => _client.GetGrain<IUpdateContentGrain>(GrainUserId);
+
+        private string GrainUserId => User?.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
 
         [HttpPut("[action]")]

@@ -35,9 +35,9 @@
 
         public async Task<GrainOperationResult> CreateFeedItem(CreateFeedItemViewModel model, string feedId)
         {
-             try
-             {
-                 await _repository.CreateFeedItem(model, feedId, GrainUserId);
+            try
+            {
+                await _repository.CreateFeedItem(model, feedId, GrainUserId);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)
@@ -57,7 +57,7 @@
             {
                 return ex.ResultFromException();
             }
-         }
+        }
 
         public async Task<GrainOperationResult> CreateTags(IList<string> tags, string feedItemId)
         {
@@ -70,7 +70,7 @@
             {
                 return ex.ResultFromException();
             }
-         }
+        }
 
         public async Task<GrainOperationResult> CreateUser(CreateUserViewModel model)
         {
@@ -83,6 +83,6 @@
             {
                 return ex.ResultFromException();
             }
-         }
+        }
     }
 }

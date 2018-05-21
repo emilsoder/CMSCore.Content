@@ -9,7 +9,7 @@
     using CMSCore.Content.Models.Extensions;
     using CMSCore.Content.Repository.Interfaces;
     using CMSCore.Content.ViewModels;
- 
+
     public class UpdateContentRepository : IUpdateContentRepository
     {
         private readonly ContentDbContext _context;
@@ -35,7 +35,7 @@
             newFeed.Id = Guid.NewGuid().ToString();
             newFeed.IsActiveVersion = true;
             newFeed.Version = GetNextVersion<FeedItem>(foundActiveFeed.EntityId);
-             
+
             newFeed.CommentsEnabled = model.CommentsEnabled;
             newFeed.Content = model.Content;
             newFeed.Title = model.Title;

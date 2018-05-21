@@ -1,7 +1,6 @@
 ﻿namespace CMSCore.Content.Api
 {
     using System;
-    using System.Text;
     using System.Threading.Tasks;
     using CMSCore.Content.GrainInterfaces;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -10,9 +9,7 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.IdentityModel.Tokens;
     using Orleans;
-    using Orleans.Hosting;
     using Swashbuckle.AspNetCore.Swagger;
 
     public class Startup
@@ -23,10 +20,11 @@
             Auth0Settings = Configuration.Auth0Configuration();
         }
 
-        public IConfiguration Configuration { get; }
         public AUTH0 Auth0Settings { get; }
 
-        public void Configure(IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
+        public IConfiguration Configuration { get; }
+
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -37,10 +35,7 @@
             app.UseMvc();
 
             app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "CMSCore Content API");
-            });
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "CMSCore Content API"); });
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
@@ -61,11 +56,8 @@
                 options.Authority = Auth0Settings.AUTH0_DOMAIN;
                 options.Audience = Auth0Settings.AUTH0_AUDIENCE;
             });
-             
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = "CMSCore Content API", Version = "v1" });
-            });
+
+            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Info { Title = "CMSCore Content API", Version = "v1" }); });
         }
 
         private static async Task StartClientWithRetries(IClusterClient client)

@@ -1,8 +1,8 @@
-﻿using System;
-using System.Text.RegularExpressions;
-
-namespace CMSCore.Content.Models.Extensions
+﻿namespace CMSCore.Content.Models.Extensions
 {
+    using System;
+    using System.Text.RegularExpressions;
+
     public static class NormalizationExtensions
     {
         public static string NormalizeToSlug(this string input)

@@ -7,7 +7,6 @@
     using CMSCore.Content.Models;
     using CMSCore.Content.Repository.Interfaces;
     using CMSCore.Content.ViewModels;
-    using Microsoft.EntityFrameworkCore;
 
     public class ReadContentRepository : IReadContentRepository
     {

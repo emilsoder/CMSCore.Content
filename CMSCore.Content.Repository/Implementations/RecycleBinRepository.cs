@@ -7,13 +7,15 @@
     using CMSCore.Content.Data;
     using CMSCore.Content.Models;
     using CMSCore.Content.Repository.Interfaces;
-    using Microsoft.EntityFrameworkCore;
 
     public class RecycleBinRepository : IRecycleBinRepository
     {
         private readonly ContentDbContext _context;
 
-        public RecycleBinRepository(ContentDbContext context) => _context = context;
+        public RecycleBinRepository(ContentDbContext context)
+        {
+            _context = context;
+        }
 
         Task IRecycleBinRepository.EmptyRecycleBin<TEntityType>()
         {

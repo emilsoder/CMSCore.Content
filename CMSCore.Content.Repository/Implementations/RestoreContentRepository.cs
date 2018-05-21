@@ -11,21 +11,9 @@
     {
         private readonly ContentDbContext _context;
 
-        public RestoreContentRepository(ContentDbContext context) => _context = context;
-
-        public Task RestoreOneFeedFromRecycleBinByEntityId(string entityId, bool saveChanges = true)
+        public RestoreContentRepository(ContentDbContext context)
         {
-            var feeds = _context.Set<Feed>()?.Where(x => x.EntityId == entityId && x.MarkedToDelete);
-            if (feeds == null || !feeds.Any()) return Task.CompletedTask;
-            foreach (var feed in feeds)
-            {
-                feed.MarkedToDelete = false;
-                feed.Modified = DateTime.Now;
-                RestoreFeedItemsFromRecycleBinByFeedId(entityId, false);
-                _context.Update(feed);
-            }
-
-            return saveChanges ? _context.SaveChangesAsync() : Task.CompletedTask;
+            _context = context;
         }
 
         public Task RestoreCommentsFromRecycleBinByEntityId(string entityId, bool saveChanges)
@@ -96,6 +84,21 @@
             }
 
             return _context.SaveChangesAsync();
+        }
+
+        public Task RestoreOneFeedFromRecycleBinByEntityId(string entityId, bool saveChanges = true)
+        {
+            var feeds = _context.Set<Feed>()?.Where(x => x.EntityId == entityId && x.MarkedToDelete);
+            if (feeds == null || !feeds.Any()) return Task.CompletedTask;
+            foreach (var feed in feeds)
+            {
+                feed.MarkedToDelete = false;
+                feed.Modified = DateTime.Now;
+                RestoreFeedItemsFromRecycleBinByFeedId(entityId, false);
+                _context.Update(feed);
+            }
+
+            return saveChanges ? _context.SaveChangesAsync() : Task.CompletedTask;
         }
 
         public Task RestoreOneFeedItemFromRecycleBinByEntityId(string entityId, bool saveChanges)

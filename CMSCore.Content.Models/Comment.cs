@@ -2,9 +2,7 @@
 {
     public class Comment : EntityBase
     {
-        public Comment()
-        {
-        }
+        public Comment() { }
 
         public Comment(string feedItemId, string text, string fullName)
         {
@@ -14,8 +12,8 @@
         }
 
         public string FeedItemId { get; set; }
+        public string FullName { get; set; }
 
         public string Text { get; set; }
-        public string FullName { get; set; }
     }
 }

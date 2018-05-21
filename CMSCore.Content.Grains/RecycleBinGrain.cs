@@ -18,11 +18,50 @@
             _repository = repository;
         }
 
-        public async Task<GrainOperationResult> RestoreOnePageFromRecycleBinByEntityId(string entityId)
+        public async Task<GrainOperationResult> RestoreCommentsFromRecycleBinByEntityId(string entityId)
         {
             try
             {
-                await _repository.RestoreOnePageFromRecycleBinByEntityId(entityId);
+                await _repository.RestoreCommentsFromRecycleBinByEntityId(entityId);
+                return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
+            }
+            catch (Exception ex)
+            {
+                return ex.ResultFromException();
+            }
+        }
+
+        public async Task<GrainOperationResult> RestoreCommentsFromRecycleBinByFeedItemId(string feedItemId)
+        {
+            try
+            {
+                await _repository.RestoreCommentsFromRecycleBinByFeedItemId(feedItemId);
+                return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
+            }
+            catch (Exception ex)
+            {
+                return ex.ResultFromException();
+            }
+        }
+
+        public async Task<GrainOperationResult> RestoreFeedItemsFromRecycleBinByFeedId(string feedId)
+        {
+            try
+            {
+                await _repository.RestoreFeedItemsFromRecycleBinByFeedId(feedId);
+                return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
+            }
+            catch (Exception ex)
+            {
+                return ex.ResultFromException();
+            }
+        }
+
+        public async Task<GrainOperationResult> RestoreFeedsFromRecycleBinByPageId(string pageId)
+        {
+            try
+            {
+                await _repository.RestoreFeedsFromRecycleBinByPageId(pageId);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)
@@ -57,37 +96,11 @@
             }
         }
 
-        public async Task<GrainOperationResult> RestoreFeedsFromRecycleBinByPageId(string pageId)
+        public async Task<GrainOperationResult> RestoreOnePageFromRecycleBinByEntityId(string entityId)
         {
             try
             {
-                await _repository.RestoreFeedsFromRecycleBinByPageId(pageId);
-                return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
-            }
-            catch (Exception ex)
-            {
-                return ex.ResultFromException();
-            }
-        }
-
-        public async Task<GrainOperationResult> RestoreFeedItemsFromRecycleBinByFeedId(string feedId)
-        {
-            try
-            {
-                await _repository.RestoreFeedItemsFromRecycleBinByFeedId(feedId);
-                return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
-            }
-            catch (Exception ex)
-            {
-                return ex.ResultFromException();
-            }
-        }
-
-        public async Task<GrainOperationResult> RestoreCommentsFromRecycleBinByEntityId(string entityId)
-        {
-            try
-            {
-                await _repository.RestoreCommentsFromRecycleBinByEntityId(entityId);
+                await _repository.RestoreOnePageFromRecycleBinByEntityId(entityId);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)
@@ -121,19 +134,6 @@
                 return ex.ResultFromException();
             }
         }
-
-        public async Task<GrainOperationResult> RestoreCommentsFromRecycleBinByFeedItemId(string feedItemId)
-        {
-            try
-            {
-                await _repository.RestoreCommentsFromRecycleBinByFeedItemId(feedItemId);
-                return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
-            }
-            catch (Exception ex)
-            {
-                return ex.ResultFromException();
-            }
-        }
     }
 
     public class RecycleBinGrain : Grain, IRecycleBinGrain
@@ -146,6 +146,19 @@
         }
 
         private string GrainUserId => this.GetPrimaryKeyString();
+
+        public async Task<GrainOperationResult> MoveCommentToRecycleBinByEntityId(string commentId)
+        {
+            try
+            {
+                await _repository.MoveCommentToRecycleBinByEntityId(commentId);
+                return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
+            }
+            catch (Exception ex)
+            {
+                return ex.ResultFromException();
+            }
+        }
 
 
         public async Task<GrainOperationResult> MoveFeedItemToRecycleBinByEntityId(string feedItemId)
@@ -192,19 +205,6 @@
             try
             {
                 await _repository.MoveTagToRecycleBinByEntityId(tagId);
-                return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
-            }
-            catch (Exception ex)
-            {
-                return ex.ResultFromException();
-            }
-        }
-
-        public async Task<GrainOperationResult> MoveCommentToRecycleBinByEntityId(string commentId)
-        {
-            try
-            {
-                await _repository.MoveCommentToRecycleBinByEntityId(commentId);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)

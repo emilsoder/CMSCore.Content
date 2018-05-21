@@ -32,37 +32,11 @@
             }
         }
 
-        public async Task<GrainOperationResult> DeleteTagByEntityId(string tagId)
+        public async Task<GrainOperationResult> DeleteCommentsByFeedItemId(string feedItemId)
         {
             try
             {
-                await _repository.DeleteTagByEntityId(tagId);
-                return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
-            }
-            catch (Exception ex)
-            {
-                return ex.ResultFromException();
-            }
-        }
-
-        public async Task<GrainOperationResult> DeletePageAndRelatedEntities(string entityId)
-        {
-            try
-            {
-                await _repository.DeletePageAndRelatedEntities(entityId);
-                return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
-            }
-            catch (Exception ex)
-            {
-                return ex.ResultFromException();
-            }
-        }
-
-        public async Task<GrainOperationResult> DeleteFeedByPageId(string pageId)
-        {
-            try
-            {
-                await _repository.DeleteFeedByPageId(pageId);
+                await _repository.DeleteCommentsByFeedItemId(feedItemId);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)
@@ -76,6 +50,19 @@
             try
             {
                 await _repository.DeleteFeedByEntityId(entityId);
+                return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
+            }
+            catch (Exception ex)
+            {
+                return ex.ResultFromException();
+            }
+        }
+
+        public async Task<GrainOperationResult> DeleteFeedByPageId(string pageId)
+        {
+            try
+            {
+                await _repository.DeleteFeedByPageId(pageId);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)
@@ -110,11 +97,11 @@
             }
         }
 
-        public async Task<GrainOperationResult> DeleteTagsByFeedItemId(string feedItemId)
+        public async Task<GrainOperationResult> DeletePageAndRelatedEntities(string entityId)
         {
             try
             {
-                await _repository.DeleteCommentByEntityId(feedItemId);
+                await _repository.DeletePageAndRelatedEntities(entityId);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)
@@ -123,11 +110,24 @@
             }
         }
 
-        public async Task<GrainOperationResult> DeleteCommentsByFeedItemId(string feedItemId)
+        public async Task<GrainOperationResult> DeleteTagByEntityId(string tagId)
         {
             try
             {
-                await _repository.DeleteCommentsByFeedItemId(feedItemId);
+                await _repository.DeleteTagByEntityId(tagId);
+                return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
+            }
+            catch (Exception ex)
+            {
+                return ex.ResultFromException();
+            }
+        }
+
+        public async Task<GrainOperationResult> DeleteTagsByFeedItemId(string feedItemId)
+        {
+            try
+            {
+                await _repository.DeleteCommentByEntityId(feedItemId);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)

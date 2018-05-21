@@ -2,7 +2,6 @@
 {
     using System;
     using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
     using Orleans;
     using Orleans.Configuration;
     using Orleans.Hosting;

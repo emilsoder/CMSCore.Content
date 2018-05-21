@@ -1,14 +1,12 @@
-﻿using CMSCore.Content.Models.Extensions;
-
-namespace CMSCore.Content.Models
+﻿namespace CMSCore.Content.Models
 {
+    using CMSCore.Content.Models.Extensions;
+
     public class Tag : EntityBase
     {
         private string _name;
 
-        public Tag()
-        {
-        }
+        public Tag() { }
 
         public Tag(string feedItemId, string name)
         {

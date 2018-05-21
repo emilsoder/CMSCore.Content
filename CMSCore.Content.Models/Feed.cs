@@ -1,22 +1,18 @@
-﻿using CMSCore.Content.Models.Extensions;
-
-namespace CMSCore.Content.Models
+﻿namespace CMSCore.Content.Models
 {
+    using CMSCore.Content.Models.Extensions;
+
     public class Feed : EntityBase
     {
         private string _name;
 
-        public Feed()
-        {
-        }
+        public Feed() { }
 
         public Feed(string pageId, string name)
         {
             PageId = pageId;
             Name = name;
         }
-
-        public string PageId { get; set; }
 
         public string Name
         {
@@ -29,5 +25,7 @@ namespace CMSCore.Content.Models
         }
 
         public string NormalizedName { get; set; }
+
+        public string PageId { get; set; }
     }
 }

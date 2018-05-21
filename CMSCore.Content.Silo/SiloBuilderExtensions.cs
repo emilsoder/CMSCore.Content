@@ -4,25 +4,18 @@
     using System.IO;
     using System.Net;
     using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Orleans;
     using Orleans.Configuration;
     using Orleans.Hosting;
 
     public static class SiloBuilderExtensions
     {
-        private static AzureClusterConnection AzureClusterSettings(this IConfiguration configuration)
+        public static IConfigurationRoot BuildConfiguration()
         {
-            var conn = new AzureClusterConnection();
-            var section = configuration.GetSection("AZURE_TABLE_CLUSTER");
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("siloconfig.json", true, true);
 
-            if (section == null || !section.Exists())
-            {
-                throw new ArgumentException("To use Azure table clustering, section AZURE_TABLE_CLUSTER must be provided in 'silosettings.json'. ");
-            }
-
-            section.Bind(conn);
-            return conn;
+            return configuration.Build();
         }
 
         public static ISiloHostBuilder UseAzureTableClustering(this ISiloHostBuilder siloHostBuilder, IConfiguration configuration)
@@ -35,7 +28,7 @@
                     options.ServiceId = "cmscore_content";
                 })
                 .UseAzureStorageClustering(options => options.ConnectionString = connectionString)
-                .ConfigureEndpoints(siloPort: 11111, gatewayPort: 30000);
+                .ConfigureEndpoints(11111, 30000);
 
             return siloHostBuilder;
         }
@@ -53,13 +46,18 @@
             return siloHostBuilder;
         }
 
-        public static IConfigurationRoot BuildConfiguration()
+        private static AzureClusterConnection AzureClusterSettings(this IConfiguration configuration)
         {
-            var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("siloconfig.json", optional: true, reloadOnChange: true);
+            var conn = new AzureClusterConnection();
+            var section = configuration.GetSection("AZURE_TABLE_CLUSTER");
 
-            return configuration.Build();
+            if (section == null || !section.Exists())
+            {
+                throw new ArgumentException("To use Azure table clustering, section AZURE_TABLE_CLUSTER must be provided in 'silosettings.json'. ");
+            }
+
+            section.Bind(conn);
+            return conn;
         }
     }
-} 
+}
