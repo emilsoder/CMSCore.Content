@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
+    using CMSCore.Content.Api.Attributes;
     using CMSCore.Content.Api.Extensions;
     using CMSCore.Content.GrainInterfaces;
     using CMSCore.Content.ViewModels;
@@ -12,13 +13,9 @@
     using Microsoft.AspNetCore.Mvc;
     using Orleans;
 
-    [Authorize]
     [Route("api/content/create")]
-    [ProducesResponseType(typeof(GrainOperationResult), 200)]
-    [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
     [Produces("application/json")]
-    [ProducesResponseType(typeof(GrainOperationResult), 200)]
-    [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
+    [Authorize("contributor")]
     public class CreateController : Controller
     {
         private readonly IClusterClient _client;
@@ -38,8 +35,9 @@
 
         [AllowAnonymous]
         [HttpPost("[action]")]
+        [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> Comment([FromBody] CreateCommentViewModel model)
         {
             try
@@ -54,8 +52,9 @@
         }
 
         [HttpPost("[action]")]
+        [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> FeedItem([FromBody] CreateFeedItemViewModel model)
         {
             try
@@ -69,8 +68,9 @@
         }
 
         [HttpPost("[action]")]
+        [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> Page([FromBody] CreatePageViewModel model)
         {
             try
@@ -84,8 +84,9 @@
         }
 
         [HttpPost("[action]")]
+        [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> Tags([FromBody] CreateTagsViewModel model)
         {
             try
@@ -99,8 +100,9 @@
         }
 
         [HttpPost("[action]")]
+        [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
+        [ProducesResponseType(400)]
         public async Task<IActionResult> Users([FromBody] CreateUserViewModel model)
         {
             try

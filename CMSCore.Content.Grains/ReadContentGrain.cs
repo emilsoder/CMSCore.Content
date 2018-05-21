@@ -6,15 +6,14 @@
     using CMSCore.Content.Repository.Interfaces;
     using CMSCore.Content.ViewModels;
     using Orleans;
+    using Orleans.Concurrency;
 
+    [StatelessWorker]
     public class ReadContentGrain : Grain, IReadContentGrain
     {
         private readonly IReadContentRepository _repository;
 
-        public ReadContentGrain(IReadContentRepository repository)
-        {
-            _repository = repository;
-        }
+        public ReadContentGrain(IReadContentRepository repository) => _repository = repository;
 
         public async Task<IEnumerable<CommentViewModel>> GetComments(string feedItemId)
         {

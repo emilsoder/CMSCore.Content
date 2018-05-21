@@ -8,28 +8,25 @@
 
     public class FeedItemPreviewViewModel
     {
-        public DateTime Date { get; set; }
-
-        public string Description { get; set; }
         public string EntityId { get; set; }
-        public DateTime Modified { get; set; }
-        public string NormalizedTitle { get; set; }
-
-        public IEnumerable<TagViewModel> Tags { get; set; }
 
         public string Title { get; set; }
+        public string NormalizedTitle { get; set; }
+        public string Description { get; set; }
+        public DateTime Date { get; set; }
+        public DateTime Modified { get; set; }
+
+        public IEnumerable<TagViewModel> Tags { get; set; }
     }
 
     public class FeedViewModel
     {
-        public DateTime Date { get; set; }
         public string EntityId { get; set; }
-
-        public IEnumerable<FeedItemPreviewViewModel> FeedItems { get; set; }
-        public DateTime Modified { get; set; }
-
         public string Name { get; set; }
         public string NormalizedName { get; set; }
+        public DateTime Date { get; set; }
+        public DateTime Modified { get; set; }
+        public IEnumerable<FeedItemPreviewViewModel> FeedItems { get; set; }
     }
 
     public class CreateTagsViewModel

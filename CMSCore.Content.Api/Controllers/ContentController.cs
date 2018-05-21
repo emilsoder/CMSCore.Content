@@ -2,7 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Threading.Tasks;
+    using CMSCore.Content.Api.Attributes;
     using CMSCore.Content.GrainInterfaces;
     using CMSCore.Content.ViewModels;
     using Microsoft.AspNetCore.Mvc;
@@ -17,48 +19,43 @@
 
         public ContentController(IClusterClient client)
         {
-            _grainKey = Guid.NewGuid();
+            _grainKey = Guid.Empty;
             _client = client;
         }
 
-        [HttpGet("feed/{id}")]
+        [HttpGet("feed/{pageId}")]
+        [ValidateModelState]
         [ProducesResponseType(typeof(FeedViewModel), 200)]
-        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
-        public async Task<IActionResult> GetFeed(string pageId)
+        public async Task<IActionResult> GetFeed([Required] string pageId)
         {
             var readGrain = _client.GetGrain<IReadContentGrain>(_grainKey);
-            var result = await readGrain.GetFeed(pageId);
-            return Json(result);
+            return base.Json(await readGrain.GetFeed(pageId));
         }
 
-        [HttpGet("feeditem/{id}")]
+        [HttpGet("feeditem/{feedItemId}")]
+        [ValidateModelState]
         [ProducesResponseType(typeof(FeedItemViewModel), 200)]
-        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
-        public async Task<IActionResult> GetFeedItem(string id)
+        public async Task<IActionResult> GetFeedItem([Required] string feedItemId)
         {
             var readGrain = _client.GetGrain<IReadContentGrain>(_grainKey);
-            var result = await readGrain.GetFeedItem(id);
-            return Json(result);
+            return base.Json(await readGrain.GetFeedItem(feedItemId));
         }
 
-        [HttpGet("page/{id}")]
+        [HttpGet("page/{pageId}")]
+        [ValidateModelState]
         [ProducesResponseType(typeof(PageViewModel), 200)]
-        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
-        public async Task<IActionResult> GetPage(string id)
+        public async Task<IActionResult> GetPage([Required] string pageId)
         {
             var readGrain = _client.GetGrain<IReadContentGrain>(_grainKey);
-            var result = await readGrain.GetPage(id);
-            return Json(result);
+            return base.Json(await readGrain.GetPage(pageId));
         }
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<PageTreeViewModel>), 200)]
-        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
         public async Task<IActionResult> GetPageTree()
         {
             var readGrain = _client.GetGrain<IReadContentGrain>(_grainKey);
-            var result = await readGrain.GetPageTree();
-            return Json(result);
+            return base.Json(await readGrain.GetPageTree());
         }
     }
 }
