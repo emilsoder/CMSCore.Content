@@ -12,6 +12,7 @@
     using Orleans;
 
     [Route("api/content/update")]
+    [Produces("application/json")]
     public class UpdateController : Controller
     {
         private readonly IClusterClient _client;
@@ -26,6 +27,8 @@
 
 
         [HttpPut("[action]")]
+        [ProducesResponseType(typeof(GrainOperationResult), 200)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
         public async Task<IActionResult> Feed(UpdateFeedViewModel model)
         {
             try
@@ -39,6 +42,8 @@
         }
 
         [HttpPut("[action]")]
+        [ProducesResponseType(typeof(GrainOperationResult), 200)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
         public async Task<IActionResult> FeedItem(UpdateFeedItemViewModel model)
         {
             try
@@ -52,6 +57,8 @@
         }
 
         [HttpPut("[action]")]
+        [ProducesResponseType(typeof(GrainOperationResult), 200)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
         public async Task<IActionResult> Page(UpdatePageViewModel model)
         {
             try
@@ -65,6 +72,8 @@
         }
 
         [HttpPut("[action]")]
+        [ProducesResponseType(typeof(GrainOperationResult), 200)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
         public async Task<IActionResult> Tag(string tagName, string entityId)
         {
             try

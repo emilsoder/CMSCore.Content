@@ -7,22 +7,26 @@
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.IdentityModel.Tokens;
     using Orleans;
-    using Orleans.Configuration;
+    using Orleans.Hosting;
+    using Swashbuckle.AspNetCore.Swagger;
 
     public class Startup
     {
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            Auth0Settings = Configuration.Auth0Configuration();
         }
 
         public IConfiguration Configuration { get; }
+        public AUTH0 Auth0Settings { get; }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -32,17 +36,21 @@
             app.UseAuthentication();
             app.UseMvc();
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "CMSCore Content API");
+            });
+
             app.UseDefaultFiles();
             app.UseStaticFiles();
         }
-
-        public const string AUTH0_AUDIENCE = "http://localhost:50467/api";
-        public const string AUTH0_DOMAIN = "https://cmscore-prod.eu.auth0.com";
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
             services.AddSingleton(CreateClusterClient);
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddAuthentication(options =>
             {
@@ -50,8 +58,13 @@
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
-                options.Authority = AUTH0_DOMAIN;
-                options.Audience = AUTH0_AUDIENCE;
+                options.Authority = Auth0Settings.AUTH0_DOMAIN;
+                options.Audience = Auth0Settings.AUTH0_AUDIENCE;
+            });
+             
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "CMSCore Content API", Version = "v1" });
             });
         }
 
@@ -73,18 +86,14 @@
         private IClusterClient CreateClusterClient(IServiceProvider serviceProvider)
         {
             var client = new ClientBuilder()
-                .UseLocalhostClustering()
-                .Configure<ClusterOptions>(options =>
-                {
-                    options.ClusterId = "dev";
-                    options.ServiceId = "HelloWorldApp";
-                })
+                .UseAzureTableClustering(Configuration)
                 .ConfigureApplicationParts(parts =>
                 {
                     parts.AddApplicationPart(typeof(ICreateContentGrain).Assembly).WithReferences();
                     parts.AddApplicationPart(typeof(IUpdateContentGrain).Assembly).WithReferences();
                     parts.AddApplicationPart(typeof(IDeleteContentGrain).Assembly).WithReferences();
                     parts.AddApplicationPart(typeof(IRecycleBinGrain).Assembly).WithReferences();
+                    parts.AddApplicationPart(typeof(IRestoreContentGrain).Assembly).WithReferences();
                     parts.AddApplicationPart(typeof(IReadContentGrain).Assembly).WithReferences();
                 })
                 .Build();

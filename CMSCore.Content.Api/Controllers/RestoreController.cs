@@ -6,26 +6,27 @@
     using System.Threading.Tasks;
     using CMSCore.Content.Api.Extensions;
     using CMSCore.Content.GrainInterfaces;
+    using CMSCore.Content.ViewModels;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Orleans;
 
     [Authorize]
     [Route("api/content/restore")]
+    [Produces("application/json")]
     public class RestoreController : Controller
     {
         private readonly IClusterClient _client;
 
-        public RestoreController(IClusterClient client)
-        {
-            _client = client;
-        }
+        public RestoreController(IClusterClient client) => _client = client;
 
         private string GrainUserId => User?.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
         private IRestoreContentGrain _recyclebinGrain => _client.GetGrain<IRestoreContentGrain>(GrainUserId);
 
         [HttpPut("[action]/{entityid}")]
+        [ProducesResponseType(typeof(GrainOperationResult), 200)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
         public async Task<IActionResult> Page(string entityId)
         {
             try
@@ -39,6 +40,8 @@
         }
 
         [HttpPut("[action]/{entityid}")]
+        [ProducesResponseType(typeof(GrainOperationResult), 200)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
         public async Task<IActionResult> Feed(string entityId)
         {
             try
@@ -52,6 +55,8 @@
         }
 
         [HttpPut("[action]/{pageId}")]
+        [ProducesResponseType(typeof(GrainOperationResult), 200)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
         public async Task<IActionResult> FeedByPageId(string pageId)
         {
             try
@@ -65,6 +70,8 @@
         }
 
         [HttpPut("[action]/{entityid}")]
+        [ProducesResponseType(typeof(GrainOperationResult), 200)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
         public async Task<IActionResult> FeedItem(string entityId)
         {
             try
@@ -78,6 +85,8 @@
         }
 
         [HttpPut("[action]/{feedId}")]
+        [ProducesResponseType(typeof(GrainOperationResult), 200)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
         public async Task<IActionResult> FeedItemsByFeedId(string feedId)
         {
             try
@@ -91,6 +100,8 @@
         }
 
         [HttpPut("[action]/{entityid}")]
+        [ProducesResponseType(typeof(GrainOperationResult), 200)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
         public async Task<IActionResult> Tag(string entityId)
         {
             try
@@ -104,6 +115,8 @@
         }
 
         [HttpPut("[action]/{feedItemId}")]
+        [ProducesResponseType(typeof(GrainOperationResult), 200)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
         public async Task<IActionResult> TagsByFeedItemId(string feedItemId)
         {
             try
@@ -117,6 +130,8 @@
         }
 
         [HttpPut("[action]/{feedItemId}")]
+        [ProducesResponseType(typeof(GrainOperationResult), 200)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
         public async Task<IActionResult> CommentsByFeedItemId(string feedItemId)
         {
             try

@@ -14,6 +14,11 @@
 
     [Authorize]
     [Route("api/content/create")]
+    [ProducesResponseType(typeof(GrainOperationResult), 200)]
+    [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(GrainOperationResult), 200)]
+    [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
     public class CreateController : Controller
     {
         private readonly IClusterClient _client;
@@ -32,6 +37,8 @@
 
         [AllowAnonymous]
         [HttpPost("[action]")]
+        [ProducesResponseType(typeof(GrainOperationResult), 200)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), 400)] 
         public async Task<IActionResult> Comment([FromBody] CreateCommentViewModel model)
         {
             try
@@ -41,11 +48,13 @@
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.BadRequestFromException());
+                return ex.BadRequestFromException();
             }
         }
 
         [HttpPost("[action]")]
+        [ProducesResponseType(typeof(GrainOperationResult), 200)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
         public async Task<IActionResult> FeedItem([FromBody] CreateFeedItemViewModel model)
         {
             try
@@ -54,11 +63,13 @@
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.BadRequestFromException());
+                return ex.BadRequestFromException();
             }
         }
 
         [HttpPost("[action]")]
+        [ProducesResponseType(typeof(GrainOperationResult), 200)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
         public async Task<IActionResult> Page([FromBody] CreatePageViewModel model)
         {
             try
@@ -67,11 +78,13 @@
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.BadRequestFromException());
+                return ex.BadRequestFromException();
             }
         }
 
         [HttpPost("[action]")]
+        [ProducesResponseType(typeof(GrainOperationResult), 200)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
         public async Task<IActionResult> Tags([FromBody] CreateTagsViewModel model)
         {
             try
@@ -80,11 +93,13 @@
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.BadRequestFromException());
+                return ex.BadRequestFromException();
             }
         }
 
         [HttpPost("[action]")]
+        [ProducesResponseType(typeof(GrainOperationResult), 200)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), 400)]
         public async Task<IActionResult> Users([FromBody] CreateUserViewModel model)
         {
             try
