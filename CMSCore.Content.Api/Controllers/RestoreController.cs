@@ -13,7 +13,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Orleans;
 
-     [Route("api/content/restore")]
+    [Route("api/content/restore")]
     [Produces("application/json")]
     [Authorize("contributor")]
     public class RestoreController : Controller
@@ -28,8 +28,7 @@
         [HttpPut("[action]/{feedItemId}")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType( 400)]
-        public async Task<IActionResult> CommentsByFeedItemId( [Required] string feedItemId)
+        public async Task<IActionResult> CommentsByFeedItemId([Required] string feedItemId)
         {
             try
             {
@@ -44,8 +43,7 @@
         [HttpPut("[action]/{entityid}")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType( 400)]
-        public async Task<IActionResult> Feed( [Required] string entityId)
+        public async Task<IActionResult> Feed([Required] string entityId)
         {
             try
             {
@@ -60,8 +58,7 @@
         [HttpPut("[action]/{pageId}")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType( 400)]
-        public async Task<IActionResult> FeedByPageId( [Required] string pageId)
+        public async Task<IActionResult> FeedByPageId([Required] string pageId)
         {
             try
             {
@@ -76,8 +73,7 @@
         [HttpPut("[action]/{entityid}")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType( 400)]
-        public async Task<IActionResult> FeedItem( [Required] string entityId)
+        public async Task<IActionResult> FeedItem([Required] string entityId)
         {
             try
             {
@@ -92,8 +88,7 @@
         [HttpPut("[action]/{feedId}")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType( 400)]
-        public async Task<IActionResult> FeedItemsByFeedId( [Required] string feedId)
+        public async Task<IActionResult> FeedItemsByFeedId([Required] string feedId)
         {
             try
             {
@@ -108,8 +103,7 @@
         [HttpPut("[action]/{entityid}")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType( 400)]
-        public async Task<IActionResult> Page( [Required] string entityId)
+        public async Task<IActionResult> Page([Required] string entityId)
         {
             try
             {
@@ -124,8 +118,7 @@
         [HttpPut("[action]/{entityid}")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType( 400)]
-        public async Task<IActionResult> Tag( [Required] string entityId)
+        public async Task<IActionResult> Tag([Required] string entityId)
         {
             try
             {
@@ -140,8 +133,7 @@
         [HttpPut("[action]/{feedItemId}")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType( 400)]
-        public async Task<IActionResult> TagsByFeedItemId( [Required] string feedItemId)
+        public async Task<IActionResult> TagsByFeedItemId([Required] string feedItemId)
         {
             try
             {

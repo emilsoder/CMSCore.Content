@@ -29,7 +29,6 @@
         [HttpDelete("[action]/{entityid}")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType(400)]
         public async Task<IActionResult> Comment([Required] string entityId)
         {
             try
@@ -45,8 +44,7 @@
         [HttpDelete("[action]/{entityid}")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType(400)]
-        public async Task<IActionResult> Feed([Required]string entityId)
+        public async Task<IActionResult> Feed([Required] string entityId)
         {
             try
             {
@@ -61,8 +59,7 @@
         [HttpDelete("[action]/{entityid}")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType(400)]
-        public async Task<IActionResult> FeedItem([Required]string entityId)
+        public async Task<IActionResult> FeedItem([Required] string entityId)
         {
             try
             {
@@ -77,8 +74,7 @@
         [HttpDelete("[action]/{entityid}")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType(400)]
-        public async Task<IActionResult> Page([Required]string entityId)
+        public async Task<IActionResult> Page([Required] string entityId)
         {
             try
             {
@@ -93,8 +89,7 @@
         [HttpDelete("[action]/{entityid}")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType(400)]
-        public async Task<IActionResult> Tag([Required]string entityId)
+        public async Task<IActionResult> Tag([Required] string entityId)
         {
             try
             {

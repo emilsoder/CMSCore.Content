@@ -28,8 +28,7 @@
         [HttpPut("[action]")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType(400)]
-        public async Task<IActionResult> Feed(UpdateFeedViewModel model)
+        public async Task<IActionResult> Feed([FromBody] UpdateFeedViewModel model)
         {
             try
             {
@@ -44,8 +43,7 @@
         [HttpPut("[action]")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType(400)]
-        public async Task<IActionResult> FeedItem(UpdateFeedItemViewModel model)
+        public async Task<IActionResult> FeedItem([FromBody] UpdateFeedItemViewModel model)
         {
             try
             {
@@ -60,8 +58,7 @@
         [HttpPut("[action]")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType(400)]
-        public async Task<IActionResult> Page(UpdatePageViewModel model)
+        public async Task<IActionResult> Page([FromBody] UpdatePageViewModel model)
         {
             try
             {
@@ -76,12 +73,11 @@
         [HttpPut("[action]")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType(400)]
-        public async Task<IActionResult> Tag(string tagName, string entityId)
+        public async Task<IActionResult> Tag([FromBody] UpdateTagViewModel model)
         {
             try
             {
-                return Json(await _updateContentGrain.UpdateTag(tagName, entityId));
+                return Json(await _updateContentGrain.UpdateTag(model.TagName, model.EntityId));
             }
             catch (Exception ex)
             {

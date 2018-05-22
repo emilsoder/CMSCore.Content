@@ -36,9 +36,9 @@
             {
                 app.UseDeveloperExceptionPage();
             }
+
             app.UseCors(x =>
             {
-                x.WithOrigins("http://localhost:4200");
                 x.AllowAnyHeader();
                 x.AllowAnyOrigin();
                 x.AllowAnyMethod();
@@ -48,7 +48,7 @@
 
             app.UseSwagger();
             app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "CMSCore Content API"); });
-           
+
             app.UseDefaultFiles();
             app.UseStaticFiles();
         }
@@ -58,12 +58,14 @@
             services.AddMvc(options => { options.Filters.Add(typeof(ValidateModelStateAttribute)); });
             services.AddSingleton(CreateClusterClient);
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
                 builder.AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader();
             }));
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -72,15 +74,14 @@
             {
                 options.Authority = Auth0Settings.AUTH0_DOMAIN;
                 options.Audience = Auth0Settings.AUTH0_AUDIENCE;
-             });
+            });
 
             services.AddAuthorization(options => { options.SetPoliciesFromConfiguration(Auth0Settings); });
 
-             services.AddSingleton<IAuthorizationHandler, HasRolePolicyHandler>();
+            services.AddSingleton<IAuthorizationHandler, HasRolePolicyHandler>();
             services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Info { Title = "CMSCore Content API", Version = "v1" }); });
         }
 
-        
 
         private static async Task StartClientWithRetries(IClusterClient client)
         {

@@ -9,9 +9,9 @@
         {
             var optionsBuilder = new DbContextOptionsBuilder();
 
-            optionsBuilder.UseSqlServer(DatabaseConnectionConst.SqlServer);
+            optionsBuilder.UseSqlServer(DatabaseConnectionConst.MSSQL_CONTAINER);
 
-            return new ContentDbContext();
+            return new ContentDbContext(optionsBuilder.Options);
         }
     }
 }

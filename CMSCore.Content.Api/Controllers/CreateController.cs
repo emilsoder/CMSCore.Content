@@ -37,7 +37,6 @@
         [HttpPost("[action]")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType(400)]
         public async Task<IActionResult> Comment([FromBody] CreateCommentViewModel model)
         {
             try
@@ -54,7 +53,6 @@
         [HttpPost("[action]")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType(400)]
         public async Task<IActionResult> FeedItem([FromBody] CreateFeedItemViewModel model)
         {
             try
@@ -70,7 +68,6 @@
         [HttpPost("[action]")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType(400)]
         public async Task<IActionResult> Page([FromBody] CreatePageViewModel model)
         {
             try
@@ -86,7 +83,6 @@
         [HttpPost("[action]")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType(400)]
         public async Task<IActionResult> Tags([FromBody] CreateTagsViewModel model)
         {
             try
@@ -102,7 +98,6 @@
         [HttpPost("[action]")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        [ProducesResponseType(400)]
         public async Task<IActionResult> Users([FromBody] CreateUserViewModel model)
         {
             try

@@ -34,5 +34,3 @@
         }
     }
 }
-
-//{https://tojs.io/user_authorization: {"groups":["Contributors","Administrators"],"roles":["administrator","contributor"],"permissions":["manage:content"]}}

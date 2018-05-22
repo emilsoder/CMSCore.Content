@@ -8,5 +8,9 @@
     "DefaultEndpointsProtocol": "https",
     "AccountName": "cmscore",
     "AccountKey": "Abc9f2usjENqWPSDSxZt3A97NqRInznfjfhFN07ZgTvBOy+EzPga3XvHii8tFLXjPmuS0QtX09Hv3qkU43xX+g=="
+  },
+  "CONTENT_DB": {
+    "MSSQL":
+      "Data Source=172.25.238.237;Integrated Security=False;User ID=sa;Password=123qweASD!;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
   }
 }

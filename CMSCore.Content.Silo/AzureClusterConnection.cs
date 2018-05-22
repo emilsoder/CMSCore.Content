@@ -27,9 +27,3 @@
         }
     }
 }
-
-/*const string connectionString =
-"DefaultEndpointsProtocol=https;" +
-"AccountName=cmscore;" +
-"AccountKey=Abc9f2usjENqWPSDSxZt3A97NqRInznfjfhFN07ZgTvBOy+EzPga3XvHii8tFLXjPmuS0QtX09Hv3qkU43xX+g==;" + 
-*/

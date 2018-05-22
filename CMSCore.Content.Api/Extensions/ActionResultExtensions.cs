@@ -6,9 +6,9 @@
 
     public static class ActionResultExtensions
     {
-        public static BadRequestObjectResult BadRequestFromException(this Exception ex)
+        public static JsonResult BadRequestFromException(this Exception ex)
         {
-            return new BadRequestObjectResult(new GrainOperationResult
+            return new JsonResult(new GrainOperationResult
             {
                 Successful = false,
                 Message = ex.Message

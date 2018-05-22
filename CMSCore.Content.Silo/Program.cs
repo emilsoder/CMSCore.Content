@@ -25,11 +25,11 @@
             Configuration = SiloBuilderExtensions.BuildConfiguration();
 
             silo = new SiloHostBuilder()
-                .UseDashboard(options => { })
+                .UseDashboard(options => { options.HideTrace = true; })
                 .UseAzureTableClustering(Configuration)
                 .ConfigureServices(x =>
                 {
-                    x.AddSingleton<ContentDbContext>();
+                    x.AddSingleton<ContentDbContext>(new ContentDbContext(Configuration["CONTENT_DB:MSSQL_CONTAINER"]));
                     x.AddRepositories();
                 })
                 .ConfigureApplicationParts(parts =>
@@ -41,7 +41,7 @@
                     parts.AddApplicationPart(typeof(RestoreContentGrain).Assembly).WithReferences();
                     parts.AddApplicationPart(typeof(ReadContentGrain).Assembly).WithReferences();
                 })
-                .ConfigureLogging(builder => builder.SetMinimumLevel(LogLevel.Warning)
+                .ConfigureLogging(builder => builder.SetMinimumLevel(LogLevel.Information)
                     .AddConsole())
                 .Build();
 

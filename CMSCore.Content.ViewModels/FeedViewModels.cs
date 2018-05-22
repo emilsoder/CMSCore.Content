@@ -38,6 +38,15 @@
         public IList<string> Tags { get; set; }
     }
 
+    public class UpdateTagViewModel
+    {
+        [Required(ErrorMessage = nameof(EntityId) + " is required")]
+        public string EntityId { get; set; }
+
+        [Required(ErrorMessage = nameof(TagName) + " is required")]
+        public string TagName { get; set; }
+    }
+
     public class TagViewModel
     {
         public TagViewModel(string entityId, string normalizedName, string name)

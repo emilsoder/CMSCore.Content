@@ -41,7 +41,7 @@ namespace CMSCore.Content.IntegrationTests
         {
             _output = output;
 
-            _context = new ContentDbContext();
+            _context = new ContentDbContext("Data Source=172.25.238.237;Integrated Security=False;User ID=sa;Password=123qweASD!;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
 
             _recycleBinRepository = new RecycleBinRepository(_context);
             _deleteContentRepository = new DeleteContentRepository(_context);

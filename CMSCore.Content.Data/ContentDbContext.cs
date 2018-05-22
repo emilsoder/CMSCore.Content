@@ -15,31 +15,18 @@
         public DbSet<Page> Pages { get; set; }
         public DbSet<Tag> Tags { get; set; }
 
-        //public ContentDbContext(DbContextOptions options) : base(options) { }
+        public ContentDbContext(DbContextOptions options) : base(options) { }
+        public ContentDbContext(string connectionString) : this(GetOptions(connectionString)) { }
 
-        //public ContentDbContext()
-        //{
-
-        //}
-
-        public DbSet<User> Users { get; set; }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        private static DbContextOptions GetOptions(string connectionString)
         {
-            optionsBuilder.UseSqlServer(_dbConnectionString);
-            base.OnConfiguring(optionsBuilder);
+            return new DbContextOptionsBuilder().UseSqlServer(connectionString).Options;
         }
 
+        public DbSet<User> Users { get; set; }
+         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<User>().HasKey(x => x.Id);
-            //modelBuilder.Entity<Page>().HasKey(x => x.Id);
-
-            //modelBuilder.Entity<Feed>().HasKey(x => x.Id);
-            //modelBuilder.Entity<FeedItem>().HasKey(x => x.Id);
-            //modelBuilder.Entity<Tag>().HasKey(x => x.Id);
-            //modelBuilder.Entity<Comment>().HasKey(x => x.Id);
-
             modelBuilder.Entity<User>()
                 .HasIndex(x => x.IdentityUserId)
                 .IsUnique();
