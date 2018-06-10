@@ -79,7 +79,8 @@
         {
             var returnModel = new List<FeedItemPreviewViewModel>();
 
-            var feedItems = _context.Set<FeedItem>().ActiveOnly().Where(x => x.FeedId == feedId).ToList();
+            var feedItems = _context.Set<FeedItem>()?.ActiveOnly()?.Where(x => x.FeedId == feedId).ToList();
+            if (feedItems == null) return null;
 
             foreach (var feedItem in feedItems)
             {
@@ -141,7 +142,7 @@
 
         IEnumerable<PageTreeViewModel> IReadContentRepository.GetPageTree()
         {
-            var pages = _context.Set<Page>()?.ToList();
+            var pages = _context.Set<Page>()?.ActiveOnly()?.ToList();
             if (pages == null || !pages.Any()) return null;
 
             return pages.Select(x => new PageTreeViewModel
@@ -205,12 +206,12 @@
     {
         public static IEnumerable<TEntity> ActiveOnly<TEntity>(this IEnumerable<TEntity> set) where TEntity : EntityBase
         {
-            return set.Where(DefaultPredicate<TEntity>());
+            return set?.Where(DefaultPredicate<TEntity>());
         }
 
         public static IQueryable<TEntity> ActiveOnlyAsQueryable<TEntity>(this IQueryable<TEntity> set) where TEntity : EntityBase
         {
-            return set.AsEnumerable().Where(DefaultPredicate<TEntity>()).AsQueryable();
+            return set?.AsEnumerable()?.Where(DefaultPredicate<TEntity>())?.AsQueryable();
         }
 
         public static Func<T, bool> DefaultPredicate<T>() where T : EntityBase

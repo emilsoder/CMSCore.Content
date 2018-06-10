@@ -32,7 +32,7 @@
         {
             try
             {
-                return Json(await _updateContentGrain.UpdateFeed(model, model.EntityId));
+                return Json(await _updateContentGrain.UpdateFeed(model));
             }
             catch (Exception ex)
             {
@@ -47,7 +47,7 @@
         {
             try
             {
-                return Json(await _updateContentGrain.UpdateFeedItem(model, model.EntityId));
+                return Json(await _updateContentGrain.UpdateFeedItem(model));
             }
             catch (Exception ex)
             {
@@ -62,7 +62,7 @@
         {
             try
             {
-                return Json(await _updateContentGrain.UpdatePage(model, model.EntityId));
+                return Json(await _updateContentGrain.UpdatePage(model));
             }
             catch (Exception ex)
             {

@@ -6,9 +6,9 @@
 
     public interface IUpdateContentGrain : IGrainWithStringKey
     {
-        Task<GrainOperationResult> UpdateFeed(UpdateFeedViewModel model, string entityId);
-        Task<GrainOperationResult> UpdateFeedItem(UpdateFeedItemViewModel model, string entityId);
-        Task<GrainOperationResult> UpdatePage(UpdatePageViewModel model, string entityId);
+        Task<GrainOperationResult> UpdateFeed(UpdateFeedViewModel model );
+        Task<GrainOperationResult> UpdateFeedItem(UpdateFeedItemViewModel model );
+        Task<GrainOperationResult> UpdatePage(UpdatePageViewModel model );
         Task<GrainOperationResult> UpdateTag(string tagName, string entityId);
     }
 }

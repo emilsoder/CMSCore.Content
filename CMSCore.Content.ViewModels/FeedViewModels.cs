@@ -65,6 +65,15 @@
 
     #region Write
 
+    public class CreateFeedViewModel
+    {
+        [Required(ErrorMessage = nameof(PageId) + " is required")]
+        public string PageId { get; set; }
+
+        [Required(ErrorMessage = nameof(Name) + " is required")]
+        public string Name { get; set; }
+    }
+
     public class UpdateFeedViewModel
     {
         [Required(ErrorMessage = nameof(EntityId) + " is required")]

@@ -9,8 +9,9 @@
         {
             var optionsBuilder = new DbContextOptionsBuilder();
 
-            optionsBuilder.UseSqlServer(DatabaseConnectionConst.MSSQL_CONTAINER);
-
+            //optionsBuilder.UseSqlServer(DatabaseConnectionConst.MSSQL_CONTAINER);
+            //optionsBuilder.UseMySQL(DatabaseConnectionConst.MYSQL_GCP);
+            optionsBuilder.UseNpgsql(DatabaseConnectionConst.POSTGRES_GCP);
             return new ContentDbContext(optionsBuilder.Options);
         }
     }

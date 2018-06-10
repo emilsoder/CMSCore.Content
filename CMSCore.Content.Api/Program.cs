@@ -12,9 +12,6 @@
                 .Build();
         }
 
-        public static void Main(string [ ] args)
-        {
-            BuildWebHost(args).Run();
-        }
+        public static void Main(string [ ] args) => BuildWebHost(args).Run();
     }
 }

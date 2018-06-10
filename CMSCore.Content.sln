@@ -33,9 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMSCore.Content.Api", "CMSC
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{CE71D864-9252-4EE1-A64C-B7CFCC0A3B12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CMSCore.Content.Client", "CMSCore.Content.Client\CMSCore.Content.Client.csproj", "{1DCC2BF6-0FF9-47AE-B918-69256E2676E5}"
-EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{9E96056D-DEAB-4E61-859D-959E46DA214F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMSCore.Content.Client", "CMSCore.Content.Client\CMSCore.Content.Client.csproj", "{1DCC2BF6-0FF9-47AE-B918-69256E2676E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,10 +81,6 @@ Global
 		{1DCC2BF6-0FF9-47AE-B918-69256E2676E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DCC2BF6-0FF9-47AE-B918-69256E2676E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DCC2BF6-0FF9-47AE-B918-69256E2676E5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9E96056D-DEAB-4E61-859D-959E46DA214F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9E96056D-DEAB-4E61-859D-959E46DA214F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9E96056D-DEAB-4E61-859D-959E46DA214F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9E96056D-DEAB-4E61-859D-959E46DA214F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

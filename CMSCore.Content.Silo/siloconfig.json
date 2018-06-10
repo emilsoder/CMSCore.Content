@@ -10,7 +10,7 @@
     "AccountKey": "Abc9f2usjENqWPSDSxZt3A97NqRInznfjfhFN07ZgTvBOy+EzPga3XvHii8tFLXjPmuS0QtX09Hv3qkU43xX+g=="
   },
   "CONTENT_DB": {
-    "MSSQL":
-      "Data Source=172.25.238.237;Integrated Security=False;User ID=sa;Password=123qweASD!;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
+    "MSSQL": "Data Source=172.25.238.237;Initial Catalog=cmscore-content;Integrated Security=False;User ID=sa;Password=123qweASD!;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False",
+    "POSTGRES_GCP": "Host=35.190.218.75;Port=5432;Database=cmscore-content;User ID=postgres; Password=123QWEasd!"
   }
 }

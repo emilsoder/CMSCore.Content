@@ -42,7 +42,7 @@
             try
             {
                 var _grain = _client.GetGrain<ICreateContentGrain>(GrainUserId ?? UserIPAddress);
-                return Json(await _grain.CreateComment(model, model.FeedItemId));
+                return Json(await _grain.CreateComment(model));
             }
             catch (Exception ex)
             {
@@ -57,7 +57,22 @@
         {
             try
             {
-                return Json(await _createContentGrain.CreateFeedItem(model, model.FeedId));
+                return Json(await _createContentGrain.CreateFeedItem(model));
+            }
+            catch (Exception ex)
+            {
+                return ex.BadRequestFromException();
+            }
+        }
+
+        [HttpPost("[action]")]
+        [ValidateModelState]
+        [ProducesResponseType(typeof(GrainOperationResult), 200)]
+        public async Task<IActionResult> Feed([FromBody] CreateFeedViewModel model)
+        {
+            try
+            {
+                return Json(await _createContentGrain.CreateFeed(model));
             }
             catch (Exception ex)
             {

@@ -1,13 +1,11 @@
 ﻿namespace CMSCore.Content.Api
 {
     using System;
-    using System.Net.Http;
     using System.Threading.Tasks;
     using CMSCore.Content.Api.Attributes;
     using CMSCore.Content.Api.Authorization;
     using CMSCore.Content.Api.Extensions;
     using CMSCore.Content.GrainInterfaces;
-    using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Builder;

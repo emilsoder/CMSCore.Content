@@ -1,6 +1,7 @@
 ﻿namespace CMSCore.Content.Api.Extensions
 {
     using System;
+    using CMSCore.Content.Api.Clustering;
     using Microsoft.Extensions.Configuration;
     using Orleans;
     using Orleans.Configuration;

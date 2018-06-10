@@ -78,7 +78,8 @@ import {CdkTableModule} from "@angular/cdk/table";
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
-  ]
+  ],
+  declarations: [ManagePageComponent, CreatePageComponent]
 })
 export class MaterialModule {
 }
@@ -99,6 +100,8 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SnackbarComponent} from "./snackbar/snackbar.component";
 import {AuthService} from "./auth/auth.service";
 import {CallbackComponent} from "./callback/callback.component";
+import { ManagePageComponent } from './manage/page/manage-page/manage-page.component';
+import { CreatePageComponent } from './manage/page/create-page/create-page.component';
 
 export const routes: Routes = [
   {path: '', redirectTo: "/home", pathMatch: 'full'},

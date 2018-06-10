@@ -5,9 +5,12 @@
 
     public static class TagExtensions
     {
-        public static IEnumerable<Tag> AsTagsEnumerable(this IList<string> tagNames, string feedItemId)
+        public static IEnumerable<Tag> AsTagsEnumerable(this IList<string> tagNames, string feedItemId, string userId)
         {
-            return tagNames?.Select(tagName => new Tag(feedItemId, tagName));
+            return tagNames?.Select(tagName => new Tag(feedItemId, tagName)
+            {
+                UserId = userId 
+            });
         }
     }
 }

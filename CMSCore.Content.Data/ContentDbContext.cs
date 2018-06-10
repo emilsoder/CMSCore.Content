@@ -5,9 +5,6 @@
 
     public class ContentDbContext : DbContext
     {
-        private const string _dbConnectionString =
-            "Data Source=STO-PC-681;Initial Catalog=cmscore-content;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-
         public DbSet<Comment> Comments { get; set; }
         public DbSet<FeedItem> FeedItems { get; set; }
 
@@ -20,6 +17,7 @@
 
         private static DbContextOptions GetOptions(string connectionString)
         {
+            //return new DbContextOptionsBuilder().UseNpgsql(connectionString).Options;
             return new DbContextOptionsBuilder().UseSqlServer(connectionString).Options;
         }
 

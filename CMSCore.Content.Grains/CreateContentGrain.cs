@@ -20,11 +20,11 @@
 
         private string GrainUserId => this.GetPrimaryKeyString();
 
-        public async Task<GrainOperationResult> CreateComment(CreateCommentViewModel model, string feedItemId)
+        public async Task<GrainOperationResult> CreateComment(CreateCommentViewModel model)
         {
             try
             {
-                await _repository.CreateComment(model, feedItemId, GrainUserId);
+                await _repository.CreateComment(model, GrainUserId);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)
@@ -33,11 +33,11 @@
             }
         }
 
-        public async Task<GrainOperationResult> CreateFeedItem(CreateFeedItemViewModel model, string feedId)
+        public async Task<GrainOperationResult> CreateFeedItem(CreateFeedItemViewModel model)
         {
             try
             {
-                await _repository.CreateFeedItem(model, feedId, GrainUserId);
+                await _repository.CreateFeedItem(model, GrainUserId);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)
@@ -51,6 +51,19 @@
             try
             {
                 await _repository.CreatePage(model, GrainUserId);
+                return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
+            }
+            catch (Exception ex)
+            {
+                return ex.ResultFromException();
+            }
+        }
+
+        public async Task<GrainOperationResult> CreateFeed(CreateFeedViewModel model)
+        {
+            try
+            {
+                await _repository.CreateFeed(model, GrainUserId);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)

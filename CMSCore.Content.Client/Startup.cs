@@ -16,7 +16,6 @@ namespace CMSCore.Content.Client
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseDefaultFiles();
-
             app.UseStaticFiles();
 
             app.Use(async (context, next) =>

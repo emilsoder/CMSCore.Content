@@ -19,10 +19,9 @@
             _context = context;
         }
 
-        public Task UpdateFeedItem(UpdateFeedItemViewModel model, string entityId, string userId)
+        public Task UpdateFeedItem(UpdateFeedItemViewModel model, string userId)
         {
-            var foundActiveFeed =
-                _context.Set<FeedItem>().FirstOrDefault(x => x.IsActiveVersion && x.EntityId == entityId);
+            var foundActiveFeed = _context.FeedItems.FirstOrDefault(x => x.IsActiveVersion && x.EntityId == model.EntityId);
 
             if (foundActiveFeed == null) return Task.FromException(new Exception("FeedItem to update not found."));
 
@@ -41,17 +40,17 @@
             newFeed.Title = model.Title;
             newFeed.CommentsEnabled = model.CommentsEnabled;
 
-            UpdateTagsIfChanged(newFeed.EntityId, model.Tags);
+            UpdateTagsIfChanged(newFeed.EntityId, model.Tags, userId);
 
             _context.Add(newFeed);
 
             return _context.SaveChangesAsync();
         }
 
-        Task IUpdateContentRepository.UpdateFeed(UpdateFeedViewModel model, string entityId, string userId)
+        Task IUpdateContentRepository.UpdateFeed(UpdateFeedViewModel model,  string userId)
         {
             var foundActiveFeed =
-                _context.Set<Feed>().FirstOrDefault(x => x.IsActiveVersion && x.EntityId == entityId);
+                _context.Set<Feed>().FirstOrDefault(x => x.IsActiveVersion && x.EntityId == model.EntityId);
             if (foundActiveFeed == null) return Task.FromException(new Exception("Feed to update not found."));
 
             foundActiveFeed.IsActiveVersion = false;
@@ -69,10 +68,10 @@
             return _context.SaveChangesAsync();
         }
 
-        Task IUpdateContentRepository.UpdatePage(UpdatePageViewModel model, string entityId, string userId)
+        Task IUpdateContentRepository.UpdatePage(UpdatePageViewModel model, string userId)
         {
             var foundActivePage =
-                _context.Set<Page>().FirstOrDefault(x => x.IsActiveVersion && x.EntityId == entityId);
+                _context.Set<Page>().FirstOrDefault(x => x.IsActiveVersion && x.EntityId == model.EntityId);
             if (foundActivePage == null) return Task.FromException(new Exception("Page to update not found."));
 
             foundActivePage.IsActiveVersion = false;
@@ -113,12 +112,12 @@
             return v + 1;
         }
 
-        private void UpdateTagsIfChanged(string feedItemId, IList<string> tags)
+        private void UpdateTagsIfChanged(string feedItemId, IList<string> tags, string userId)
         {
             var feedItemTags = _context.Set<Tag>().Where(x => x.FeedItemId == feedItemId);
             _context.RemoveRange(feedItemTags);
 
-            var tagsToAdd = tags.AsTagsEnumerable(feedItemId);
+            var tagsToAdd = tags.AsTagsEnumerable(feedItemId, userId);
             _context.AddRange(tagsToAdd);
         }
     }
