@@ -46,7 +46,6 @@
             return saveChanges ? _context.SaveChangesAsync() : Task.CompletedTask;
         }
 
-
         Task IDeleteContentRepository.DeleteOneFeedItemByEntityId(string entityId, bool saveChanges)
         {
             if (!DeleteOneFeedItemByEntityId(entityId)) return Task.CompletedTask;

@@ -1,5 +1,6 @@
 ﻿namespace CMSCore.Content.Data
 {
+    using CMSCore.Content.Data.Extensions;
     using CMSCore.Content.Models;
     using Microsoft.EntityFrameworkCore;
 
@@ -12,8 +13,27 @@
         public DbSet<Page> Pages { get; set; }
         public DbSet<Tag> Tags { get; set; }
 
-        public ContentDbContext(DbContextOptions options) : base(options) { }
-        public ContentDbContext(string connectionString) : this(GetOptions(connectionString)) { }
+        public ContentDbContext()
+        {
+        }
+
+        public ContentDbContext(DbContextOptions options) : base(options)
+        {
+        }
+
+        public ContentDbContext(string connectionString) : this(GetOptions(connectionString))
+        {
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(DatabaseConnectionConst.SqlServer);
+            }
+
+            base.OnConfiguring(optionsBuilder);
+        }
 
         private static DbContextOptions GetOptions(string connectionString)
         {
@@ -22,7 +42,7 @@
         }
 
         public DbSet<User> Users { get; set; }
-         
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()

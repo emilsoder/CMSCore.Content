@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CMSCore.Content.Data.Migrations
 {
-    public partial class postgresql_gcp : Migration
+    public partial class initialmig1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -148,7 +148,8 @@ namespace CMSCore.Content.Data.Migrations
                 name: "IX_Users_IdentityUserId",
                 table: "Users",
                 column: "IdentityUserId",
-                unique: true);
+                unique: true,
+                filter: "[IdentityUserId] IS NOT NULL");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

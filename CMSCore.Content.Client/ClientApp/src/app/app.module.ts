@@ -1,88 +1,4 @@
 import {NgModule} from "@angular/core";
-import {
-  MatAutocompleteModule,
-  MatBadgeModule,
-  MatBottomSheetModule,
-  MatButtonModule,
-  MatButtonToggleModule,
-  MatCardModule,
-  MatCheckboxModule,
-  MatChipsModule,
-  MatDatepickerModule,
-  MatDialogModule,
-  MatDividerModule,
-  MatExpansionModule,
-  MatFormFieldModule,
-  MatGridListModule,
-  MatIconModule,
-  MatInputModule,
-  MatListModule,
-  MatMenuModule,
-  MatNativeDateModule,
-  MatPaginatorModule,
-  MatProgressBarModule,
-  MatProgressSpinnerModule,
-  MatRadioModule,
-  MatRippleModule,
-  MatSelectModule,
-  MatSidenavModule,
-  MatSliderModule,
-  MatSlideToggleModule,
-  MatSnackBarModule,
-  MatSortModule,
-  MatStepperModule,
-  MatTableModule,
-  MatTabsModule,
-  MatToolbarModule,
-  MatTooltipModule,
-  MatTreeModule
-} from "@angular/material";
-import {CdkTableModule} from "@angular/cdk/table";
-
-@NgModule({
-  exports: [
-    MatFormFieldModule,
-    CdkTableModule,
-    MatAutocompleteModule,
-    MatBadgeModule,
-    MatBottomSheetModule,
-    MatButtonModule,
-    MatButtonToggleModule,
-    MatCardModule,
-    MatCheckboxModule,
-    MatChipsModule,
-    MatStepperModule,
-    MatDatepickerModule,
-    MatDialogModule,
-    MatDividerModule,
-    MatExpansionModule,
-    MatGridListModule,
-    MatIconModule,
-    MatInputModule,
-    MatListModule,
-    MatMenuModule,
-    MatNativeDateModule,
-    MatPaginatorModule,
-    MatProgressBarModule,
-    MatProgressSpinnerModule,
-    MatRadioModule,
-    MatRippleModule,
-    MatSelectModule,
-    MatSidenavModule,
-    MatSliderModule,
-    MatSlideToggleModule,
-    MatSnackBarModule,
-    MatSortModule,
-    MatTableModule,
-    MatTabsModule,
-    MatToolbarModule,
-    MatTooltipModule,
-    MatTreeModule,
-  ],
-  declarations: [ManagePageComponent, CreatePageComponent]
-})
-export class MaterialModule {
-}
 
 import {BrowserModule} from '@angular/platform-browser';
 import {AppComponent} from './app.component';
@@ -94,22 +10,15 @@ import {PageComponent} from './page/page.component';
 import {ContentService} from "./services/content.service";
 import {HttpClientModule} from "@angular/common/http";
 import {FeeditemComponent} from './feeditem/feeditem.component';
-import {RouterModule, Routes} from "@angular/router";
+import {RouterModule} from "@angular/router";
 import {FlexLayoutModule} from "@angular/flex-layout";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SnackbarComponent} from "./snackbar/snackbar.component";
 import {AuthService} from "./auth/auth.service";
 import {CallbackComponent} from "./callback/callback.component";
-import { ManagePageComponent } from './manage/page/manage-page/manage-page.component';
-import { CreatePageComponent } from './manage/page/create-page/create-page.component';
-
-export const routes: Routes = [
-  {path: '', redirectTo: "/home", pathMatch: 'full'},
-  {path: 'home', component: ManageComponent, pathMatch: 'full'},
-  {path: 'page/:id', component: PageComponent},
-  {path: 'feeditem/:id', component: FeeditemComponent},
-  {path: 'manage', component: ManageComponent}
-  ];
+import {CreatePageComponent} from './manage/page/create-page/create-page.component';
+import {MaterialModule} from "./material.module";
+import {routes} from "./routes";
 
 @NgModule({
   declarations: [
@@ -119,7 +28,8 @@ export const routes: Routes = [
     PageComponent,
     FeeditemComponent,
     SnackbarComponent,
-    CallbackComponent
+    CallbackComponent,
+    CreatePageComponent
   ],
   imports: [
     MaterialModule,

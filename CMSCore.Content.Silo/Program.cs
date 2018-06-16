@@ -24,11 +24,18 @@
         {
             Configuration = SiloBuilderExtensions.BuildConfiguration();
 
+            var connectionString =
+                "Data Source=STO-PC-681;Initial Catalog=cmscore-grain-storage;Integrated Security=False;User ID=cmscore;Password=123QWEasd!;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+
             silo = new SiloHostBuilder()
-                 .UseAzureTableClustering(Configuration)
-                .ConfigureServices(x =>
+                .AddAdoNetGrainStorage("OrleansStorage", options =>
                 {
-                    x.AddSingleton<ContentDbContext>(new ContentDbContext("Data Source=STO-PC-681;Initial Catalog=cmscore-content;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"));
+                    options.Invariant = "System.Data.SqlClient";
+                    options.ConnectionString = connectionString;
+                    options.UseJsonFormat = true;
+                }).ConfigureServices(x =>
+                {
+                    x.AddSingleton<ContentDbContext>(new ContentDbContext());
                     x.AddRepositories();
                 })
                 .ConfigureApplicationParts(parts =>
