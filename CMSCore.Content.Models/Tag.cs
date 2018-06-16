@@ -20,6 +20,7 @@
         }
 
         public string FeedItemId { get; set; }
+        public virtual FeedItem FeedItem { get; set; }
 
         public string Name
         {

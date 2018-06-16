@@ -1,5 +1,6 @@
 ﻿namespace CMSCore.Content.Models
 {
+    using System.Collections.Generic;
     using CMSCore.Content.Models.Extensions;
 
     public class Feed : EntityBase
@@ -26,6 +27,9 @@
 
         public string NormalizedName { get; set; }
 
+        public Page Page { get; set; }
         public string PageId { get; set; }
+
+        public virtual ICollection<FeedItem> FeedItems { get; set; }
     }
 }

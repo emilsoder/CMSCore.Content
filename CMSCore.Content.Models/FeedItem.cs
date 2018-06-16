@@ -1,27 +1,23 @@
 ﻿namespace CMSCore.Content.Models
 {
+    using System.Collections.Generic;
     using CMSCore.Content.Models.Extensions;
 
     public class FeedItem : EntityBase
     {
         private string _title;
 
-        public FeedItem() { }
+        public FeedItem()
+        {
+        }
 
-        public FeedItem(string feedId, string title, string description, string content, bool commentsEnabled)
+        public FeedItem(string feedId, string title, string description, bool commentsEnabled)
         {
             FeedId = feedId;
             Title = title;
             Description = description;
-            Content = content;
             CommentsEnabled = commentsEnabled;
         }
-
-        public bool CommentsEnabled { get; set; } = true;
-        public string Content { get; set; }
-        public string Description { get; set; }
-
-        public string FeedId { get; set; }
 
         public string NormalizedTitle { get; set; }
 
@@ -34,5 +30,17 @@
                 NormalizedTitle = _title.NormalizeToSlug();
             }
         }
+
+        public bool CommentsEnabled { get; set; } = true;
+        public string Description { get; set; }
+
+        public string ContentId { get; set; }
+        public virtual Content Content { get; set; }
+
+        public string FeedId { get; set; }
+        public virtual Feed Feed { get; set; }
+
+        public virtual ICollection<Tag> Tags { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
     }
 }

@@ -21,7 +21,7 @@
         {
             var pages = _context.Set<Page>()?.ToList();
 
-            return pages?.Select(x => ((IReadContentRepository) this).GetPage(x.EntityId)).ToList();
+            return pages?.Select(x => ((IReadContentRepository) this).GetPage(x.Id)).ToList();
         }
 
         IEnumerable<CommentViewModel> IReadContentRepository.GetComments(string feedItemId)
@@ -29,8 +29,8 @@
             var tags = _context.Set<Comment>()?.ActiveOnly()?.Where(x => x.FeedItemId == feedItemId);
             var vm = tags?.Select(x => new CommentViewModel
             {
-                CommentId = x.EntityId,
-                Date = x.Date,
+                CommentId = x.Id,
+                Date = x.Created,
                 FullName = x.FullName,
                 Text = x.Text
             });
@@ -46,10 +46,10 @@
 
             if (feed == null) return null;
 
-            var feedItems = ((IReadContentRepository) this).GetFeedItems(feed.EntityId);
+            var feedItems = ((IReadContentRepository) this).GetFeedItems(feed.Id);
 
-            returnModel.EntityId = feed.EntityId;
-            returnModel.Date = feed.Date;
+            returnModel.EntityId = feed.Id;
+            returnModel.Date = feed.Created;
             returnModel.Modified = feed.Modified;
             returnModel.Name = feed.Name;
             returnModel.NormalizedName = feed.NormalizedName;
@@ -60,7 +60,7 @@
 
         FeedItemViewModel IReadContentRepository.GetFeedItem(string feedItemId)
         {
-            var feedItem = _context.Set<FeedItem>()?.ToList().ActiveOnly()?.FirstOrDefault(x => x.EntityId == feedItemId);
+            var feedItem = _context.Set<FeedItem>()?.ToList().ActiveOnly()?.FirstOrDefault(x => x.Id == feedItemId);
 
             if (feedItem == null) return null;
 
@@ -70,7 +70,7 @@
 
         IEnumerable<FeedItemViewModel> IReadContentRepository.GetFeedItemHistory(string feedItemId)
         {
-            var items = _context.Set<FeedItem>()?.Where(x => x.EntityId == feedItemId).ToList();
+            var items = _context.Set<FeedItem>()?.Where(x => x.Id == feedItemId).ToList();
             var vms = items?.Select(GetFeedItemViewModel);
             return vms?.ToList();
         }
@@ -84,12 +84,12 @@
 
             foreach (var feedItem in feedItems)
             {
-                var tags = ((IReadContentRepository) this).GetTags(feedItem.EntityId);
+                var tags = ((IReadContentRepository) this).GetTags(feedItem.Id);
 
                 returnModel.Add(new FeedItemPreviewViewModel
                 {
                     EntityId = feedItem.Id,
-                    Date = feedItem.Date,
+                    Date = feedItem.Created,
                     Modified = feedItem.Modified,
                     Description = feedItem.Description,
                     NormalizedTitle = feedItem.NormalizedTitle,
@@ -103,7 +103,7 @@
 
         PageViewModel IReadContentRepository.GetPage(string pageId)
         {
-            var page = _context.Set<Page>()?.ActiveOnly()?.FirstOrDefault(x => x.EntityId == pageId);
+            var page = _context.Set<Page>()?.ActiveOnly()?.FirstOrDefault(x => x.Id == pageId);
             if (page == null) return null;
 
             var pageFeed = ((IReadContentRepository) this).GetFeed(pageId);
@@ -111,8 +111,8 @@
             return new PageViewModel
             {
                 Content = page.Content,
-                EntityId = page.EntityId,
-                Date = page.Date,
+                EntityId = page.Id,
+                Date = page.Created,
                 Modified = page.Modified,
                 Name = page.Name,
                 NormalizedName = page.NormalizedName,
@@ -126,13 +126,13 @@
             var page = _context.Set<Page>()?.ActiveOnly()?.FirstOrDefault(x => x.NormalizedName == normalizedName);
             if (page == null) return null;
 
-            var pageFeed = ((IReadContentRepository) this).GetFeed(page.EntityId);
+            var pageFeed = ((IReadContentRepository) this).GetFeed(page.Id);
 
             return new PageViewModel
             {
                 Content = page.Content,
-                EntityId = page.EntityId,
-                Date = page.Date,
+                EntityId = page.Id,
+                Date = page.Created,
                 Modified = page.Modified,
                 Name = page.Name,
                 NormalizedName = page.NormalizedName,
@@ -147,8 +147,8 @@
 
             return pages.Select(x => new PageTreeViewModel
                 {
-                    EntityId = x.EntityId,
-                    Date = x.Date,
+                    EntityId = x.Id,
+                    Date = x.Created,
                     Name = x.Name,
                     NormalizedName = x.NormalizedName
                 })
@@ -168,7 +168,7 @@
             var vms = users?.Select(x => new UserViewModel
             {
                 Id = x.Id,
-                Created = x.Date,
+                Created = x.Created,
                 Modified = x.Modified,
                 Email = x.Email,
                 FirstName = x.FirstName,
@@ -183,19 +183,19 @@
         {
             var returnModel = new FeedItemViewModel();
 
-            var feedItemTags = ((IReadContentRepository) this).GetTags(feedItem.EntityId);
-            var comments = ((IReadContentRepository) this).GetComments(feedItem.EntityId);
+            var feedItemTags = ((IReadContentRepository) this).GetTags(feedItem.Id);
+            var comments = ((IReadContentRepository) this).GetComments(feedItem.Id);
 
             returnModel.Tags = feedItemTags;
             returnModel.Comments = comments;
             returnModel.NormalizedTitle = feedItem.NormalizedTitle;
             returnModel.Content = feedItem.Content;
             returnModel.CommentsEnabled = feedItem.CommentsEnabled;
-            returnModel.Id = feedItem.EntityId;
+            returnModel.Id = feedItem.Id;
             returnModel.Title = feedItem.Title;
             returnModel.Description = feedItem.Description;
             returnModel.FeedId = feedItem.FeedId;
-            returnModel.Date = feedItem.Date;
+            returnModel.Date = feedItem.Created;
             returnModel.Modified = feedItem.Modified;
 
             return returnModel;
@@ -206,17 +206,17 @@
     {
         public static IEnumerable<TEntity> ActiveOnly<TEntity>(this IEnumerable<TEntity> set) where TEntity : EntityBase
         {
-            return set?.Where(DefaultPredicate<TEntity>());
+            return set;
         }
 
         public static IQueryable<TEntity> ActiveOnlyAsQueryable<TEntity>(this IQueryable<TEntity> set) where TEntity : EntityBase
         {
-            return set?.AsEnumerable()?.Where(DefaultPredicate<TEntity>())?.AsQueryable();
+            return set;
         }
 
-        public static Func<T, bool> DefaultPredicate<T>() where T : EntityBase
-        {
-            return arg => arg.Hidden == false && arg.IsActiveVersion && arg.MarkedToDelete == false;
-        }
+        //public static Func<T, bool> DefaultPredicate<T>() where T : EntityBase
+        //{
+        //    return arg => arg.Hidden == false && arg.IsActiveVersion && arg.MarkedToDelete == false;
+        //}
     }
 }

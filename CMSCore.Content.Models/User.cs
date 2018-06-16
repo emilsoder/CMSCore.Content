@@ -12,8 +12,13 @@
         public string Email { get; set; }
 
         public string FirstName { get; set; }
+        public string LastName { get; set; }
 
         public string IdentityUserId { get; set; }
-        public string LastName { get; set; }
+
+
+        public string ContentId { get; set; }
+        public virtual Content Content { get; set; }
+
     }
 }

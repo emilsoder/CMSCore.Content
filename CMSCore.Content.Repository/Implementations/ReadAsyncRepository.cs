@@ -59,7 +59,7 @@
             var pages = _context.Set<Page>().ActiveOnlyAsQueryable();
             if (pages == null || !pages.Any()) return null;
 
-            var page = await pages.FirstOrDefaultAsync(x => x.EntityId == pageId);
+            var page = await pages.FirstOrDefaultAsync(x => x.Id == pageId);
             if (page == null) return null;
 
             var pageFeed = await GetFeed(pageId);
@@ -67,8 +67,8 @@
             return new PageViewModel
             {
                 Content = page.Content,
-                EntityId = page.EntityId,
-                Date = page.Date,
+                EntityId = page.Id,
+                Date = page.Created,
                 Modified = page.Modified,
                 Name = page.Name,
                 NormalizedName = page.NormalizedName,
@@ -99,7 +99,7 @@
             var vms = users?.Select(x => new UserViewModel
             {
                 Id = x.Id,
-                Created = x.Date,
+                Created = x.Created,
                 Modified = x.Modified,
                 Email = x.Email,
                 FirstName = x.FirstName,
@@ -114,19 +114,19 @@
         {
             var returnModel = new FeedItemViewModel();
 
-            var feedItemTags = await GetTags(feedItem.EntityId);
-            var comments = await GetComments(feedItem.EntityId);
+            var feedItemTags = await GetTags(feedItem.Id);
+            var comments = await GetComments(feedItem.Id);
 
             returnModel.Tags = feedItemTags;
             returnModel.Comments = comments;
             returnModel.NormalizedTitle = feedItem.NormalizedTitle;
             returnModel.Content = feedItem.Content;
             returnModel.CommentsEnabled = feedItem.CommentsEnabled;
-            returnModel.Id = feedItem.EntityId;
+            returnModel.Id = feedItem.Id;
             returnModel.Title = feedItem.Title;
             returnModel.Description = feedItem.Description;
             returnModel.FeedId = feedItem.FeedId;
-            returnModel.Date = feedItem.Date;
+            returnModel.Date = feedItem.Created;
             returnModel.Modified = feedItem.Modified;
 
             return returnModel;

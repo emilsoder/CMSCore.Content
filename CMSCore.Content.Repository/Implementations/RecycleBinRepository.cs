@@ -31,7 +31,7 @@
 
         Task IRecycleBinRepository.MoveCommentToRecycleBinByEntityId(string commentId)
         {
-            var comments = _context.Set<Comment>()?.Where(x => x.EntityId == commentId);
+            var comments = _context.Set<Comment>()?.Where(x => x.Id == commentId);
 
             if (comments == null || !comments.Any())
                 return Task.FromException(new Exception("Comment to recycle not found"));
@@ -42,7 +42,7 @@
 
         Task IRecycleBinRepository.MoveFeedItemToRecycleBinByEntityId(string feedItemId)
         {
-            var feedItems = _context.Set<FeedItem>().Where(x => x.EntityId == feedItemId);
+            var feedItems = _context.Set<FeedItem>().Where(x => x.Id == feedItemId);
 
             if (!feedItems.Any()) return Task.FromException(new Exception("FeedItem to recycle not found"));
             MarkCommentsAsDeletedByFeedItemId(feedItemId);
@@ -68,7 +68,7 @@
 
         Task IRecycleBinRepository.MoveTagToRecycleBinByEntityId(string tagId)
         {
-            var tags = _context.Set<Tag>()?.Where(x => x.EntityId == tagId);
+            var tags = _context.Set<Tag>()?.Where(x => x.Id == tagId);
 
             if (tags == null || !tags.Any()) return Task.FromException(new Exception("Tag to recycle not found"));
 
@@ -94,9 +94,9 @@
 
         private void MarkFeedAsDeletedByEntityId(string entityId)
         {
-            var feed = _context.Set<Feed>()?.Where(x => x.EntityId == entityId);
+            var feed = _context.Set<Feed>()?.Where(x => x.Id == entityId);
             if (feed == null || !feed.Any()) return;
-            MarkFeedItemsAsDeletedByFeedId(feed.First().EntityId);
+            MarkFeedItemsAsDeletedByFeedId(feed.First().Id);
             MarkAsDeletedAndUpdate(feed);
         }
 
@@ -104,7 +104,7 @@
         {
             var feed = _context.Set<Feed>()?.Where(x => x.PageId == pageId);
             if (feed == null || !feed.Any()) return;
-            MarkFeedItemsAsDeletedByFeedId(feed.First().EntityId);
+            MarkFeedItemsAsDeletedByFeedId(feed.First().Id);
             MarkAsDeletedAndUpdate(feed);
         }
 
@@ -114,7 +114,7 @@
 
             if (feedItems == null || !feedItems.Any()) return;
 
-            var ids = feedItems.Select(x => x.EntityId);
+            var ids = feedItems.Select(x => x.Id);
             if (ids.Any())
                 foreach (var entityId in ids)
                 {
@@ -127,9 +127,9 @@
 
         private void MarkPageAsDeletedByEntityId(string entityId)
         {
-            var pages = _context.Set<Page>()?.Where(x => x.EntityId == entityId);
+            var pages = _context.Set<Page>()?.Where(x => x.Id == entityId);
             if (pages == null || !pages.Any()) return;
-            MarkFeedAsDeletedByPageId(pages.First().EntityId);
+            MarkFeedAsDeletedByPageId(pages.First().Id);
             MarkAsDeletedAndUpdate(pages);
         }
 

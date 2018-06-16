@@ -18,7 +18,7 @@
 
         public Task RestoreCommentsFromRecycleBinByEntityId(string entityId, bool saveChanges)
         {
-            var comments = _context.Set<Comment>()?.Where(x => x.EntityId == entityId && x.MarkedToDelete);
+            var comments = _context.Set<Comment>()?.Where(x => x.Id == entityId && x.MarkedToDelete);
             if (comments == null || !comments.Any()) return Task.CompletedTask;
             foreach (var comment in comments)
             {
@@ -66,7 +66,7 @@
             {
                 feed.MarkedToDelete = false;
                 feed.Modified = DateTime.Now;
-                RestoreFeedItemsFromRecycleBinByFeedId(feed.EntityId, false);
+                RestoreFeedItemsFromRecycleBinByFeedId(feed.Id, false);
                 _context.Update(feed);
             }
 
@@ -75,7 +75,7 @@
 
         public Task RestoreFromRecycleBin<TEntityType>(string entityId) where TEntityType : EntityBase
         {
-            var entitiesToRestore = _context.Set<TEntityType>()?.Where(x => x.EntityId == entityId);
+            var entitiesToRestore = _context.Set<TEntityType>()?.Where(x => x.Id == entityId);
             if (entitiesToRestore == null || !entitiesToRestore.Any()) return _context.SaveChangesAsync();
             foreach (var entity in entitiesToRestore)
             {
@@ -88,7 +88,7 @@
 
         public Task RestoreOneFeedFromRecycleBinByEntityId(string entityId, bool saveChanges = true)
         {
-            var feeds = _context.Set<Feed>()?.Where(x => x.EntityId == entityId && x.MarkedToDelete);
+            var feeds = _context.Set<Feed>()?.Where(x => x.Id == entityId && x.MarkedToDelete);
             if (feeds == null || !feeds.Any()) return Task.CompletedTask;
             foreach (var feed in feeds)
             {
@@ -103,7 +103,7 @@
 
         public Task RestoreOneFeedItemFromRecycleBinByEntityId(string entityId, bool saveChanges)
         {
-            var feedItems = _context.Set<FeedItem>()?.Where(x => x.EntityId == entityId && x.MarkedToDelete);
+            var feedItems = _context.Set<FeedItem>()?.Where(x => x.Id == entityId && x.MarkedToDelete);
             if (feedItems == null || !feedItems.Any()) return Task.CompletedTask;
             foreach (var feedItem in feedItems)
             {
@@ -117,7 +117,7 @@
 
         public Task RestoreOnePageFromRecycleBinByEntityId(string entityId, bool saveChanges)
         {
-            var page = _context.Set<Page>()?.Where(x => x.EntityId == entityId && x.MarkedToDelete);
+            var page = _context.Set<Page>()?.Where(x => x.Id == entityId && x.MarkedToDelete);
             if (page == null || !page.Any()) return Task.CompletedTask;
             foreach (var p in page)
             {
@@ -134,7 +134,7 @@
 
         public Task RestoreTagsFromRecycleBinByEntityId(string entityId, bool saveChanges)
         {
-            var tags = _context.Set<Tag>()?.Where(x => x.EntityId == entityId && x.MarkedToDelete);
+            var tags = _context.Set<Tag>()?.Where(x => x.Id == entityId && x.MarkedToDelete);
             if (tags == null || !tags.Any()) return Task.CompletedTask;
             foreach (var tag in tags)
             {

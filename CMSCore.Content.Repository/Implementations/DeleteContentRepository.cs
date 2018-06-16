@@ -72,7 +72,7 @@
 
         private bool DeleteCommentByEntityId(string commentId)
         {
-            var comment = _context.Set<Comment>()?.FirstOrDefault(x => x.EntityId == commentId);
+            var comment = _context.Set<Comment>()?.FirstOrDefault(x => x.Id == commentId);
             if (comment == null) return false;
             _context.Remove(comment);
             return true;
@@ -88,7 +88,7 @@
 
         private bool DeleteFeedByEntityId(string entityId)
         {
-            var feedToDelete = _context.Set<Feed>()?.Where(x => x.EntityId == entityId && x.MarkedToDelete);
+            var feedToDelete = _context.Set<Feed>()?.Where(x => x.Id == entityId && x.MarkedToDelete);
             if (feedToDelete == null || !feedToDelete.Any()) return false;
             DeleteFeedItemsByFeedId(entityId);
             _context.RemoveRange(feedToDelete);
@@ -99,7 +99,7 @@
         {
             var feedToDelete = _context.Set<Feed>()?.Where(x => x.PageId == pageId && x.MarkedToDelete);
             if (feedToDelete == null || !feedToDelete.Any()) return false;
-            DeleteFeedItemsByFeedId(feedToDelete.First().EntityId);
+            DeleteFeedItemsByFeedId(feedToDelete.First().Id);
             _context.RemoveRange(feedToDelete);
             return true;
         }
@@ -109,7 +109,7 @@
             var feedItem = _context.Set<FeedItem>()?.Where(x => x.FeedId == feedId && x.MarkedToDelete);
             if (feedItem == null || !feedItem.Any()) return false;
 
-            var feedItemId = feedItem.First().EntityId;
+            var feedItemId = feedItem.First().Id;
 
             DeleteTagsByFeedItemId(feedItemId);
             DeleteCommentsByFeedItemId(feedItemId);
@@ -119,7 +119,7 @@
 
         private bool DeleteOneFeedItemByEntityId(string entityId)
         {
-            var feedItem = _context.Set<FeedItem>()?.Where(x => x.EntityId == entityId && x.MarkedToDelete);
+            var feedItem = _context.Set<FeedItem>()?.Where(x => x.Id == entityId && x.MarkedToDelete);
             if (feedItem == null || !feedItem.Any()) return false;
 
             DeleteTagsByFeedItemId(entityId);
@@ -130,7 +130,7 @@
 
         private bool DeletePageAndRelatedEntities(string entityId)
         {
-            var page = _context.Set<Page>()?.Where(x => x.EntityId == entityId && x.MarkedToDelete);
+            var page = _context.Set<Page>()?.Where(x => x.Id == entityId && x.MarkedToDelete);
             if (page == null || !page.Any()) return false;
 
             DeleteFeedByPageId(entityId);
@@ -140,7 +140,7 @@
 
         private bool DeleteTagByEntityId(string tagId)
         {
-            var tag = _context.Set<Tag>()?.FirstOrDefault(x => x.EntityId == tagId);
+            var tag = _context.Set<Tag>()?.FirstOrDefault(x => x.Id == tagId);
             if (tag == null) return false;
             _context.Remove(tag);
             return true;

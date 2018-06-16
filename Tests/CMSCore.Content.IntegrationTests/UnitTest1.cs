@@ -389,9 +389,9 @@ namespace CMSCore.Content.IntegrationTests
 
             var feeds = _context.Feeds?.ToList();
             if (feeds == null) throw new Exception("No feeds available.");
-            if (feeds.Count == 1) return feeds.First().EntityId;
+            if (feeds.Count == 1) return feeds.First().Id;
 
-            var feedId = feeds[r.Next(0, feeds.Count - 1)].EntityId;
+            var feedId = feeds[r.Next(0, feeds.Count - 1)].Id;
             return feedId;
         }
 

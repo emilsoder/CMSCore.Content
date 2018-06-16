@@ -31,7 +31,7 @@
             _context.Add(comment);
 
             await _context.SaveChangesAsync();
-            return comment.EntityId;
+            return comment.Id;
         }
 
         public async Task<string> CreateFeedItem(CreateFeedItemViewModel model, string userId)
@@ -43,19 +43,19 @@
 
             if (model.Tags != null && model.Tags.Any())
             {
-                var tags = model.Tags.AsTagsEnumerable(feedItem.EntityId, userId);
+                var tags = model.Tags.AsTagsEnumerable(feedItem.Id, userId);
                 _context.AddRange(tags);
             }
 
             _context.Add(feedItem);
 
             await _context.SaveChangesAsync();
-            return feedItem.EntityId;
+            return feedItem.Id;
         }
 
         public async Task<string> CreateFeed(CreateFeedViewModel model, string userId)
         {
-            if (!(await _context.Pages.AnyAsync(x => x.EntityId == model.PageId)))
+            if (!(await _context.Pages.AnyAsync(x => x.Id == model.PageId)))
             {
                 throw new Exception($"Page with id '{model.PageId}' could not be found");
             }
@@ -68,7 +68,7 @@
             var feed = new Feed(model.PageId, model.Name) { UserId = userId };
             _context.Add(feed);
             await _context.SaveChangesAsync();
-            return feed.EntityId;
+            return feed.Id;
         }
 
         public async Task<string> CreatePage(CreatePageViewModel model, string userId, string feedName = null)
@@ -83,7 +83,7 @@
 
             if (model.FeedEnabled && !string.IsNullOrEmpty(feedName))
             {
-                var feed = new Feed(page.EntityId, feedName)
+                var feed = new Feed(page.Id, feedName)
                 {
                     UserId = userId
                 };
@@ -94,7 +94,7 @@
             _context.Add(page);
 
             await _context.SaveChangesAsync();
-            return page.EntityId;
+            return page.Id;
         }
 
         public Task CreateTags(IList<string> tags, string feedItemId, string userId)
@@ -118,7 +118,7 @@
             _context.Add(user);
 
             await _context.SaveChangesAsync();
-            return user.EntityId;
+            return user.Id;
         }
     }
 }

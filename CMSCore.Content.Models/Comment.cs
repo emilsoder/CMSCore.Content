@@ -7,13 +7,20 @@
         public Comment(string feedItemId, string text, string fullName)
         {
             FeedItemId = feedItemId;
-            Text = text;
-            FullName = fullName;
+             FullName = fullName;
+            Content = new Content()
+            {
+                
+            };
         }
 
+        public virtual FeedItem FeedItem { get; set; }
         public string FeedItemId { get; set; }
+
         public string FullName { get; set; }
 
-        public string Text { get; set; }
+
+        public string ContentId { get; set; }
+        public virtual Content Content { get; set; }
     }
 }
