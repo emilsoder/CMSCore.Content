@@ -1,0 +1,102 @@
+﻿namespace CMSCore.Content.Repository.Implementations
+{
+    using System.Collections.Generic;
+    using System.Linq;
+    using CMSCore.Content.Models;
+    using CMSCore.Content.ViewModels;
+
+    public static class ReadContentExtensions
+    {
+        public static IEnumerable<PageTreeViewModel> ConvertToViewModel(this IEnumerable<Page> models)
+        {
+            return models.Select(x => new PageTreeViewModel()
+            {
+                EntityId = x.Id,
+                Date = x.Created,
+                Name = x.Name,
+                NormalizedName = x.NormalizedName
+            });
+        }
+
+        //public static IEnumerable<TagViewModel> ConvertToViewModel
+
+        public static PageViewModel ConvertToViewModel(this Page model)
+        {
+            var feed = model.Feed;
+
+            return new PageViewModel()
+            {
+                EntityId = model.Id,
+                Feed = model.Feed.ConvertToViewModel(),
+                Content = model.Content.Value,
+                Name = model.Name,
+                Modified = model.Modified,
+                NormalizedName = model.NormalizedName,
+                Date = model.Created
+            };
+        }
+
+        public static FeedViewModel ConvertToViewModel(this Feed feed)
+        {
+            var feedVieWModel = new FeedViewModel()
+            {
+                Date = feed.Created,
+                EntityId = feed.Id,
+                Modified = feed.Modified,
+                Name = feed.Name,
+                NormalizedName = feed.NormalizedName,
+                FeedItems = feed.FeedItems.Select(x => x.ConvertToPreviewViewModel())
+            };
+            return feedVieWModel;
+        }
+
+        public static FeedItemPreviewViewModel ConvertToPreviewViewModel(this FeedItem x)
+        {
+            return new FeedItemPreviewViewModel()
+            {
+                EntityId = x.Id,
+                Date = x.Created,
+                Modified = x.Modified,
+                Description = x.Description,
+                Title = x.Title,
+                Tags = x.Tags.Select(tag => new TagViewModel(tag.Id, tag.NormalizedName, tag.Name)),
+                NormalizedTitle = x.NormalizedTitle
+            };
+        }
+
+        public static CommentViewModel ConvertToViewModel(this Comment c)
+        {
+            return new CommentViewModel()
+            {
+                Date = c.Created,
+                Text = c.Content.Value,
+                FullName = c.FullName,
+                CommentId = c.Id
+            };
+        }
+
+        public static TagViewModel ConvertToViewModel(this Tag tag)
+        {
+            return new TagViewModel(tag.Id, tag.NormalizedName, tag.Name);
+        }
+        public static FeedItemViewModel ConvertToViewModel(this FeedItem x)
+        {
+            return new FeedItemViewModel()
+            {
+                Id = x.Id,
+                Description = x.Description,
+                Date = x.Created,
+                Modified = x.Modified,
+                Title = x.Title,
+                NormalizedTitle = x.NormalizedTitle,
+                Tags = x.Tags.Select(tag => tag.ConvertToViewModel()),
+                Content = x.Content.Value,
+                FeedId = x.FeedId,
+                CommentsEnabled = x.CommentsEnabled,
+                Comments = x.Comments?.Select(c => c.ConvertToViewModel())
+            };
+            
+        }
+    }
+ 
+}

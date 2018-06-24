@@ -17,13 +17,12 @@
             _repository = repository;
         }
 
-        private string GrainUserId => this.GetPrimaryKeyString();
-
+ 
         public async Task<GrainOperationResult> UpdateFeed(UpdateFeedViewModel model)
         {
             try
             {
-                await _repository.UpdateFeed(model,  GrainUserId);
+                await _repository.UpdateFeed(model);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)
@@ -36,7 +35,7 @@
         {
             try
             {
-                await _repository.UpdateFeedItem(model, GrainUserId);
+                await _repository.UpdateFeedItem(model);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)
@@ -49,7 +48,7 @@
         {
             try
             {
-                await _repository.UpdatePage(model, GrainUserId);
+                await _repository.UpdatePage(model);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)
@@ -62,7 +61,7 @@
         {
             try
             {
-                await _repository.UpdateTag(tagName, entityId, GrainUserId);
+                await _repository.UpdateTag(tagName, entityId );
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)

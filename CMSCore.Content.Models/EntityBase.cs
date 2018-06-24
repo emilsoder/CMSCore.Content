@@ -9,6 +9,7 @@
         {
             Id = Guid.NewGuid().ToString();
             Created = DateTime.Now;
+            Modified = DateTime.Now;
         }
          
         [Key]

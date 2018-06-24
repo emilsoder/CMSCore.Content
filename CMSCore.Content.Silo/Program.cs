@@ -5,12 +5,15 @@
     using System.Threading;
     using System.Threading.Tasks;
     using CMSCore.Content.Data;
+    using CMSCore.Content.Data.Configuration;
     using CMSCore.Content.Grains;
     using CMSCore.Content.Repository;
+    using CMSCore.Content.Silo.Configuration;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Orleans;
+    using Orleans.Configuration;
     using Orleans.Hosting;
 
     public class Program
@@ -18,24 +21,36 @@
         public static IConfiguration Configuration;
         private static readonly ManualResetEvent siloStopped = new ManualResetEvent(false);
         private static ISiloHost silo;
-
+        private static IClusterConfiguration _clusterConfiguration;
 
         private static void Main(string [ ] args)
         {
             Configuration = SiloBuilderExtensions.BuildConfiguration();
+            _clusterConfiguration = new ClusterConfiguration(Configuration);
 
-            var connectionString =
-                "Data Source=STO-PC-681;Initial Catalog=cmscore-grain-storage;Integrated Security=False;User ID=cmscore;Password=123QWEasd!;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
             silo = new SiloHostBuilder()
+                .Configure<ClusterOptions>(options =>
+                {
+                    options.ClusterId = "CMSCore_Cluster1";
+                    options.ServiceId = "cmscore-content-api";
+                })
+                .UseAdoNetClustering(options =>
+                {
+                    options.Invariant = "System.Data.SqlClient";
+                    options.ConnectionString = _clusterConfiguration.StorageConnection;
+                })
                 .AddAdoNetGrainStorage("OrleansStorage", options =>
                 {
                     options.Invariant = "System.Data.SqlClient";
-                    options.ConnectionString = connectionString;
+                    options.ConnectionString = _clusterConfiguration.StorageConnection;
                     options.UseJsonFormat = true;
                 }).ConfigureServices(x =>
                 {
-                    x.AddSingleton<ContentDbContext>(new ContentDbContext());
+                    //x.AddSingleton<ContentDbContext>(new ContentDbContext());
+                    x.AddSingleton<IClusterConfiguration, ClusterConfiguration>();
+                    x.AddSingleton<IDataConfiguration, DataConfiguration>();
+                    x.AddSingleton<ContentDbContext>();
                     x.AddRepositories();
                 })
                 .ConfigureApplicationParts(parts =>

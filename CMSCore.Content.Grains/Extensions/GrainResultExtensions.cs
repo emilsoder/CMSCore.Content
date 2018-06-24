@@ -14,28 +14,4 @@
             };
         }
     }
-} //public static async Task<GrainOperationResult> ExecuteTask(this Task task)
-//{
-//    try
-//    {
-//        await task;
-//        return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
-//    }
-//    catch (Exception ex)
-//    {
-//        return ex.ResultFromException();
-//    }
-//}
-
-//public static async Task<GrainOperationResult> ExecuteTask<TTask>(this Task<TTask> task)
-//{
-//    try
-//    {
-//        var result = await task;
-//        return new GrainOperationResult { Successful = true, Message = result?.ToString() };
-//    }
-//    catch (Exception ex)
-//    {
-//        return ex.ResultFromException();
-//    }
-//}
+} 

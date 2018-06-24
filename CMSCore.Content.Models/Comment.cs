@@ -2,16 +2,15 @@
 {
     public class Comment : EntityBase
     {
-        public Comment() { }
+        public Comment()
+        {
+        }
 
         public Comment(string feedItemId, string text, string fullName)
         {
             FeedItemId = feedItemId;
-             FullName = fullName;
-            Content = new Content()
-            {
-                
-            };
+            FullName = fullName;
+            Content = new Content(text);
         }
 
         public virtual FeedItem FeedItem { get; set; }

@@ -5,17 +5,15 @@
     using CMSCore.Content.ViewModels;
     using Orleans;
 
-    public interface IReadContentGrain : IGrainWithGuidKey
+    public interface IReadContentGrain : IGrainWithStringKey
     {
-        Task<IEnumerable<CommentViewModel>> GetComments(string feedItemId);
-        Task<FeedViewModel> GetFeed(string pageId);
-        Task<FeedItemViewModel> GetFeedItem(string feedItemId);
-        Task<IEnumerable<FeedItemViewModel>> GetFeedItemHistory(string feedItemId);
-        Task<IEnumerable<FeedItemPreviewViewModel>> GetFeedItems(string feedId);
-        Task<PageViewModel> GetPage(string pageId);
-        Task<PageViewModel> GetPageByNormalizedName(string normalizedName);
+        Task<FeedViewModel> GetFeedByPageId(string pageId);
+        Task<FeedItemViewModel> GetFeedItemById(string feedItemId);
+        Task<PageViewModel> FindPageById(string pageId);
+        Task<PageViewModel> FindPageByNormalizedName();
         Task<IEnumerable<PageTreeViewModel>> GetPageTree();
-        Task<IEnumerable<TagViewModel>> GetTags(string feedItemId);
+        Task<IEnumerable<TagViewModel>> GetTagsByFeedItemId(string feedItemId);
         Task<IEnumerable<UserViewModel>> GetUsers();
+        Task<IEnumerable<FeedItemPreviewViewModel>> FeedItemsByFeedId(string feedId);
     }
 }

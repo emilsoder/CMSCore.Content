@@ -21,17 +21,14 @@
 
         public UpdateController(IClusterClient client) => _client = client;
 
-        private IUpdateContentGrain _updateContentGrain => _client.GetGrain<IUpdateContentGrain>(GrainUserId);
-
-        private string GrainUserId => User?.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-
-        [HttpPut("[action]")]
+        [HttpPut("feed")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
         public async Task<IActionResult> Feed([FromBody] UpdateFeedViewModel model)
         {
             try
             {
+                IUpdateContentGrain _updateContentGrain = _client.GetGrain<IUpdateContentGrain>(model.EntityId);
                 return Json(await _updateContentGrain.UpdateFeed(model));
             }
             catch (Exception ex)
@@ -40,13 +37,14 @@
             }
         }
 
-        [HttpPut("[action]")]
+        [HttpPut("feedItem")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
         public async Task<IActionResult> FeedItem([FromBody] UpdateFeedItemViewModel model)
         {
             try
             {
+                IUpdateContentGrain _updateContentGrain = _client.GetGrain<IUpdateContentGrain>(model.EntityId);
                 return Json(await _updateContentGrain.UpdateFeedItem(model));
             }
             catch (Exception ex)
@@ -55,13 +53,14 @@
             }
         }
 
-        [HttpPut("[action]")]
+        [HttpPut("page")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
         public async Task<IActionResult> Page([FromBody] UpdatePageViewModel model)
         {
             try
             {
+                IUpdateContentGrain _updateContentGrain = _client.GetGrain<IUpdateContentGrain>(model.EntityId);
                 return Json(await _updateContentGrain.UpdatePage(model));
             }
             catch (Exception ex)
@@ -70,13 +69,14 @@
             }
         }
 
-        [HttpPut("[action]")]
+        [HttpPut("tag")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
         public async Task<IActionResult> Tag([FromBody] UpdateTagViewModel model)
         {
             try
             {
+                IUpdateContentGrain _updateContentGrain = _client.GetGrain<IUpdateContentGrain>(model.EntityId);
                 return Json(await _updateContentGrain.UpdateTag(model.TagName, model.EntityId));
             }
             catch (Exception ex)

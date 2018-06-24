@@ -7,25 +7,14 @@
     public interface IRestoreContentGrain : IGrainWithStringKey
 
     {
-        Task<GrainOperationResult> RestoreCommentsFromRecycleBinByEntityId(string entityId);
-        Task<GrainOperationResult> RestoreCommentsFromRecycleBinByFeedItemId(string feedItemId);
-        Task<GrainOperationResult> RestoreFeedItemsFromRecycleBinByFeedId(string feedId);
-        Task<GrainOperationResult> RestoreFeedsFromRecycleBinByPageId(string pageId);
-        Task<GrainOperationResult> RestoreOneFeedFromRecycleBinByEntityId(string entityId);
-        Task<GrainOperationResult> RestoreOneFeedItemFromRecycleBinByEntityId(string entityId);
-        Task<GrainOperationResult> RestoreOnePageFromRecycleBinByEntityId(string entityId);
-        Task<GrainOperationResult> RestoreTagsFromRecycleBinByEntityId(string entityId);
-        Task<GrainOperationResult> RestoreTagsFromRecycleBinByFeedItemId(string feedItemId);
+        Task<GrainOperationResult> RestoreCommentsFromRecycleBinByEntityId();
+        Task<GrainOperationResult> RestoreCommentsFromRecycleBinByFeedItemId();
+        Task<GrainOperationResult> RestoreFeedItemsFromRecycleBinByFeedId();
+        Task<GrainOperationResult> RestoreFeedsFromRecycleBinByPageId();
+        Task<GrainOperationResult> RestoreOneFeedFromRecycleBinByEntityId();
+        Task<GrainOperationResult> RestoreOneFeedItemFromRecycleBinByEntityId();
+        Task<GrainOperationResult> RestoreOnePageFromRecycleBinByEntityId();
+        Task<GrainOperationResult> RestoreTagsFromRecycleBinByEntityId();
+        Task<GrainOperationResult> RestoreTagsFromRecycleBinByFeedItemId();
     }
-}
-//Task<GrainOperationResult> RestoreOnePageFromRecycleBinByEntityId(string entityId);
-//Task<GrainOperationResult> RestoreOneFeedFromRecycleBinByEntityId(string entityId);
-//Task<GrainOperationResult> RestoreOneFeedItemFromRecycleBinByEntityId(string entityId);
-//Task<GrainOperationResult> RestoreFeedsFromRecycleBinByPageId(string pageId);
-//Task<GrainOperationResult> RestoreFeedItemsFromRecycleBinByFeedId(string feedId);
-
-
-//Task<GrainOperationResult> RestoreCommentsFromRecycleBinByEntityId(string entityId);
-//Task<GrainOperationResult> RestoreTagsFromRecycleBinByEntityId(string entityId);
-//Task<GrainOperationResult> RestoreTagsFromRecycleBinByFeedItemId(string feedItemId);
-//Task<GrainOperationResult> RestoreCommentsFromRecycleBinByFeedItemId(string feedItemId);
+} 

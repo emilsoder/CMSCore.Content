@@ -19,7 +19,7 @@
             _context = context;
         }
 
-        public Task UpdateFeedItem(UpdateFeedItemViewModel model, string userId)
+        public Task UpdateFeedItem(UpdateFeedItemViewModel model)
         {
             var foundActiveFeed = _context.FeedItems.FirstOrDefault(x =>  x.Id == model.EntityId);
 
@@ -30,7 +30,7 @@
             return _context.SaveChangesAsync();
         }
 
-        Task IUpdateContentRepository.UpdateFeed(UpdateFeedViewModel model,  string userId)
+        Task IUpdateContentRepository.UpdateFeed(UpdateFeedViewModel model)
         {
             var foundActiveFeed =
                 _context.Set<Feed>().FirstOrDefault(x => x.Id == model.EntityId);
@@ -39,7 +39,7 @@
             return _context.SaveChangesAsync();
         }
 
-        Task IUpdateContentRepository.UpdatePage(UpdatePageViewModel model, string userId)
+        Task IUpdateContentRepository.UpdatePage(UpdatePageViewModel model)
         {
             var foundActivePage =
                 _context.Set<Page>().FirstOrDefault(x => x.Id == model.EntityId);
@@ -49,7 +49,7 @@
             return _context.SaveChangesAsync();
         }
 
-        Task IUpdateContentRepository.UpdateTag(string newTagName, string tagId, string userId)
+        Task IUpdateContentRepository.UpdateTag(string newTagName, string tagId)
         {
             var activeTag = _context.Set<Tag>().FirstOrDefault(x => x.Id == tagId);
             if (activeTag == null) return Task.FromException(new Exception("Tag to update not found."));
@@ -61,22 +61,6 @@
 
             return _context.SaveChangesAsync();
         }
-
-        //private int GetNextVersion<T>(string entityId) where T : EntityBase
-        //{
-        //    var set = _context.Set<T>().Where(x => x.Id == entityId).Select(x => x.Version);
-        //    var orderedVersions = set.OrderByDescending(x => x);
-        //    var v = orderedVersions.FirstOrDefault();
-        //    return v + 1;
-        //}
-
-        private void UpdateTagsIfChanged(string feedItemId, IList<string> tags, string userId)
-        {
-            var feedItemTags = _context.Set<Tag>().Where(x => x.FeedItemId == feedItemId);
-            _context.RemoveRange(feedItemTags);
-
-            var tagsToAdd = tags.AsTagsEnumerable(feedItemId, userId);
-            _context.AddRange(tagsToAdd);
-        }
+ 
     }
 }

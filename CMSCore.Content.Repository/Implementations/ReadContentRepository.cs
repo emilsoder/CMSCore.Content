@@ -3,10 +3,13 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
     using CMSCore.Content.Data;
     using CMSCore.Content.Models;
     using CMSCore.Content.Repository.Interfaces;
     using CMSCore.Content.ViewModels;
+    using Microsoft.EntityFrameworkCore;
+
 
     public class ReadContentRepository : IReadContentRepository
     {
@@ -16,155 +19,123 @@
         {
             _context = context;
         }
-
-        IEnumerable<PageViewModel> IReadContentRepository.GetAllPages()
+          
+        async Task<IEnumerable<PageViewModel>> IReadContentRepository.GetAllPages()
         {
-            var pages = _context.Set<Page>()?.ToList();
+            var pages = _context.Set<Page>();
 
-            return pages?.Select(x => ((IReadContentRepository) this).GetPage(x.Id)).ToList();
-        }
-
-        IEnumerable<CommentViewModel> IReadContentRepository.GetComments(string feedItemId)
-        {
-            var tags = _context.Set<Comment>()?.ActiveOnly()?.Where(x => x.FeedItemId == feedItemId);
-            var vm = tags?.Select(x => new CommentViewModel
+            var viewModels = await pages.Select(page => new PageViewModel
             {
-                CommentId = x.Id,
-                Date = x.Created,
-                FullName = x.FullName,
-                Text = x.Text
-            });
+                Content = page.Content.Value,
+                EntityId = page.Id,
+                Date = page.Created,
+                Modified = page.Modified,
+                Name = page.Name,
+                NormalizedName = page.NormalizedName,
+                Feed = page.Feed.ConvertToViewModel()
+            })?.ToListAsync();
 
-            return vm?.ToList();
+            return viewModels;
         }
 
-        FeedViewModel IReadContentRepository.GetFeed(string pageId)
+        async Task<FeedViewModel> IReadContentRepository.GetFeed(string pageId)
         {
-            var returnModel = new FeedViewModel();
-
-            var feed = _context.Set<Feed>().ActiveOnly()?.SingleOrDefault(x => x.PageId == pageId);
+            var feed = await _context.Set<Feed>().SingleOrDefaultAsync(x => x.PageId == pageId);
 
             if (feed == null) return null;
 
-            var feedItems = ((IReadContentRepository) this).GetFeedItems(feed.Id);
+            var feedItems = await ((IReadContentRepository) this).GetFeedItems(feed.Id);
 
-            returnModel.EntityId = feed.Id;
-            returnModel.Date = feed.Created;
-            returnModel.Modified = feed.Modified;
-            returnModel.Name = feed.Name;
-            returnModel.NormalizedName = feed.NormalizedName;
-            returnModel.FeedItems = feedItems;
 
-            return returnModel;
-        }
-
-        FeedItemViewModel IReadContentRepository.GetFeedItem(string feedItemId)
-        {
-            var feedItem = _context.Set<FeedItem>()?.ToList().ActiveOnly()?.FirstOrDefault(x => x.Id == feedItemId);
-
-            if (feedItem == null) return null;
-
-            var returnModel = GetFeedItemViewModel(feedItem);
-            return returnModel;
-        }
-
-        IEnumerable<FeedItemViewModel> IReadContentRepository.GetFeedItemHistory(string feedItemId)
-        {
-            var items = _context.Set<FeedItem>()?.Where(x => x.Id == feedItemId).ToList();
-            var vms = items?.Select(GetFeedItemViewModel);
-            return vms?.ToList();
-        }
-
-        IEnumerable<FeedItemPreviewViewModel> IReadContentRepository.GetFeedItems(string feedId)
-        {
-            var returnModel = new List<FeedItemPreviewViewModel>();
-
-            var feedItems = _context.Set<FeedItem>()?.ActiveOnly()?.Where(x => x.FeedId == feedId).ToList();
-            if (feedItems == null) return null;
-
-            foreach (var feedItem in feedItems)
+            return new FeedViewModel
             {
-                var tags = ((IReadContentRepository) this).GetTags(feedItem.Id);
-
-                returnModel.Add(new FeedItemPreviewViewModel
-                {
-                    EntityId = feedItem.Id,
-                    Date = feedItem.Created,
-                    Modified = feedItem.Modified,
-                    Description = feedItem.Description,
-                    NormalizedTitle = feedItem.NormalizedTitle,
-                    Title = feedItem.Title,
-                    Tags = tags
-                });
-            }
-
-            return returnModel;
+                EntityId = feed.Id,
+                Date = feed.Created,
+                Modified = feed.Modified,
+                Name = feed.Name,
+                NormalizedName = feed.NormalizedName,
+                FeedItems = feedItems
+            };
         }
 
-        PageViewModel IReadContentRepository.GetPage(string pageId)
+        async Task<FeedItemViewModel> IReadContentRepository.GetFeedItem(string feedItemId)
         {
-            var page = _context.Set<Page>()?.ActiveOnly()?.FirstOrDefault(x => x.Id == pageId);
-            if (page == null) return null;
+            var feedItem = await _context.Set<FeedItem>().FirstOrDefaultAsync(x => x.Id == feedItemId);
 
-            var pageFeed = ((IReadContentRepository) this).GetFeed(pageId);
+            return feedItem?.ConvertToViewModel();
+        }
+
+        async Task<IEnumerable<FeedItemPreviewViewModel>> IReadContentRepository.GetFeedItems(string feedId)
+        {
+            var feedItems = await _context.Set<FeedItem>()
+                ?.Where(x => x.FeedId == feedId)
+                ?.Select(x => x.ConvertToPreviewViewModel())
+                ?.ToListAsync();
+
+            return feedItems;
+        }
+
+        async Task<PageViewModel> IReadContentRepository.GetPage(string pageId)
+        {
+            var page = await _context.Set<Page>().FirstOrDefaultAsync(x => x.Id == pageId);
+            if (page == null) return null;
 
             return new PageViewModel
             {
-                Content = page.Content,
+                Content = page.Content.Value,
                 EntityId = page.Id,
                 Date = page.Created,
                 Modified = page.Modified,
                 Name = page.Name,
                 NormalizedName = page.NormalizedName,
-                Feed = pageFeed
+                Feed = page.Feed.ConvertToViewModel()
             };
         }
 
 
-        PageViewModel IReadContentRepository.GetPageByNormalizedName(string normalizedName)
+        async Task<PageViewModel> IReadContentRepository.GetPageByNormalizedName(string normalizedName)
         {
-            var page = _context.Set<Page>()?.ActiveOnly()?.FirstOrDefault(x => x.NormalizedName == normalizedName);
+            var page = await _context.Set<Page>().FirstOrDefaultAsync(x => x.NormalizedName == normalizedName);
             if (page == null) return null;
-
-            var pageFeed = ((IReadContentRepository) this).GetFeed(page.Id);
 
             return new PageViewModel
             {
-                Content = page.Content,
+                Content = page.Content.Value,
                 EntityId = page.Id,
                 Date = page.Created,
                 Modified = page.Modified,
                 Name = page.Name,
                 NormalizedName = page.NormalizedName,
-                Feed = pageFeed
+                Feed = page.Feed.ConvertToViewModel()
             };
         }
 
-        IEnumerable<PageTreeViewModel> IReadContentRepository.GetPageTree()
+        async Task<IEnumerable<PageTreeViewModel>> IReadContentRepository.GetPageTree()
         {
-            var pages = _context.Set<Page>()?.ActiveOnly()?.ToList();
+            var pages = _context.Set<Page>();
             if (pages == null || !pages.Any()) return null;
 
-            return pages.Select(x => new PageTreeViewModel
+            return await pages.Select(x => new PageTreeViewModel
                 {
                     EntityId = x.Id,
                     Date = x.Created,
                     Name = x.Name,
                     NormalizedName = x.NormalizedName
                 })
-                .ToList();
+                .ToListAsync();
         }
 
-        IEnumerable<TagViewModel> IReadContentRepository.GetTags(string feedItemId)
+        async Task<IEnumerable<TagViewModel>> IReadContentRepository.GetTags(string feedItemId)
         {
-            var tags = _context.Set<Tag>()?.ActiveOnly()?.Where(x => x.FeedItemId == feedItemId);
-            var vm = tags?.Select(x => new TagViewModel(x.Id, x.NormalizedName, x.Name));
-            return vm?.ToList();
+            var tags = _context.Set<Tag>()?.Where(x => x.FeedItemId == feedItemId);
+            var vm = tags?.Select(x => x.ConvertToViewModel());
+            return vm == null ? null : await vm.ToListAsync();
         }
 
-        IEnumerable<UserViewModel> IReadContentRepository.GetUsers()
+        async Task<IEnumerable<UserViewModel>> IReadContentRepository.GetUsers()
         {
-            var users = _context.Set<User>().ActiveOnly();
+            var users = _context.Set<User>();
+
             var vms = users?.Select(x => new UserViewModel
             {
                 Id = x.Id,
@@ -176,47 +147,7 @@
                 LastName = x.LastName
             });
 
-            return vms?.ToList();
+            return vms == null ? null : await vms.ToListAsync();
         }
-
-        private FeedItemViewModel GetFeedItemViewModel(FeedItem feedItem)
-        {
-            var returnModel = new FeedItemViewModel();
-
-            var feedItemTags = ((IReadContentRepository) this).GetTags(feedItem.Id);
-            var comments = ((IReadContentRepository) this).GetComments(feedItem.Id);
-
-            returnModel.Tags = feedItemTags;
-            returnModel.Comments = comments;
-            returnModel.NormalizedTitle = feedItem.NormalizedTitle;
-            returnModel.Content = feedItem.Content;
-            returnModel.CommentsEnabled = feedItem.CommentsEnabled;
-            returnModel.Id = feedItem.Id;
-            returnModel.Title = feedItem.Title;
-            returnModel.Description = feedItem.Description;
-            returnModel.FeedId = feedItem.FeedId;
-            returnModel.Date = feedItem.Created;
-            returnModel.Modified = feedItem.Modified;
-
-            return returnModel;
-        }
-    }
-
-    public static class FilterExtensions
-    {
-        public static IEnumerable<TEntity> ActiveOnly<TEntity>(this IEnumerable<TEntity> set) where TEntity : EntityBase
-        {
-            return set;
-        }
-
-        public static IQueryable<TEntity> ActiveOnlyAsQueryable<TEntity>(this IQueryable<TEntity> set) where TEntity : EntityBase
-        {
-            return set;
-        }
-
-        //public static Func<T, bool> DefaultPredicate<T>() where T : EntityBase
-        //{
-        //    return arg => arg.Hidden == false && arg.IsActiveVersion && arg.MarkedToDelete == false;
-        //}
     }
 }

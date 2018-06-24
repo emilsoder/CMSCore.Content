@@ -18,13 +18,12 @@
             _repository = repository;
         }
 
-        private string GrainUserId => this.GetPrimaryKeyString();
-
+ 
         public async Task<GrainOperationResult> CreateComment(CreateCommentViewModel model)
         {
             try
             {
-                await _repository.CreateComment(model, GrainUserId);
+                await _repository.CreateComment(model);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)
@@ -37,7 +36,7 @@
         {
             try
             {
-                await _repository.CreateFeedItem(model, GrainUserId);
+                await _repository.CreateFeedItem(model);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)
@@ -50,7 +49,7 @@
         {
             try
             {
-                await _repository.CreatePage(model, GrainUserId);
+                await _repository.CreatePage(model);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)
@@ -63,7 +62,7 @@
         {
             try
             {
-                await _repository.CreateFeed(model, GrainUserId);
+                await _repository.CreateFeed(model);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)
@@ -76,7 +75,7 @@
         {
             try
             {
-                await _repository.CreateTags(tags, feedItemId, GrainUserId);
+                await _repository.CreateTags(tags, feedItemId);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)

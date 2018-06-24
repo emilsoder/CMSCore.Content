@@ -6,31 +6,14 @@
 
     public interface IReadContentRepository
     {
-        IEnumerable<PageViewModel> GetAllPages();
-        IEnumerable<CommentViewModel> GetComments(string feedItemId);
-        FeedViewModel GetFeed(string pageId);
-        FeedItemViewModel GetFeedItem(string feedItemId);
-        IEnumerable<FeedItemViewModel> GetFeedItemHistory(string feedItemId);
-        IEnumerable<FeedItemPreviewViewModel> GetFeedItems(string feedId);
-        PageViewModel GetPage(string pageId);
-        PageViewModel GetPageByNormalizedName(string normalizedName);
-        IEnumerable<PageTreeViewModel> GetPageTree();
-        IEnumerable<TagViewModel> GetTags(string feedItemId);
-        IEnumerable<UserViewModel> GetUsers();
-    }
-
-    public interface IReadAsyncRepository
-    {
-        Task<IEnumerable<CommentViewModel>> GetComments(string feedItemId);
-        Task<FeedViewModel> GetFeed(string pageId);
+        Task<IEnumerable<PageViewModel>> GetAllPages();
+         Task<FeedViewModel> GetFeed(string pageId);
         Task<FeedItemViewModel> GetFeedItem(string feedItemId);
-        Task<IEnumerable<FeedItemViewModel>> GetFeedItemHistory(string feedItemId);
-        Task<IEnumerable<FeedItemPreviewViewModel>> GetFeedItems(string feedId);
-        Task<FeedItemViewModel> GetFeedItemViewModel(object feedItemObject);
+         Task<IEnumerable<FeedItemPreviewViewModel>> GetFeedItems(string feedId);
         Task<PageViewModel> GetPage(string pageId);
         Task<PageViewModel> GetPageByNormalizedName(string normalizedName);
         Task<IEnumerable<PageTreeViewModel>> GetPageTree();
         Task<IEnumerable<TagViewModel>> GetTags(string feedItemId);
-        Task<IEnumerable<UserViewModel>> GetUsers();
+        Task<IEnumerable<UserViewModel>> GetUsers(); 
     }
 }

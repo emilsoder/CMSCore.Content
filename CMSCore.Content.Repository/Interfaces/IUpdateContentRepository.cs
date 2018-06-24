@@ -5,9 +5,9 @@
 
     public interface IUpdateContentRepository
     {
-        Task UpdateFeed(UpdateFeedViewModel model, string userId);
-        Task UpdateFeedItem(UpdateFeedItemViewModel model, string userId);
-        Task UpdatePage(UpdatePageViewModel model, string userId);
-        Task UpdateTag(string tagName, string entityId, string userId);
+        Task UpdateFeed(UpdateFeedViewModel model);
+        Task UpdateFeedItem(UpdateFeedItemViewModel model);
+        Task UpdatePage(UpdatePageViewModel model);
+        Task UpdateTag(string tagName, string tagId);
     }
 }

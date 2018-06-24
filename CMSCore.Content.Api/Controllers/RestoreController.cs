@@ -22,17 +22,15 @@
 
         public RestoreController(IClusterClient client) => _client = client;
 
-        private IRestoreContentGrain _recyclebinGrain => _client.GetGrain<IRestoreContentGrain>(GrainUserId);
-        private string GrainUserId => User?.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-
-        [HttpPut("[action]/{feedItemId}")]
+        [HttpPut("comment/{feedItemId}")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
         public async Task<IActionResult> CommentsByFeedItemId([Required] string feedItemId)
         {
             try
             {
-                return Json(await _recyclebinGrain.RestoreCommentsFromRecycleBinByFeedItemId(feedItemId));
+                IRestoreContentGrain _recyclebinGrain = _client.GetGrain<IRestoreContentGrain>(feedItemId);
+                return Json(await _recyclebinGrain.RestoreCommentsFromRecycleBinByFeedItemId());
             }
             catch (Exception ex)
             {
@@ -40,14 +38,15 @@
             }
         }
 
-        [HttpPut("[action]/{entityid}")]
+        [HttpPut("feed/{entityid}")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
         public async Task<IActionResult> Feed([Required] string entityId)
         {
             try
             {
-                return Json(await _recyclebinGrain.RestoreOneFeedFromRecycleBinByEntityId(entityId));
+                IRestoreContentGrain _recyclebinGrain = _client.GetGrain<IRestoreContentGrain>(entityId);
+                return Json(await _recyclebinGrain.RestoreOneFeedFromRecycleBinByEntityId());
             }
             catch (Exception ex)
             {
@@ -62,7 +61,8 @@
         {
             try
             {
-                return Json(await _recyclebinGrain.RestoreFeedsFromRecycleBinByPageId(pageId));
+                IRestoreContentGrain _recyclebinGrain = _client.GetGrain<IRestoreContentGrain>(pageId);
+                return Json(await _recyclebinGrain.RestoreFeedsFromRecycleBinByPageId());
             }
             catch (Exception ex)
             {
@@ -70,14 +70,15 @@
             }
         }
 
-        [HttpPut("[action]/{entityid}")]
+        [HttpPut("FeedItem/{entityid}")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
         public async Task<IActionResult> FeedItem([Required] string entityId)
         {
             try
             {
-                return Json(await _recyclebinGrain.RestoreOneFeedItemFromRecycleBinByEntityId(entityId));
+                IRestoreContentGrain _recyclebinGrain = _client.GetGrain<IRestoreContentGrain>(entityId);
+                return Json(await _recyclebinGrain.RestoreOneFeedItemFromRecycleBinByEntityId());
             }
             catch (Exception ex)
             {
@@ -92,7 +93,8 @@
         {
             try
             {
-                return Json(await _recyclebinGrain.RestoreFeedItemsFromRecycleBinByFeedId(feedId));
+                IRestoreContentGrain _recyclebinGrain = _client.GetGrain<IRestoreContentGrain>(feedId);
+                return Json(await _recyclebinGrain.RestoreFeedItemsFromRecycleBinByFeedId());
             }
             catch (Exception ex)
             {
@@ -100,14 +102,15 @@
             }
         }
 
-        [HttpPut("[action]/{entityid}")]
+        [HttpPut("page/{entityid}")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
         public async Task<IActionResult> Page([Required] string entityId)
         {
             try
             {
-                return Json(await _recyclebinGrain.RestoreOnePageFromRecycleBinByEntityId(entityId));
+                IRestoreContentGrain _recyclebinGrain = _client.GetGrain<IRestoreContentGrain>(entityId);
+                return Json(await _recyclebinGrain.RestoreOnePageFromRecycleBinByEntityId());
             }
             catch (Exception ex)
             {
@@ -115,14 +118,15 @@
             }
         }
 
-        [HttpPut("[action]/{entityid}")]
+        [HttpPut("tag/{entityid}")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
         public async Task<IActionResult> Tag([Required] string entityId)
         {
             try
             {
-                return Json(await _recyclebinGrain.RestoreTagsFromRecycleBinByEntityId(entityId));
+                IRestoreContentGrain _recyclebinGrain = _client.GetGrain<IRestoreContentGrain>(entityId);
+                return Json(await _recyclebinGrain.RestoreTagsFromRecycleBinByEntityId());
             }
             catch (Exception ex)
             {
@@ -137,7 +141,8 @@
         {
             try
             {
-                return Json(await _recyclebinGrain.RestoreTagsFromRecycleBinByFeedItemId(feedItemId));
+                IRestoreContentGrain _recyclebinGrain = _client.GetGrain<IRestoreContentGrain>(feedItemId);
+                return Json(await _recyclebinGrain.RestoreTagsFromRecycleBinByFeedItemId());
             }
             catch (Exception ex)
             {

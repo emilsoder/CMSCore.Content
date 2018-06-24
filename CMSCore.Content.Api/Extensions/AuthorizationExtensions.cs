@@ -5,12 +5,13 @@
 
     public static class AuthorizationExtensions
     {
-        public static AuthorizationOptions SetPoliciesFromConfiguration(this AuthorizationOptions options, AUTH0 authSettings)
+        public static AuthorizationOptions SetPoliciesFromConfiguration(this AuthorizationOptions options,
+            IAuthenticationConfiguration authenticationConfiguration)
         {
-            foreach (var role in authSettings.AUTH0_ROLES)
+            foreach (var role in authenticationConfiguration.AUTH0_ROLES)
             {
                 options.AddPolicy(role,
-                    policy => policy.Requirements.Add(new HasRolePolicy(role, authSettings.AUTH0_DOMAIN)));
+                    policy => policy.Requirements.Add(new HasRolePolicy(role, authenticationConfiguration.AUTH0_DOMAIN)));
             }
 
             return options;

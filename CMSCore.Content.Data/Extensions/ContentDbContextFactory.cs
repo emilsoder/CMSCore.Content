@@ -1,20 +1,25 @@
 ﻿namespace CMSCore.Content.Data.Extensions
 {
+    using System.IO;
+    using CMSCore.Content.Data.Configuration;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Design;
+    using Microsoft.Extensions.Configuration;
 
     public class ContentDbContextFactory : IDesignTimeDbContextFactory<ContentDbContext>
     {
         public ContentDbContext CreateDbContext(string [ ] args)
         {
-            var optionsBuilder = new DbContextOptionsBuilder();
+             return new ContentDbContext(GetConfiguration());
+        }
 
-            //optionsBuilder.UseSqlServer(DatabaseConnectionConst.MSSQL_CONTAINER);
-            //optionsBuilder.UseMySQL(DatabaseConnectionConst.MYSQL_GCP);
-            //optionsBuilder.UseNpgsql(DatabaseConnectionConst.POSTGRES_GCP);
+        private static IDataConfiguration GetConfiguration()
+        {
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", true, true).Build();
 
-            optionsBuilder.UseSqlServer(DatabaseConnectionConst.SqlServer);
-            return new ContentDbContext(optionsBuilder.Options);
+            return new DataConfiguration(configuration);
         }
     }
 }

@@ -8,134 +8,6 @@
     using CMSCore.Content.ViewModels;
     using Orleans;
 
-    //  { try{return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };}catch (Exception ex){return ex.ResultFromException();}
-    public class RestoreContentGrain : Grain, IRestoreContentGrain
-    {
-        private readonly IRestoreContentRepository _repository;
-
-        public RestoreContentGrain(IRestoreContentRepository repository)
-        {
-            _repository = repository;
-        }
-
-        public async Task<GrainOperationResult> RestoreCommentsFromRecycleBinByEntityId(string entityId)
-        {
-            try
-            {
-                await _repository.RestoreCommentsFromRecycleBinByEntityId(entityId);
-                return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
-            }
-            catch (Exception ex)
-            {
-                return ex.ResultFromException();
-            }
-        }
-
-        public async Task<GrainOperationResult> RestoreCommentsFromRecycleBinByFeedItemId(string feedItemId)
-        {
-            try
-            {
-                await _repository.RestoreCommentsFromRecycleBinByFeedItemId(feedItemId);
-                return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
-            }
-            catch (Exception ex)
-            {
-                return ex.ResultFromException();
-            }
-        }
-
-        public async Task<GrainOperationResult> RestoreFeedItemsFromRecycleBinByFeedId(string feedId)
-        {
-            try
-            {
-                await _repository.RestoreFeedItemsFromRecycleBinByFeedId(feedId);
-                return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
-            }
-            catch (Exception ex)
-            {
-                return ex.ResultFromException();
-            }
-        }
-
-        public async Task<GrainOperationResult> RestoreFeedsFromRecycleBinByPageId(string pageId)
-        {
-            try
-            {
-                await _repository.RestoreFeedsFromRecycleBinByPageId(pageId);
-                return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
-            }
-            catch (Exception ex)
-            {
-                return ex.ResultFromException();
-            }
-        }
-
-        public async Task<GrainOperationResult> RestoreOneFeedFromRecycleBinByEntityId(string entityId)
-        {
-            try
-            {
-                await _repository.RestoreOneFeedFromRecycleBinByEntityId(entityId);
-                return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
-            }
-            catch (Exception ex)
-            {
-                return ex.ResultFromException();
-            }
-        }
-
-        public async Task<GrainOperationResult> RestoreOneFeedItemFromRecycleBinByEntityId(string entityId)
-        {
-            try
-            {
-                await _repository.RestoreOneFeedItemFromRecycleBinByEntityId(entityId);
-                return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
-            }
-            catch (Exception ex)
-            {
-                return ex.ResultFromException();
-            }
-        }
-
-        public async Task<GrainOperationResult> RestoreOnePageFromRecycleBinByEntityId(string entityId)
-        {
-            try
-            {
-                await _repository.RestoreOnePageFromRecycleBinByEntityId(entityId);
-                return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
-            }
-            catch (Exception ex)
-            {
-                return ex.ResultFromException();
-            }
-        }
-
-        public async Task<GrainOperationResult> RestoreTagsFromRecycleBinByEntityId(string entityId)
-        {
-            try
-            {
-                await _repository.RestoreTagsFromRecycleBinByEntityId(entityId);
-                return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
-            }
-            catch (Exception ex)
-            {
-                return ex.ResultFromException();
-            }
-        }
-
-        public async Task<GrainOperationResult> RestoreTagsFromRecycleBinByFeedItemId(string feedItemId)
-        {
-            try
-            {
-                await _repository.RestoreTagsFromRecycleBinByFeedItemId(feedItemId);
-                return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
-            }
-            catch (Exception ex)
-            {
-                return ex.ResultFromException();
-            }
-        }
-    }
-
     public class RecycleBinGrain : Grain, IRecycleBinGrain
     {
         private readonly IRecycleBinRepository _repository;
@@ -145,13 +17,13 @@
             _repository = repository;
         }
 
-        private string GrainUserId => this.GetPrimaryKeyString();
-
-        public async Task<GrainOperationResult> MoveCommentToRecycleBinByEntityId(string commentId)
+        public async Task<GrainOperationResult> MoveCommentToRecycleBinByEntityId()
         {
             try
             {
-                await _repository.MoveCommentToRecycleBinByEntityId(commentId);
+                var id = this.GetPrimaryKeyString();
+
+                await _repository.MoveCommentToRecycleBinByEntityId(id);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)
@@ -161,11 +33,13 @@
         }
 
 
-        public async Task<GrainOperationResult> MoveFeedItemToRecycleBinByEntityId(string feedItemId)
+        public async Task<GrainOperationResult> MoveFeedItemToRecycleBinByEntityId()
         {
             try
             {
-                await _repository.MoveFeedItemToRecycleBinByEntityId(feedItemId);
+                var id = this.GetPrimaryKeyString();
+
+                await _repository.MoveFeedItemToRecycleBinByEntityId(id);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)
@@ -174,11 +48,13 @@
             }
         }
 
-        public async Task<GrainOperationResult> MoveFeedToRecycleBinByEntityId(string feedId)
+        public async Task<GrainOperationResult> MoveFeedToRecycleBinByEntityId()
         {
             try
             {
-                await _repository.MoveFeedToRecycleBinByEntityId(feedId);
+                var id = this.GetPrimaryKeyString();
+
+                await _repository.MoveFeedToRecycleBinByEntityId(id);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)
@@ -187,11 +63,13 @@
             }
         }
 
-        public async Task<GrainOperationResult> MovePageToRecycleBinByEntityId(string pageId)
+        public async Task<GrainOperationResult> MovePageToRecycleBinByEntityId()
         {
             try
             {
-                await _repository.MovePageToRecycleBinByEntityId(pageId);
+                var id = this.GetPrimaryKeyString();
+
+                await _repository.MovePageToRecycleBinByEntityId(id);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)
@@ -200,11 +78,13 @@
             }
         }
 
-        public async Task<GrainOperationResult> MoveTagToRecycleBinByEntityId(string tagId)
+        public async Task<GrainOperationResult> MoveTagToRecycleBinByEntityId()
         {
             try
             {
-                await _repository.MoveTagToRecycleBinByEntityId(tagId);
+                var id = this.GetPrimaryKeyString();
+
+                await _repository.MoveTagToRecycleBinByEntityId(id);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)

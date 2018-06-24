@@ -7,6 +7,7 @@
     using CMSCore.Content.Data;
     using CMSCore.Content.Models;
     using CMSCore.Content.Repository.Interfaces;
+    using Microsoft.EntityFrameworkCore;
 
     public class RecycleBinRepository : IRecycleBinRepository
     {

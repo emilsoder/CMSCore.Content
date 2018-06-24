@@ -17,13 +17,12 @@
             _repository = repository;
         }
 
-        private string GrainUserId => this.GetPrimaryKeyString();
-
-        public async Task<GrainOperationResult> DeleteCommentByEntityId(string commentId)
+         public async Task<GrainOperationResult> DeleteCommentByEntityId()
         {
             try
             {
-                await _repository.DeleteCommentByEntityId(commentId);
+                var id = this.GetPrimaryKeyString();
+                await _repository.DeleteCommentByEntityId(id);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)
@@ -32,11 +31,13 @@
             }
         }
 
-        public async Task<GrainOperationResult> DeleteCommentsByFeedItemId(string feedItemId)
+        public async Task<GrainOperationResult> DeleteCommentsByFeedItemId()
         {
             try
             {
-                await _repository.DeleteCommentsByFeedItemId(feedItemId);
+                var id = this.GetPrimaryKeyString();
+
+                await _repository.DeleteCommentsByFeedItemId(id);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)
@@ -45,11 +46,13 @@
             }
         }
 
-        public async Task<GrainOperationResult> DeleteFeedByEntityId(string entityId)
+        public async Task<GrainOperationResult> DeleteFeedByEntityId()
         {
             try
             {
-                await _repository.DeleteFeedByEntityId(entityId);
+                var id = this.GetPrimaryKeyString();
+
+                await _repository.DeleteFeedByEntityId(id);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)
@@ -58,11 +61,13 @@
             }
         }
 
-        public async Task<GrainOperationResult> DeleteFeedByPageId(string pageId)
+        public async Task<GrainOperationResult> DeleteFeedByPageId()
         {
             try
             {
-                await _repository.DeleteFeedByPageId(pageId);
+                var id = this.GetPrimaryKeyString();
+
+                await _repository.DeleteFeedByPageId(id);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)
@@ -71,11 +76,13 @@
             }
         }
 
-        public async Task<GrainOperationResult> DeleteFeedItemsByFeedId(string feedId)
+        public async Task<GrainOperationResult> DeleteFeedItemsByFeedId()
         {
             try
             {
-                await _repository.DeleteFeedItemsByFeedId(feedId);
+                var id = this.GetPrimaryKeyString();
+
+                await _repository.DeleteFeedItemsByFeedId(id);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)
@@ -84,11 +91,13 @@
             }
         }
 
-        public async Task<GrainOperationResult> DeleteOneFeedItemByEntityId(string entityId)
+        public async Task<GrainOperationResult> DeleteOneFeedItemByEntityId()
         {
             try
             {
-                await _repository.DeleteOneFeedItemByEntityId(entityId);
+                var id = this.GetPrimaryKeyString();
+
+                await _repository.DeleteOneFeedItemByEntityId(id);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)
@@ -97,11 +106,13 @@
             }
         }
 
-        public async Task<GrainOperationResult> DeletePageAndRelatedEntities(string entityId)
+        public async Task<GrainOperationResult> DeletePageAndRelatedEntities()
         {
             try
             {
-                await _repository.DeletePageAndRelatedEntities(entityId);
+                var id = this.GetPrimaryKeyString();
+
+                await _repository.DeletePageAndRelatedEntities(id);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)
@@ -110,11 +121,13 @@
             }
         }
 
-        public async Task<GrainOperationResult> DeleteTagByEntityId(string tagId)
+        public async Task<GrainOperationResult> DeleteTagByEntityId()
         {
             try
             {
-                await _repository.DeleteTagByEntityId(tagId);
+                var id = this.GetPrimaryKeyString();
+
+                await _repository.DeleteTagByEntityId(id);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)
@@ -123,11 +136,13 @@
             }
         }
 
-        public async Task<GrainOperationResult> DeleteTagsByFeedItemId(string feedItemId)
+        public async Task<GrainOperationResult> DeleteTagsByFeedItemId()
         {
             try
             {
-                await _repository.DeleteCommentByEntityId(feedItemId);
+                var id = this.GetPrimaryKeyString();
+
+                await _repository.DeleteCommentByEntityId(id);
                 return new GrainOperationResult { Successful = true, Message = "Operation executed successfully." };
             }
             catch (Exception ex)

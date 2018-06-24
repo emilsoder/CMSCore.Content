@@ -7,7 +7,9 @@
     {
         private string _name;
 
-        public Feed() { }
+        public Feed()
+        {
+        }
 
         public Feed(string pageId, string name)
         {
@@ -27,8 +29,8 @@
 
         public string NormalizedName { get; set; }
 
-        public Page Page { get; set; }
         public string PageId { get; set; }
+        public virtual Page Page { get; set; }
 
         public virtual ICollection<FeedItem> FeedItems { get; set; }
     }

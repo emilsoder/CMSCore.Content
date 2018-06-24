@@ -19,29 +19,21 @@
     public class CreateController : Controller
     {
         private readonly IClusterClient _client;
-        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public CreateController(IClusterClient client, IHttpContextAccessor httpContextAccessor)
+        public CreateController(IClusterClient client)
         {
             _client = client;
-            _httpContextAccessor = httpContextAccessor;
         }
 
-        private ICreateContentGrain _createContentGrain => _client.GetGrain<ICreateContentGrain>(GrainUserId);
-
-        private string GrainUserId => User?.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-
-        private string UserIPAddress => _httpContextAccessor?.HttpContext?.Connection?.RemoteIpAddress?.ToString();
-
         [AllowAnonymous]
-        [HttpPost("[action]")]
+        [HttpPost("comment")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
         public async Task<IActionResult> Comment([FromBody] CreateCommentViewModel model)
         {
             try
             {
-                var _grain = _client.GetGrain<ICreateContentGrain>(GrainUserId ?? UserIPAddress);
+                var _grain = _client.GetGrain<ICreateContentGrain>(model.FeedItemId);
                 return Json(await _grain.CreateComment(model));
             }
             catch (Exception ex)
@@ -50,13 +42,14 @@
             }
         }
 
-        [HttpPost("[action]")]
+        [HttpPost("feeditem")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
         public async Task<IActionResult> FeedItem([FromBody] CreateFeedItemViewModel model)
         {
             try
             {
+                ICreateContentGrain _createContentGrain = _client.GetGrain<ICreateContentGrain>(model.FeedId);
                 return Json(await _createContentGrain.CreateFeedItem(model));
             }
             catch (Exception ex)
@@ -65,13 +58,14 @@
             }
         }
 
-        [HttpPost("[action]")]
+        [HttpPost("feed")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
         public async Task<IActionResult> Feed([FromBody] CreateFeedViewModel model)
         {
             try
             {
+                ICreateContentGrain _createContentGrain = _client.GetGrain<ICreateContentGrain>(model.PageId);
                 return Json(await _createContentGrain.CreateFeed(model));
             }
             catch (Exception ex)
@@ -80,13 +74,15 @@
             }
         }
 
-        [HttpPost("[action]")]
+        [HttpPost("page")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
         public async Task<IActionResult> Page([FromBody] CreatePageViewModel model)
         {
             try
             {
+                ICreateContentGrain _createContentGrain = _client.GetGrain<ICreateContentGrain>(Guid.NewGuid().ToString());
+
                 return Json(await _createContentGrain.CreatePage(model));
             }
             catch (Exception ex)
@@ -95,13 +91,15 @@
             }
         }
 
-        [HttpPost("[action]")]
+        [HttpPost("tags")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
         public async Task<IActionResult> Tags([FromBody] CreateTagsViewModel model)
         {
             try
             {
+                ICreateContentGrain _createContentGrain = _client.GetGrain<ICreateContentGrain>(model.FeedItemId);
+
                 return Json(await _createContentGrain.CreateTags(model.Tags, model.FeedItemId));
             }
             catch (Exception ex)
@@ -110,13 +108,15 @@
             }
         }
 
-        [HttpPost("[action]")]
+        [HttpPost("user")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
-        public async Task<IActionResult> Users([FromBody] CreateUserViewModel model)
+        public async Task<IActionResult> SystemUser([FromBody] CreateUserViewModel model)
         {
             try
             {
+                ICreateContentGrain _createContentGrain = _client.GetGrain<ICreateContentGrain>(Guid.NewGuid().ToString());
+
                 return Json(await _createContentGrain.CreateUser(model));
             }
             catch (Exception ex)

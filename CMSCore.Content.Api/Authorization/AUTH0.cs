@@ -1,7 +1,14 @@
 ﻿namespace CMSCore.Content.Api.Extensions
 {
-    public class AUTH0
-    {
+    using Microsoft.Extensions.Configuration;
+
+    public class AuthenticationConfiguration : IAuthenticationConfiguration
+    { 
+        public AuthenticationConfiguration(IConfiguration configuration)
+        {
+             configuration.GetSection("AUTH0").Bind(this);
+        }
+
         public string AUTH0_AUDIENCE { get; set; }
         public string AUTH0_DOMAIN { get; set; }
 

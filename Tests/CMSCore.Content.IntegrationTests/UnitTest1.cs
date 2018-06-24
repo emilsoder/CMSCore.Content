@@ -11,15 +11,7 @@ namespace CMSCore.Content.IntegrationTests
     using Newtonsoft.Json;
     using Xunit;
     using Xunit.Abstractions;
-
-    /*
-        [] UserId: 8f0e6608-6699-48b0-88b9-1c11887fcb09
-        [] pageId: 70a9ce75-b761-49e8-98f8-5f7cedbf2e9a
-        [] feedId: a186658d-727a-40e2-b1e7-6d03c5d4c673
-        [] feedItemId: 9c054ffe-df0e-4fce-a36a-827ec0d9aab4
-    */
-
-
+     
     public class UnitTest1
     {
         private const string pageId = "70a9ce75-b761-49e8-98f8-5f7cedbf2e9a";
@@ -41,7 +33,7 @@ namespace CMSCore.Content.IntegrationTests
         {
             _output = output;
 
-            _context = new ContentDbContext("/*Data Source=172.25.238.237;Integrated Security=False;User ID=sa;Password=123qweASD!;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False*/");
+            //_context = new ContentDbContext( );
 
             _recycleBinRepository = new RecycleBinRepository(_context);
             _deleteContentRepository = new DeleteContentRepository(_context);
@@ -89,7 +81,7 @@ namespace CMSCore.Content.IntegrationTests
 
             var pageFeedName = Mock.Title;
 
-            _createContentRepository.CreatePage(page, "14954581-3432-4e11-9e46-299b1d6fe097", pageFeedName).GetAwaiter()
+            _createContentRepository.CreatePage(page, pageFeedName).GetAwaiter()
                 .GetResult();
             Assert.True(true);
         }
@@ -115,11 +107,11 @@ namespace CMSCore.Content.IntegrationTests
             };
 
 
-            var pageId = _createContentRepository.CreatePage(page, "14954581-3432-4e11-9e46-299b1d6fe097", Mock.Title)
+            var pageId = _createContentRepository.CreatePage(page, Mock.Title)
                 .GetAwaiter().GetResult();
             OutputBuilder = "pageId: " + pageId;
 
-            var feedId = _readContentRepository.GetPage(pageId).Feed.EntityId;
+            var feedId = _readContentRepository.GetPage(pageId).GetAwaiter().GetResult().Feed.EntityId;
             OutputBuilder = "feedId: " + feedId;
 
             var feedItem = new CreateFeedItemViewModel
@@ -364,7 +356,7 @@ namespace CMSCore.Content.IntegrationTests
 
             var tags = new List<string> { "Tag 1", "Tag 2" };
 
-            _createContentRepository.CreateTags(tags, feedItemId, "14954581-3432-4e11-9e46-299b1d6fe097").GetAwaiter()
+            _createContentRepository.CreateTags(tags,  "14954581-3432-4e11-9e46-299b1d6fe097").GetAwaiter()
                 .GetResult();
         }
 

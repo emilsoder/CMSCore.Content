@@ -21,11 +21,7 @@
         private readonly IClusterClient _client;
 
         public RecycleController(IClusterClient client) => _client = client;
-
-        private IRecycleBinGrain _repository => _client.GetGrain<IRecycleBinGrain>(GrainUserId);
-
-        private string GrainUserId => User.Claims?.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-
+ 
         [HttpDelete("[action]/{entityid}")]
         [ValidateModelState]
         [ProducesResponseType(typeof(GrainOperationResult), 200)]
@@ -33,7 +29,8 @@
         {
             try
             {
-                return Json(await _repository.MoveCommentToRecycleBinByEntityId(entityId));
+                IRecycleBinGrain _repository = _client.GetGrain<IRecycleBinGrain>(entityId);
+                return Json(await _repository.MoveCommentToRecycleBinByEntityId());
             }
             catch (Exception ex)
             {
@@ -48,7 +45,9 @@
         {
             try
             {
-                return Json(await _repository.MoveFeedToRecycleBinByEntityId(entityId));
+                IRecycleBinGrain _repository = _client.GetGrain<IRecycleBinGrain>(entityId);
+
+                return Json(await _repository.MoveFeedToRecycleBinByEntityId());
             }
             catch (Exception ex)
             {
@@ -63,7 +62,9 @@
         {
             try
             {
-                return Json(await _repository.MoveFeedItemToRecycleBinByEntityId(entityId));
+                IRecycleBinGrain _repository = _client.GetGrain<IRecycleBinGrain>(entityId);
+
+                return Json(await _repository.MoveFeedItemToRecycleBinByEntityId());
             }
             catch (Exception ex)
             {
@@ -78,7 +79,9 @@
         {
             try
             {
-                return Json(await _repository.MovePageToRecycleBinByEntityId(entityId));
+                IRecycleBinGrain _repository = _client.GetGrain<IRecycleBinGrain>(entityId);
+
+                return Json(await _repository.MovePageToRecycleBinByEntityId());
             }
             catch (Exception ex)
             {
@@ -93,7 +96,9 @@
         {
             try
             {
-                return Json(await _repository.MoveTagToRecycleBinByEntityId(entityId));
+                IRecycleBinGrain _repository = _client.GetGrain<IRecycleBinGrain>(entityId);
+
+                return Json(await _repository.MoveTagToRecycleBinByEntityId());
             }
             catch (Exception ex)
             {

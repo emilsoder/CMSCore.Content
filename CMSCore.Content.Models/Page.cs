@@ -1,6 +1,8 @@
 ﻿namespace CMSCore.Content.Models
 {
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Linq;
     using CMSCore.Content.Models.Extensions;
 
     public class Page : EntityBase
@@ -31,8 +33,10 @@
 
         public string NormalizedName { get; set; }
 
+        public string ContentId { get; set; }
         public virtual Content Content { get; set; }
 
+        public string FeedId { get; set; }
         public virtual Feed Feed { get; set; }
     }
 
@@ -47,7 +51,7 @@
         {
             var contentVersion = new ContentVersion()
             {
-                TextValue = textValue
+                Value = textValue
             };
             if (ContentVersions == null)
             {
@@ -64,12 +68,32 @@
 
         public string ActiveContentVersionId { get; set; }
         public ICollection<ContentVersion> ContentVersions { get; set; }
+
+        [NotMapped]
+        public ContentVersion ActiveContentVersion
+        {
+            get
+            {
+                var activeVersion = ContentVersions?.FirstOrDefault(x => x.Id == ActiveContentVersionId);
+                return activeVersion;
+            }
+        }
+
+        [NotMapped]
+        public string Value
+        {
+            get
+            {
+                var activeVersion = ContentVersions?.FirstOrDefault(x => x.Id == ActiveContentVersionId);
+                return activeVersion?.Value;
+            }
+        }
     }
 
     public class ContentVersion : EntityBase
     {
         public int VersionNumber { get; set; }
-        public string TextValue { get; set; }
+        public string Value { get; set; }
 
         public string ContentId { get; set; }
         public Content Content { get; set; }

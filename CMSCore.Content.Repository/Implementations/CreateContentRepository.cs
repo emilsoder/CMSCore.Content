@@ -21,12 +21,11 @@
             _context = context;
         }
 
-        public async Task<string> CreateComment(CreateCommentViewModel model, string userId)
+        public async Task<string> CreateComment(CreateCommentViewModel model)
         {
             var comment = new Comment(model.FeedItemId, model.Text, model.FullName)
             {
-                UserId = userId
-            };
+             };
 
             _context.Add(comment);
 
@@ -34,61 +33,51 @@
             return comment.Id;
         }
 
-        public async Task<string> CreateFeedItem(CreateFeedItemViewModel model, string userId)
+        public async Task<string> CreateFeedItem(CreateFeedItemViewModel model )
         {
-            var feedItem = new FeedItem(model.FeedId, model.Title, model.Description, model.Content, model.CommentsEnabled)
+            var feedItem = new FeedItem(model.FeedId, model.Title, model.Description,  model.CommentsEnabled)
             {
-                UserId = userId
+                 Tags = model.Tags?.ToModels()
             };
-
-            if (model.Tags != null && model.Tags.Any())
-            {
-                var tags = model.Tags.AsTagsEnumerable(feedItem.Id, userId);
-                _context.AddRange(tags);
-            }
-
+             
             _context.Add(feedItem);
 
             await _context.SaveChangesAsync();
             return feedItem.Id;
         }
 
-        public async Task<string> CreateFeed(CreateFeedViewModel model, string userId)
+        public async Task<string> CreateFeed(CreateFeedViewModel model)
         {
-            if (!(await _context.Pages.AnyAsync(x => x.Id == model.PageId)))
+            if (!(await _context.Set<Page>().AnyAsync(x => x.Id == model.PageId)))
             {
                 throw new Exception($"Page with id '{model.PageId}' could not be found");
             }
 
-            if (await _context.Feeds.AnyAsync(x => x.PageId == model.PageId && x.MarkedToDelete == false))
+            if (await _context.Set<Feed>().AnyAsync(x => x.PageId == model.PageId && x.MarkedToDelete == false))
             {
                 throw new Exception($"A feed already exists on page with id '{model.PageId}'");
             }
 
-            var feed = new Feed(model.PageId, model.Name) { UserId = userId };
+            var feed = new Feed(model.PageId, model.Name) { };
             _context.Add(feed);
             await _context.SaveChangesAsync();
             return feed.Id;
         }
 
-        public async Task<string> CreatePage(CreatePageViewModel model, string userId, string feedName = null)
+        public async Task<string> CreatePage(CreatePageViewModel model, string feedName = null)
         {
             var page = new Page(model.Name, model.FeedEnabled)
             {
-                Content = model.Content,
-                Name = model.Name,
-                IsActiveVersion = true,
-                UserId = userId
-            };
+                 Name = model.Name,
+                Content = new Content(model.Content),
+             };
 
             if (model.FeedEnabled && !string.IsNullOrEmpty(feedName))
             {
                 var feed = new Feed(page.Id, feedName)
                 {
-                    UserId = userId
-                };
-
-                _context.Add(feed);
+                 };
+                page.Feed = feed;
             }
 
             _context.Add(page);
@@ -97,9 +86,9 @@
             return page.Id;
         }
 
-        public Task CreateTags(IList<string> tags, string feedItemId, string userId)
+        public Task CreateTags(IList<string> tags, string feedItemId)
         {
-            var tagsToCreate = tags.AsTagsEnumerable(feedItemId, userId);
+            var tagsToCreate = tags.ToModels ();
 
             _context.AddRange(tagsToCreate);
 

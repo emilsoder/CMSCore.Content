@@ -6,63 +6,63 @@
     using CMSCore.Content.Repository.Interfaces;
     using CMSCore.Content.ViewModels;
     using Orleans;
-    using Orleans.Concurrency;
 
-    [StatelessWorker]
     public class ReadContentGrain : Grain, IReadContentGrain
     {
         private readonly IReadContentRepository _repository;
 
         public ReadContentGrain(IReadContentRepository repository) => _repository = repository;
 
-        public async Task<IEnumerable<CommentViewModel>> GetComments(string feedItemId)
+        public async Task<FeedViewModel> GetFeedByPageId(string pageId)
         {
-            return await Task.FromResult(_repository.GetComments(feedItemId));
+            var id = this.GetPrimaryKeyString();
+
+            return await _repository.GetFeed(id);
         }
 
-        public async Task<FeedViewModel> GetFeed(string pageId)
+        public async Task<FeedItemViewModel> GetFeedItemById(string feedItemId)
         {
-            return await Task.FromResult(_repository.GetFeed(pageId));
+            var id = this.GetPrimaryKeyString();
+
+            return await _repository.GetFeedItem(id);
         }
 
-        public async Task<FeedItemViewModel> GetFeedItem(string feedItemId)
+        public async Task<IEnumerable<FeedItemPreviewViewModel>> FeedItemsByFeedId(string feedId)
         {
-            return await Task.FromResult(_repository.GetFeedItem(feedItemId));
+            var id = this.GetPrimaryKeyString();
+
+            return await _repository.GetFeedItems(id);
         }
 
-        public async Task<IEnumerable<FeedItemViewModel>> GetFeedItemHistory(string feedItemId)
+        public async Task<PageViewModel> FindPageById(string pageId)
         {
-            return await Task.FromResult(_repository.GetFeedItemHistory(feedItemId));
+            var id = this.GetPrimaryKeyString();
+
+            return await _repository.GetPage(id);
         }
 
-        public async Task<IEnumerable<FeedItemPreviewViewModel>> GetFeedItems(string feedId)
+        public async Task<PageViewModel> FindPageByNormalizedName()
         {
-            return await Task.FromResult(_repository.GetFeedItems(feedId));
-        }
+            var normalizedName = this.GetPrimaryKeyString();
 
-        public async Task<PageViewModel> GetPage(string pageId)
-        {
-            return await Task.FromResult(_repository.GetPage(pageId));
-        }
-
-        public async Task<PageViewModel> GetPageByNormalizedName(string normalizedName)
-        {
-            return await Task.FromResult(_repository.GetPageByNormalizedName(normalizedName));
+            return await _repository.GetPageByNormalizedName(normalizedName);
         }
 
         public async Task<IEnumerable<PageTreeViewModel>> GetPageTree()
         {
-            return await Task.FromResult(_repository.GetPageTree());
+            return await _repository.GetPageTree();
         }
 
-        public async Task<IEnumerable<TagViewModel>> GetTags(string feedItemId)
+        public async Task<IEnumerable<TagViewModel>> GetTagsByFeedItemId(string feedItemId)
         {
-            return await Task.FromResult(_repository.GetTags(feedItemId));
+            var id = this.GetPrimaryKeyString();
+
+            return await _repository.GetTags(id);
         }
 
         public async Task<IEnumerable<UserViewModel>> GetUsers()
         {
-            return await Task.FromResult(_repository.GetUsers());
+            return await _repository.GetUsers();
         }
     }
 }
