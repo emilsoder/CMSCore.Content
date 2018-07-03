@@ -7,6 +7,7 @@
     using CMSCore.Content.Api.Authorization;
     using CMSCore.Content.Api.Extensions;
     using CMSCore.Content.GrainInterfaces;
+    using Configuration;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Builder;

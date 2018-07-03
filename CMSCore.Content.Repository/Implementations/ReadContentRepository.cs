@@ -8,6 +8,7 @@
     using CMSCore.Content.Models;
     using CMSCore.Content.Repository.Interfaces;
     using CMSCore.Content.ViewModels;
+    using Extensions;
     using Microsoft.EntityFrameworkCore;
 
 
@@ -47,7 +48,7 @@
 
             if (feed == null) return null;
 
-            var feedItems = await ((IReadContentRepository) this).GetFeedItems(feed.Id);
+            var feedItems = (await ((IReadContentRepository) this).GetFeedItems(feed.Id)).ToArray();
 
 
             return new FeedViewModel

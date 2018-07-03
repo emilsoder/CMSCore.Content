@@ -1,6 +1,6 @@
 ﻿namespace CMSCore.Content.ViewModels
 {
-    [Orleans.Concurrency.Immutable]
+
     public class TagViewModel
     {
         public TagViewModel()

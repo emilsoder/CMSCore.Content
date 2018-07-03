@@ -5,7 +5,6 @@
 
     #region Read
 
-    [Orleans.Concurrency.Immutable]
     public class PageViewModel
     {
         public string Content { get; set; }
@@ -18,11 +17,11 @@
         public string NormalizedName { get; set; }
     }
 
-    [Orleans.Concurrency.Immutable]
+
     public class PageTreeViewModel
     {
-          public string Id { get; set; }
-      public DateTime Date { get; set; }
+        public string Id { get; set; }
+        public DateTime Date { get; set; }
 
         public string Name { get; set; }
         public string NormalizedName { get; set; }

@@ -6,13 +6,12 @@
 
     #region Read
 
-    [Orleans.Concurrency.Immutable]
-    public class FeedItemViewModel
+     public class FeedItemViewModel
     {
         public string Id { get; set; }
 
         public string Title { get; set; }
-        public bool CommentsEnabled { get; set; } = true;
+        public bool CommentsEnabled { get; set; }  
 
         public string Content { get; set; }
         public DateTime Date { get; set; }
@@ -22,8 +21,8 @@
         public DateTime Modified { get; set; }
         public string NormalizedTitle { get; set; }
 
-        public IEnumerable<TagViewModel> Tags { get; set; }
-        public IEnumerable<CommentViewModel> Comments { get; set; }
+        public TagViewModel[] Tags { get; set; } = new TagViewModel[1];
+        public CommentViewModel [ ] Comments { get; set; } = new CommentViewModel[1]   ;
     }
 
     #endregion

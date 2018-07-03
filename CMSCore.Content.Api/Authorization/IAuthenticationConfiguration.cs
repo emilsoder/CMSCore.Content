@@ -1,4 +1,4 @@
-﻿namespace CMSCore.Content.Api.Extensions
+﻿namespace CMSCore.Content.Api.Authorization
 {
     public interface IAuthenticationConfiguration
     {

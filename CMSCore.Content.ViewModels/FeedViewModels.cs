@@ -6,8 +6,7 @@
 
     #region Read
 
-    [Orleans.Concurrency.Immutable]
-    public class FeedItemPreviewViewModel
+     public class FeedItemPreviewViewModel
     {
         public string Id { get; set; }
 
@@ -17,10 +16,10 @@
         public DateTime Date { get; set; }
         public DateTime Modified { get; set; }
 
-        public IEnumerable<object> Tags { get; set; }
+        public TagViewModel[] Tags { get; set; }
     }
 
-    [Orleans.Concurrency.Immutable]
+
     public class FeedViewModel
     {
         public string Id { get; set; }
@@ -28,7 +27,7 @@
         public string NormalizedName { get; set; }
         public DateTime Date { get; set; }
         public DateTime Modified { get; set; }
-        public IEnumerable<FeedItemPreviewViewModel> FeedItems { get; set; }
+        public FeedItemPreviewViewModel[] FeedItems { get; set; }
     }
 
     public class UpdateTagViewModel

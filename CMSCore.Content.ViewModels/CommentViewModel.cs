@@ -3,7 +3,7 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    [Orleans.Concurrency.Immutable]
+
     public class CommentViewModel
     {
         public string CommentId { get; set; }

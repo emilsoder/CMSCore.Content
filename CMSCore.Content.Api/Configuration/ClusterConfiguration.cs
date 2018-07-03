@@ -1,4 +1,4 @@
-﻿namespace CMSCore.Content.Api
+﻿namespace CMSCore.Content.Api.Configuration
 {
     using Microsoft.Extensions.Configuration;
 

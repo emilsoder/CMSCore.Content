@@ -5,7 +5,7 @@
 
     #region Read
 
-    [Orleans.Concurrency.Immutable]
+
     public class UserViewModel
     {
         public DateTime Created { get; set; }

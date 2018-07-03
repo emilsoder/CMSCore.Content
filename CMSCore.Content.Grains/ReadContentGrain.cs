@@ -1,12 +1,12 @@
-﻿namespace CMSCore.Content.Grains
-{
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using CMSCore.Content.GrainInterfaces;
-    using CMSCore.Content.Repository.Interfaces;
-    using CMSCore.Content.ViewModels;
-    using Orleans;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using CMSCore.Content.GrainInterfaces;
+using CMSCore.Content.Repository.Interfaces;
+using CMSCore.Content.ViewModels;
+using Orleans;
 
+namespace CMSCore.Content.Grains
+{
     public class ReadContentGrain : Grain, IReadContentGrain
     {
         private readonly IReadContentRepository _repository;

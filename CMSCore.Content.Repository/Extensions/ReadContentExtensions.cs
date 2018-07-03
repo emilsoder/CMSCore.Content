@@ -1,9 +1,9 @@
-﻿namespace CMSCore.Content.Repository.Implementations
+﻿namespace CMSCore.Content.Repository.Extensions
 {
     using System.Collections.Generic;
     using System.Linq;
-    using CMSCore.Content.Models;
-    using CMSCore.Content.ViewModels;
+    using Models;
+    using ViewModels;
 
     public static class ReadContentExtensions
     {
@@ -45,14 +45,14 @@
                 Modified = feed.Modified,
                 Name = feed.Name,
                 NormalizedName = feed.NormalizedName,
-                FeedItems = feed.FeedItems.Select(x => x.ConvertToPreviewViewModel())
+                FeedItems = feed.FeedItems?.ToList().Select(x => x.ConvertToPreviewViewModel()).ToArray()
             };
             return feedVieWModel;
         }
 
         public static FeedItemPreviewViewModel ConvertToPreviewViewModel(this FeedItem x)
         {
-            var tags = x.Tags?.Select(rx => new { rx.NormalizedName, rx.Name });
+            var tags = x.Tags?.ToList()?.Select(rx => new TagViewModel( ) {NormalizedName = rx.NormalizedName, Name = rx.Name })?.ToArray();
             return new FeedItemPreviewViewModel()
             {
                 Id = x.Id,
@@ -90,11 +90,11 @@
                 Modified = x.Modified,
                 Title = x.Title,
                 NormalizedTitle = x.NormalizedTitle,
-                Tags = x.Tags.Select(tag => tag.ConvertToViewModel()),
+                Tags = x.Tags?.ToList()?.Select(tag => tag.ConvertToViewModel()).ToArray(),
                 Content = x.Content.Value,
                 FeedId = x.FeedId,
                 CommentsEnabled = x.CommentsEnabled,
-                Comments = x.Comments?.Select(c => c.ConvertToViewModel())
+                Comments = x.Comments?.ToList()?.Select(c => c.ConvertToViewModel()).ToArray()
             };
             
         }
