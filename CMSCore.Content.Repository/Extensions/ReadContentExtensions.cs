@@ -11,7 +11,7 @@
         {
             return models.Select(x => new PageTreeViewModel()
             {
-                EntityId = x.Id,
+                Id = x.Id,
                 Date = x.Created,
                 Name = x.Name,
                 NormalizedName = x.NormalizedName
@@ -26,7 +26,7 @@
 
             return new PageViewModel()
             {
-                EntityId = model.Id,
+                Id = model.Id,
                 Feed = model.Feed.ConvertToViewModel(),
                 Content = model.Content.Value,
                 Name = model.Name,
@@ -41,7 +41,7 @@
             var feedVieWModel = new FeedViewModel()
             {
                 Date = feed.Created,
-                EntityId = feed.Id,
+                Id = feed.Id,
                 Modified = feed.Modified,
                 Name = feed.Name,
                 NormalizedName = feed.NormalizedName,
@@ -52,14 +52,15 @@
 
         public static FeedItemPreviewViewModel ConvertToPreviewViewModel(this FeedItem x)
         {
+            var tags = x.Tags?.Select(rx => new { rx.NormalizedName, rx.Name });
             return new FeedItemPreviewViewModel()
             {
-                EntityId = x.Id,
+                Id = x.Id,
                 Date = x.Created,
                 Modified = x.Modified,
                 Description = x.Description,
                 Title = x.Title,
-                Tags = x.Tags.Select(tag => new TagViewModel(tag.Id, tag.NormalizedName, tag.Name)),
+                Tags = tags,
                 NormalizedTitle = x.NormalizedTitle
             };
         }

@@ -111,7 +111,7 @@ namespace CMSCore.Content.IntegrationTests
                 .GetAwaiter().GetResult();
             OutputBuilder = "pageId: " + pageId;
 
-            var feedId = _readContentRepository.GetPage(pageId).GetAwaiter().GetResult().Feed.EntityId;
+            var feedId = _readContentRepository.GetPage(pageId).GetAwaiter().GetResult().Feed.Id;
             OutputBuilder = "feedId: " + feedId;
 
             var feedItem = new CreateFeedItemViewModel
@@ -316,7 +316,7 @@ namespace CMSCore.Content.IntegrationTests
                 Content = "POOPFACE PAGE 5",
                 FeedEnabled = true,
                 Name = "POOPFACE PAGE 5",
-                EntityId = pageId
+                Id = pageId
             };
 
             //_updateContentRepository.UpdatePage(model, pageId, "14954581-3432-4e11-9e46-299b1d6fe097").GetAwaiter()

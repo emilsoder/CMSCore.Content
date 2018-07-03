@@ -21,7 +21,7 @@
 
         public Task UpdateFeedItem(UpdateFeedItemViewModel model)
         {
-            var foundActiveFeed = _context.FeedItems.FirstOrDefault(x =>  x.Id == model.EntityId);
+            var foundActiveFeed = _context.FeedItems.FirstOrDefault(x =>  x.Id == model.Id);
 
             if (foundActiveFeed == null) return Task.FromException(new Exception("FeedItem to update not found."));
 
@@ -33,7 +33,7 @@
         Task IUpdateContentRepository.UpdateFeed(UpdateFeedViewModel model)
         {
             var foundActiveFeed =
-                _context.Set<Feed>().FirstOrDefault(x => x.Id == model.EntityId);
+                _context.Set<Feed>().FirstOrDefault(x => x.Id == model.Id);
             if (foundActiveFeed == null) return Task.FromException(new Exception("Feed to update not found."));
 
             return _context.SaveChangesAsync();
@@ -42,7 +42,7 @@
         Task IUpdateContentRepository.UpdatePage(UpdatePageViewModel model)
         {
             var foundActivePage =
-                _context.Set<Page>().FirstOrDefault(x => x.Id == model.EntityId);
+                _context.Set<Page>().FirstOrDefault(x => x.Id == model.Id);
 
             if (foundActivePage == null) return Task.FromException(new Exception("Page to update not found."));
 

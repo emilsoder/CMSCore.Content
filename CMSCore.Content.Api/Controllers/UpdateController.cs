@@ -28,7 +28,7 @@
         {
             try
             {
-                IUpdateContentGrain _updateContentGrain = _client.GetGrain<IUpdateContentGrain>(model.EntityId);
+                IUpdateContentGrain _updateContentGrain = _client.GetGrain<IUpdateContentGrain>(model.Id);
                 return Json(await _updateContentGrain.UpdateFeed(model));
             }
             catch (Exception ex)
@@ -44,7 +44,7 @@
         {
             try
             {
-                IUpdateContentGrain _updateContentGrain = _client.GetGrain<IUpdateContentGrain>(model.EntityId);
+                IUpdateContentGrain _updateContentGrain = _client.GetGrain<IUpdateContentGrain>(model.Id);
                 return Json(await _updateContentGrain.UpdateFeedItem(model));
             }
             catch (Exception ex)
@@ -60,7 +60,7 @@
         {
             try
             {
-                IUpdateContentGrain _updateContentGrain = _client.GetGrain<IUpdateContentGrain>(model.EntityId);
+                IUpdateContentGrain _updateContentGrain = _client.GetGrain<IUpdateContentGrain>(model.Id);
                 return Json(await _updateContentGrain.UpdatePage(model));
             }
             catch (Exception ex)
@@ -76,8 +76,8 @@
         {
             try
             {
-                IUpdateContentGrain _updateContentGrain = _client.GetGrain<IUpdateContentGrain>(model.EntityId);
-                return Json(await _updateContentGrain.UpdateTag(model.TagName, model.EntityId));
+                IUpdateContentGrain _updateContentGrain = _client.GetGrain<IUpdateContentGrain>(model.Id);
+                return Json(await _updateContentGrain.UpdateTag(model.TagName, model.Id));
             }
             catch (Exception ex)
             {

@@ -6,10 +6,12 @@
 
     #region Read
 
+    [Orleans.Concurrency.Immutable]
     public class FeedItemViewModel
     {
-        public IEnumerable<CommentViewModel> Comments { get; set; }
+        public string Id { get; set; }
 
+        public string Title { get; set; }
         public bool CommentsEnabled { get; set; } = true;
 
         public string Content { get; set; }
@@ -17,13 +19,11 @@
 
         public string Description { get; set; }
         public string FeedId { get; set; }
-        public string Id { get; set; }
         public DateTime Modified { get; set; }
         public string NormalizedTitle { get; set; }
 
         public IEnumerable<TagViewModel> Tags { get; set; }
-
-        public string Title { get; set; }
+        public IEnumerable<CommentViewModel> Comments { get; set; }
     }
 
     #endregion
@@ -64,8 +64,8 @@
         [Required(ErrorMessage = nameof(Description) + " is required")]
         public string Description { get; set; }
 
-        [Required(ErrorMessage = nameof(EntityId) + " is required")]
-        public string EntityId { get; set; }
+        [Required(ErrorMessage = nameof(Id) + " is required")]
+        public string Id { get; set; }
 
         [Required(ErrorMessage = nameof(IsContentMarkdown) + " is required")]
         public bool IsContentMarkdown { get; set; } = true;
@@ -80,10 +80,10 @@
     {
         public DeleteFeedItemViewModel(string entityId)
         {
-            EntityId = entityId;
+            Id = entityId;
         }
 
-        public string EntityId { get; set; }
+        public string Id { get; set; }
 
         public static DeleteFeedItemViewModel Initialize(string entityId)
         {

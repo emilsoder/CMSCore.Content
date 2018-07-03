@@ -18,6 +18,9 @@
         public ReadContentRepository(ContentDbContext context)
         {
             _context = context;
+            _context.Pages.Include(x => x.Content).ThenInclude(x => x.ContentVersions).Include(x => x.Feed).ThenInclude(x => x.FeedItems).ThenInclude(x => x.Comments).ThenInclude(x => x.Content).Load();
+            _context.Feeds.Include(x => x.FeedItems).ThenInclude(x => x.Content).ThenInclude(x => x.ContentVersions).Load();
+            _context.FeedItems.Include(x => x.Tags).Load();
         }
           
         async Task<IEnumerable<PageViewModel>> IReadContentRepository.GetAllPages()
@@ -27,7 +30,7 @@
             var viewModels = await pages.Select(page => new PageViewModel
             {
                 Content = page.Content.Value,
-                EntityId = page.Id,
+                Id = page.Id,
                 Date = page.Created,
                 Modified = page.Modified,
                 Name = page.Name,
@@ -49,7 +52,7 @@
 
             return new FeedViewModel
             {
-                EntityId = feed.Id,
+                Id = feed.Id,
                 Date = feed.Created,
                 Modified = feed.Modified,
                 Name = feed.Name,
@@ -82,8 +85,8 @@
 
             return new PageViewModel
             {
-                Content = page.Content.Value,
-                EntityId = page.Id,
+                Content = page.Content?.Value,
+                Id = page.Id,
                 Date = page.Created,
                 Modified = page.Modified,
                 Name = page.Name,
@@ -101,7 +104,7 @@
             return new PageViewModel
             {
                 Content = page.Content.Value,
-                EntityId = page.Id,
+                Id = page.Id,
                 Date = page.Created,
                 Modified = page.Modified,
                 Name = page.Name,
@@ -117,7 +120,7 @@
 
             return await pages.Select(x => new PageTreeViewModel
                 {
-                    EntityId = x.Id,
+                    Id = x.Id,
                     Date = x.Created,
                     Name = x.Name,
                     NormalizedName = x.NormalizedName

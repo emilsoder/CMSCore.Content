@@ -1,6 +1,8 @@
 ﻿namespace CMSCore.Content.Silo
 {
     using System;
+    using System.Net;
+    using System.Net.Sockets;
     using System.Runtime.Loader;
     using System.Threading;
     using System.Threading.Tasks;
@@ -40,6 +42,7 @@
                     options.Invariant = "System.Data.SqlClient";
                     options.ConnectionString = _clusterConfiguration.StorageConnection;
                 })
+                .ConfigureEndpoints(siloPort: 11111, gatewayPort: 30000, advertisedIP: IPAddress.Loopback)
                 .AddAdoNetGrainStorage("OrleansStorage", options =>
                 {
                     options.Invariant = "System.Data.SqlClient";
@@ -49,7 +52,7 @@
                 {
                     //x.AddSingleton<ContentDbContext>(new ContentDbContext());
                     x.AddSingleton<IClusterConfiguration, ClusterConfiguration>();
-                    x.AddSingleton<IDataConfiguration, DataConfiguration>();
+                    x.AddSingleton<IDataConfiguration>(new DataConfiguration(Configuration));
                     x.AddSingleton<ContentDbContext>();
                     x.AddRepositories();
                 })
