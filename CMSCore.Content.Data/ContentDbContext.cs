@@ -25,7 +25,6 @@
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(_dataConfiguration.ContentConnection);
-
             base.OnConfiguring(optionsBuilder);
         }
          

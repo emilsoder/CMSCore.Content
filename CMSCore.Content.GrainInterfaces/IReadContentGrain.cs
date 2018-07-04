@@ -13,7 +13,9 @@
         Task<PageViewModel> FindPageByNormalizedName();
         Task<IEnumerable<PageTreeViewModel>> GetPageTree();
         Task<IEnumerable<TagViewModel>> GetTagsByFeedItemId(string feedItemId);
+        Task<IEnumerable<TagViewModel>> GetTags();
         Task<IEnumerable<UserViewModel>> GetUsers();
         Task<IEnumerable<FeedItemPreviewViewModel>> FeedItemsByFeedId(string feedId);
+        Task<FeedItemViewModel> FindFeedItemByNormalizedName();
     }
 }

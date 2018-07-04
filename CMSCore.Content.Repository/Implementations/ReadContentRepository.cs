@@ -1,6 +1,7 @@
 ﻿namespace CMSCore.Content.Repository.Implementations
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -19,12 +20,24 @@
         public ReadContentRepository(ContentDbContext context)
         {
             _context = context;
-            _context.Pages.Include(x => x.Content).ThenInclude(x => x.ContentVersions).Include(x => x.Feed).ThenInclude(x => x.FeedItems).ThenInclude(x => x.Comments).ThenInclude(x => x.Content).Load();
-            _context.Feeds.Include(x => x.FeedItems).ThenInclude(x => x.Content).ThenInclude(x => x.ContentVersions).Load();
+            _context.Pages
+                .Include(x => x.Content)
+                .ThenInclude(x => x.ContentVersions)
+                .Include(x => x.Feed)
+                .ThenInclude(x => x.FeedItems)
+                .ThenInclude(x => x.Comments)
+                .ThenInclude(x => x.Content)
+                .Load();
+
+            _context.Feeds.Include(x => x.FeedItems)
+                .ThenInclude(x => x.Content)
+                .ThenInclude(x => x.ContentVersions)
+                .Load();
+
             _context.FeedItems.Include(x => x.Tags).Load();
         }
-          
-        async Task<IEnumerable<PageViewModel>> IReadContentRepository.GetAllPages()
+
+        public async Task<IEnumerable<PageViewModel>> GetAllPages()
         {
             var pages = _context.Set<Page>();
 
@@ -42,7 +55,7 @@
             return viewModels;
         }
 
-        async Task<FeedViewModel> IReadContentRepository.GetFeed(string pageId)
+        public async Task<FeedViewModel> GetFeed(string pageId)
         {
             var feed = await _context.Set<Feed>().SingleOrDefaultAsync(x => x.PageId == pageId);
 
@@ -62,14 +75,21 @@
             };
         }
 
-        async Task<FeedItemViewModel> IReadContentRepository.GetFeedItem(string feedItemId)
+        public async Task<FeedItemViewModel> GetFeedItem(string feedItemId)
         {
             var feedItem = await _context.Set<FeedItem>().FirstOrDefaultAsync(x => x.Id == feedItemId);
 
             return feedItem?.ConvertToViewModel();
         }
 
-        async Task<IEnumerable<FeedItemPreviewViewModel>> IReadContentRepository.GetFeedItems(string feedId)
+        public async Task<FeedItemViewModel> GetFeedItemByNormalizedName(string normalizedName)
+        {
+            var feedItem = await _context.Set<FeedItem>().FirstOrDefaultAsync(x => x.NormalizedTitle.ToLower() == normalizedName.ToLower());
+
+            return feedItem?.ConvertToViewModel();
+        }
+
+        public async Task<IEnumerable<FeedItemPreviewViewModel>> GetFeedItems(string feedId)
         {
             var feedItems = await _context.Set<FeedItem>()
                 ?.Where(x => x.FeedId == feedId)
@@ -79,7 +99,7 @@
             return feedItems;
         }
 
-        async Task<PageViewModel> IReadContentRepository.GetPage(string pageId)
+        public async Task<PageViewModel> GetPage(string pageId)
         {
             var page = await _context.Set<Page>().FirstOrDefaultAsync(x => x.Id == pageId);
             if (page == null) return null;
@@ -92,29 +112,29 @@
                 Modified = page.Modified,
                 Name = page.Name,
                 NormalizedName = page.NormalizedName,
-                Feed = page.Feed.ConvertToViewModel()
+                Feed = page.Feed?.ConvertToViewModel()
             };
         }
 
 
-        async Task<PageViewModel> IReadContentRepository.GetPageByNormalizedName(string normalizedName)
+        public async Task<PageViewModel> GetPageByNormalizedName(string normalizedName)
         {
-            var page = await _context.Set<Page>().FirstOrDefaultAsync(x => x.NormalizedName == normalizedName);
+            var page = await _context.Set<Page>().FirstOrDefaultAsync(x => x.NormalizedName.ToLower() == normalizedName.ToLower());
             if (page == null) return null;
 
             return new PageViewModel
             {
-                Content = page.Content.Value,
+                Content = page.Content?.Value,
                 Id = page.Id,
                 Date = page.Created,
                 Modified = page.Modified,
                 Name = page.Name,
                 NormalizedName = page.NormalizedName,
-                Feed = page.Feed.ConvertToViewModel()
+                Feed = page.Feed?.ConvertToViewModel()
             };
         }
 
-        async Task<IEnumerable<PageTreeViewModel>> IReadContentRepository.GetPageTree()
+        public async Task<IEnumerable<PageTreeViewModel>> GetPageTree()
         {
             var pages = _context.Set<Page>();
             if (pages == null || !pages.Any()) return null;
@@ -129,14 +149,14 @@
                 .ToListAsync();
         }
 
-        async Task<IEnumerable<TagViewModel>> IReadContentRepository.GetTags(string feedItemId)
+        public async Task<IEnumerable<TagViewModel>> GetTags(string feedItemId)
         {
             var tags = _context.Set<Tag>()?.Where(x => x.FeedItemId == feedItemId);
             var vm = tags?.Select(x => x.ConvertToViewModel());
             return vm == null ? null : await vm.ToListAsync();
         }
 
-        async Task<IEnumerable<UserViewModel>> IReadContentRepository.GetUsers()
+        public async Task<IEnumerable<UserViewModel>> GetUsers()
         {
             var users = _context.Set<User>();
 
@@ -152,6 +172,33 @@
             });
 
             return vms == null ? null : await vms.ToListAsync();
+        }
+
+        public async Task<IEnumerable<TagViewModel>> GetTags()
+        {
+            var tags = await _context.Tags.ToListAsync();
+            var eq = new TagComparer();
+            var tagsDistinct = tags.Distinct(eq);
+            var vm = tagsDistinct?.Select(x => x.ConvertToViewModel());
+            return vm;
+        }
+    }
+
+    public class TagComparer : IEqualityComparer<Tag>
+    { 
+        public bool Equals(Tag x, Tag y)
+        {
+            if (x.NormalizedName.ToLower().Equals(y.NormalizedName.ToLower()))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        public int GetHashCode(Tag obj)
+        {
+            return obj.GetHashCode();
         }
     }
 }

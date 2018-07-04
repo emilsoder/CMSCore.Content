@@ -25,7 +25,7 @@
         [HttpGet("feed/{pageId}")]
         [ValidateModelState]
         [ProducesResponseType(typeof(FeedViewModel), 200)]
-         public async Task<IActionResult> GetFeed([Required] string pageId)
+        public async Task<IActionResult> GetFeed([Required] string pageId)
         {
             try
             {
@@ -41,7 +41,7 @@
         [HttpGet("feeditem/{feedItemId}")]
         [ValidateModelState]
         [ProducesResponseType(typeof(FeedItemViewModel), 200)]
-         public async Task<IActionResult> GetFeedItem([Required] string feedItemId)
+        public async Task<IActionResult> GetFeedItem([Required] string feedItemId)
         {
             try
             {
@@ -54,10 +54,26 @@
             }
         }
 
+        [HttpGet("feeditem/name/{name}")]
+        [ValidateModelState]
+        [ProducesResponseType(typeof(FeedItemViewModel), 200)]
+        public async Task<IActionResult> GetFeedItemByName([Required] string name)
+        {
+            try
+            {
+                var readGrain = _client.GetGrain<IReadContentGrain>(name);
+                return base.Json(await readGrain.FindFeedItemByNormalizedName());
+            }
+            catch (Exception ex)
+            {
+                return ex.BadRequestFromException();
+            }
+        }
+
         [HttpGet("page/{pageId}")]
         [ValidateModelState]
         [ProducesResponseType(typeof(PageViewModel), 200)]
-         public async Task<IActionResult> GetPage([Required] string pageId)
+        public async Task<IActionResult> GetPage([Required] string pageId)
         {
             try
             {
@@ -70,9 +86,41 @@
             }
         }
 
+        [HttpGet("page/name/{name}")]
+        [ValidateModelState]
+        [ProducesResponseType(typeof(PageViewModel), 200)]
+        public async Task<IActionResult> GetPageByName([Required] string name)
+        {
+            try
+            {
+                var readGrain = _client.GetGrain<IReadContentGrain>(name);
+                return base.Json(await readGrain.FindPageByNormalizedName());
+            }
+            catch (Exception ex)
+            {
+                return ex.BadRequestFromException();
+            }
+        }
+
+        [HttpGet("tags")]
+        [ValidateModelState]
+        [ProducesResponseType(typeof(PageViewModel), 200)]
+        public async Task<IActionResult> GetTags()
+        {
+            try
+            {
+                var readGrain = _client.GetGrain<IReadContentGrain>(Guid.Empty.ToString());
+                return base.Json(await readGrain.GetTags());
+            }
+            catch (Exception ex)
+            {
+                return ex.BadRequestFromException();
+            }
+        }
+
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<PageTreeViewModel>), 200)]
-         public async Task<IActionResult> GetPageTree()
+        public async Task<IActionResult> GetPageTree()
         {
             try
             {

@@ -83,7 +83,7 @@
             services.AddAuthorization(options => { options.SetPoliciesFromConfiguration(_authenticationConfiguration); });
 
             services.AddSingleton<IAuthorizationHandler, HasRolePolicyHandler>();
-            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Info { Title = "CMSCore Content API", Version = "v1" }); });
+            services.AddSwaggerGen(c => { c.SwaggerDoc("CMSCore Content API", new Info { Title = "CMSCore Content API", Version = "1" }); });
         }
 
         private IClusterClient CreateClusterClient(IServiceProvider serviceProvider)

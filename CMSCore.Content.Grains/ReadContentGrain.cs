@@ -48,6 +48,13 @@ namespace CMSCore.Content.Grains
             return await _repository.GetPageByNormalizedName(normalizedName);
         }
 
+        public async Task<FeedItemViewModel> FindFeedItemByNormalizedName()
+        {
+            var normalizedName = this.GetPrimaryKeyString();
+
+            return await _repository.GetFeedItemByNormalizedName(normalizedName);
+        }
+
         public async Task<IEnumerable<PageTreeViewModel>> GetPageTree()
         {
             return await _repository.GetPageTree();
@@ -58,6 +65,11 @@ namespace CMSCore.Content.Grains
             var id = this.GetPrimaryKeyString();
 
             return await _repository.GetTags(id);
+        }
+
+        public async Task<IEnumerable<TagViewModel>> GetTags()
+        {
+            return await _repository.GetTags();
         }
 
         public async Task<IEnumerable<UserViewModel>> GetUsers()
