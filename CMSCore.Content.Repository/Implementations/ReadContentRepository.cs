@@ -84,7 +84,7 @@
 
         public async Task<FeedItemViewModel> GetFeedItemByNormalizedName(string normalizedName)
         {
-            var feedItem = await _context.Set<FeedItem>().FirstOrDefaultAsync(x => x.NormalizedTitle.ToLower() == normalizedName.ToLower());
+            var feedItem = await _context.Set<FeedItem>().FirstOrDefaultAsync(x => x.NormalizedTitle == normalizedName);
 
             return feedItem?.ConvertToViewModel();
         }
@@ -93,10 +93,10 @@
         {
             var feedItems = await _context.Set<FeedItem>()
                 ?.Where(x => x.FeedId == feedId)
-                ?.Select(x => x.ConvertToPreviewViewModel())
                 ?.ToListAsync();
 
-            return feedItems;
+            return feedItems?.Select(x => x.ConvertToPreviewViewModel())
+                ;
         }
 
         public async Task<PageViewModel> GetPage(string pageId)
@@ -119,7 +119,7 @@
 
         public async Task<PageViewModel> GetPageByNormalizedName(string normalizedName)
         {
-            var page = await _context.Set<Page>().FirstOrDefaultAsync(x => x.NormalizedName.ToLower() == normalizedName.ToLower());
+            var page = await _context.Set<Page>().FirstOrDefaultAsync(x => x.NormalizedName == normalizedName);
             if (page == null) return null;
 
             return new PageViewModel
@@ -136,31 +136,29 @@
 
         public async Task<IEnumerable<PageTreeViewModel>> GetPageTree()
         {
-            var pages = _context.Set<Page>();
-            if (pages == null || !pages.Any()) return null;
+            var pages = await _context.Set<Page>().ToListAsync();
 
-            return await pages.Select(x => new PageTreeViewModel
+            return pages.Select(x => new PageTreeViewModel
                 {
                     Id = x.Id,
                     Date = x.Created,
                     Name = x.Name,
                     NormalizedName = x.NormalizedName
                 })
-                .ToListAsync();
+                ;
         }
 
         public async Task<IEnumerable<TagViewModel>> GetTags(string feedItemId)
         {
-            var tags = _context.Set<Tag>()?.Where(x => x.FeedItemId == feedItemId);
+            var tags = await _context.Set<Tag>().Where(x => x.FeedItemId == feedItemId).ToListAsync();
+
             var vm = tags?.Select(x => x.ConvertToViewModel());
-            return vm == null ? null : await vm.ToListAsync();
+            return vm;
         }
 
         public async Task<IEnumerable<UserViewModel>> GetUsers()
         {
-            var users = _context.Set<User>();
-
-            var vms = users?.Select(x => new UserViewModel
+            var vms = _context.Set<User>().Select(x => new UserViewModel
             {
                 Id = x.Id,
                 Created = x.Created,
@@ -171,24 +169,22 @@
                 LastName = x.LastName
             });
 
-            return vms == null ? null : await vms.ToListAsync();
+            return await vms.ToListAsync();
         }
 
         public async Task<IEnumerable<TagViewModel>> GetTags()
         {
-            var tags = await _context.Tags.ToListAsync();
             var eq = new TagComparer();
-            var tagsDistinct = tags.Distinct(eq);
-            var vm = tagsDistinct?.Select(x => x.ConvertToViewModel());
-            return vm;
+            var tagsDistinct = await _context.Tags.Distinct(eq).ToListAsync();
+            return tagsDistinct?.Select(x => x.ConvertToViewModel());
         }
     }
 
     public class TagComparer : IEqualityComparer<Tag>
-    { 
+    {
         public bool Equals(Tag x, Tag y)
         {
-            if (x.NormalizedName.ToLower().Equals(y.NormalizedName.ToLower()))
+            if (x.NormalizedName.Equals(y.NormalizedName))
             {
                 return true;
             }

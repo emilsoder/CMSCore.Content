@@ -16,8 +16,7 @@
         private static IDataConfiguration GetConfiguration()
         {
             var configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", true, true).Build();
+                 .AddJsonFile("appsettings.json", true, true).Build();
 
             return new DataConfiguration(configuration);
         }

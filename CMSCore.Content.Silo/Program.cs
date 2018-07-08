@@ -9,8 +9,9 @@
     using CMSCore.Content.Data;
     using CMSCore.Content.Data.Configuration;
     using CMSCore.Content.Grains;
-    using CMSCore.Content.Repository;
-    using CMSCore.Content.Silo.Configuration;
+     using CMSCore.Content.Silo.Configuration;
+    using Grains.Repos;
+    using Grains.Repos.Interfaces;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
@@ -91,6 +92,18 @@
             await silo.StopAsync();
             Console.WriteLine("Silo stopped");
             siloStopped.Set();
+        }
+    }
+    public static class DependencyInjection
+    {
+        public static IServiceCollection AddRepositories(this IServiceCollection services)
+        {
+            services.AddSingleton<IUpdateContentRepository, UpdateContentRepository>();
+            services.AddSingleton<IDeleteContentRepository, DeleteContentRepository>();
+            services.AddSingleton<IReadContentRepository, ReadContentRepository>();
+            services.AddSingleton<IRecycleBinRepository, RecycleBinRepository>();
+
+            return services;
         }
     }
 }

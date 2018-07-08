@@ -2,8 +2,9 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using CMSCore.Content.ViewModels;
+    using Messages;
     using Orleans;
+   
 
     public interface IReadContentGrain : IGrainWithStringKey
     {

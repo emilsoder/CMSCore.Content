@@ -4,9 +4,9 @@
     using System.Threading.Tasks;
     using CMSCore.Content.GrainInterfaces;
     using CMSCore.Content.Grains.Extensions;
-    using CMSCore.Content.Repository.Interfaces;
-    using CMSCore.Content.ViewModels;
+    using GrainInterfaces.Messages;
     using Orleans;
+    using Repos.Interfaces;
 
     public class RecycleBinGrain : Grain, IRecycleBinGrain
     {

@@ -2,14 +2,12 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using System.Linq;
-    using System.Security.Claims;
     using System.Threading.Tasks;
     using CMSCore.Content.Api.Attributes;
     using CMSCore.Content.Api.Extensions;
     using CMSCore.Content.GrainInterfaces;
-    using CMSCore.Content.ViewModels;
     using global::Orleans;
+    using GrainInterfaces.Messages;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 

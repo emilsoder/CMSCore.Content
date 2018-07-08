@@ -45,7 +45,7 @@
                 x.AllowAnyHeader();
                 x.AllowAnyOrigin();
                 x.AllowAnyMethod();
-            });
+             });
             app.UseAuthentication();
             app.UseMvc();
 
@@ -68,6 +68,7 @@
                 builder.AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader();
+ 
             }));
 
             services.AddAuthentication(options =>

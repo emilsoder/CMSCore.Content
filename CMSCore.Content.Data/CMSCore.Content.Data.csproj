@@ -27,19 +27,12 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.1.1" />
-    <PackageReference Include="Microsoft.Orleans.OrleansCodeGenerator" Version="2.0.3" />
-    <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="8.0.11" />
-    <PackageReference Include="MySql.Data.EntityFrameworkCore.Design" Version="8.0.11" /> 
-    <PackageReference Include="System.Runtime" Version="4.3.0" /> 
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" /> 
   </ItemGroup>
    
   
   <ItemGroup>
     <ProjectReference Include="..\CMSCore.Content.Models\CMSCore.Content.Models.csproj" />
-    <ProjectReference Include="..\CMSCore.Content.ViewModels\CMSCore.Content.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>

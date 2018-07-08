@@ -2,8 +2,8 @@
 {
     using CMSCore.Content.Data.Configuration;
     using CMSCore.Content.Data.Extensions;
-    using CMSCore.Content.Models;
     using Microsoft.EntityFrameworkCore;
+    using Models;
 
     public class ContentDbContext : DbContext
     {

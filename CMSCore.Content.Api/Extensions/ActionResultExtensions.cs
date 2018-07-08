@@ -1,7 +1,7 @@
 ﻿namespace CMSCore.Content.Api.Extensions
 {
     using System;
-    using CMSCore.Content.ViewModels;
+    using GrainInterfaces.Messages;
     using Microsoft.AspNetCore.Mvc;
 
     public static class ActionResultExtensions

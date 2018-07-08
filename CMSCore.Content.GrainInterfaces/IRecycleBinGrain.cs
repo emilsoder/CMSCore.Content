@@ -1,9 +1,9 @@
 ﻿namespace CMSCore.Content.GrainInterfaces
 {
     using System.Threading.Tasks;
-    using CMSCore.Content.ViewModels;
+    using Messages;
     using Orleans;
-
+ 
     public interface IRecycleBinGrain : IGrainWithStringKey
     {
         Task<GrainOperationResult> MoveCommentToRecycleBinByEntityId();

@@ -1,7 +1,7 @@
 ﻿namespace CMSCore.Content.Grains.Extensions
 {
     using System;
-    using CMSCore.Content.ViewModels;
+     using GrainInterfaces.Messages;
 
     public static class GrainResultExtensions
     {

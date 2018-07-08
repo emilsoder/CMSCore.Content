@@ -1,6 +1,6 @@
 ﻿namespace CMSCore.Content.Api.Attributes
 {
-    using CMSCore.Content.ViewModels;
+     using GrainInterfaces.Messages;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
     using Microsoft.AspNetCore.Mvc.ModelBinding;

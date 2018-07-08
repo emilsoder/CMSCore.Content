@@ -1,13 +1,13 @@
 ﻿namespace CMSCore.Content.GrainInterfaces
 {
     using System.Threading.Tasks;
-    using CMSCore.Content.ViewModels;
+    using Messages;
     using Orleans;
-
+ 
     public interface IDeleteContentGrain : IGrainWithStringKey
     {
         Task<GrainOperationResult> DeleteCommentByEntityId();
-        Task<GrainOperationResult> DeleteCommentsByFeedItemId();
+        Task<GrainOperationResult> _DeleteCommentsByFeedItemId();
         Task<GrainOperationResult> DeleteFeedByEntityId();
         Task<GrainOperationResult> DeleteFeedByPageId();
         Task<GrainOperationResult> DeleteFeedItemsByFeedId();
