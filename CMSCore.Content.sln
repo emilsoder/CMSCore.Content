@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2000
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMSCore.Content.Models", "CMSCore.Content.Models\CMSCore.Content.Models.csproj", "{21473EE6-15EF-4D9A-BBBE-7C28F7F97B3C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMSCore.Content.Data", "CMSCore.Content.Data\CMSCore.Content.Data.csproj", "{7081B62C-909C-438F-A5FF-2C9099A0FDC6}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMSCore.Content.Grains", "CMSCore.Content.Grains\CMSCore.Content.Grains.csproj", "{7281AAED-8E0B-49CD-9C1B-DA4F2C2C1F12}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CMSCore.Content.GrainInterfaces", "CMSCore.Content.GrainInterfaces\CMSCore.Content.GrainInterfaces.csproj", "{51CEDEB3-909A-4F2E-9AD6-C0B42C952656}"
@@ -21,14 +17,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{21473EE6-15EF-4D9A-BBBE-7C28F7F97B3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{21473EE6-15EF-4D9A-BBBE-7C28F7F97B3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{21473EE6-15EF-4D9A-BBBE-7C28F7F97B3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{21473EE6-15EF-4D9A-BBBE-7C28F7F97B3C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7081B62C-909C-438F-A5FF-2C9099A0FDC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7081B62C-909C-438F-A5FF-2C9099A0FDC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7081B62C-909C-438F-A5FF-2C9099A0FDC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7081B62C-909C-438F-A5FF-2C9099A0FDC6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7281AAED-8E0B-49CD-9C1B-DA4F2C2C1F12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7281AAED-8E0B-49CD-9C1B-DA4F2C2C1F12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7281AAED-8E0B-49CD-9C1B-DA4F2C2C1F12}.Release|Any CPU.ActiveCfg = Release|Any CPU

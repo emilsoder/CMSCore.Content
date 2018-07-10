@@ -9,15 +9,14 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.1.1" />
     <PackageReference Include="Microsoft.Orleans.Clustering.AdoNet" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Orleans.OrleansCodeGenerator.Build" Version="2.0.3" />
     <PackageReference Include="Microsoft.Orleans.Persistence.AdoNet" Version="2.0.0" />
     <PackageReference Include="Microsoft.Orleans.Server" Version="2.0.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CMSCore.Content.Data\CMSCore.Content.Data.csproj" />
     <ProjectReference Include="..\CMSCore.Content.Grains\CMSCore.Content.Grains.csproj" />
-    <ProjectReference Include="..\CMSCore.Content.Models\CMSCore.Content.Models.csproj" />
-  </ItemGroup>
+   </ItemGroup>
 
   <ItemGroup>
     <None Update="appsettings.json">

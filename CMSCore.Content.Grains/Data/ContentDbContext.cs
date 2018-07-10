@@ -1,13 +1,17 @@
-﻿namespace CMSCore.Content.Data
+﻿namespace CMSCore.Content.Grains.Data
 {
-    using CMSCore.Content.Data.Configuration;
-    using CMSCore.Content.Data.Extensions;
+    using Configuration;
     using Microsoft.EntityFrameworkCore;
     using Models;
 
     public class ContentDbContext : DbContext
     {
-        private readonly IDataConfiguration _dataConfiguration;
+        public ContentDbContext(DbContextOptions options) : base(options)
+        {
+            
+        }
+
+        //private readonly IDataConfiguration _dataConfiguration;
 
         public DbSet<Comment> Comments { get; set; }
         public DbSet<FeedItem> FeedItems { get; set; }
@@ -17,16 +21,15 @@
         public DbSet<Tag> Tags { get; set; }
         public DbSet<User> Users { get; set; }
 
-        public ContentDbContext(IDataConfiguration dataConfiguration)
-        {
-            _dataConfiguration = dataConfiguration;
-        }
+        //public ContentDbContext(IDataConfiguration dataConfiguration)
+        //{
+        //    _dataConfiguration = dataConfiguration;
+        //}
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(_dataConfiguration.ContentConnection);
-            //base.OnConfiguring(optionsBuilder);
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer(_dataConfiguration.ContentConnection);
+        // }
          
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

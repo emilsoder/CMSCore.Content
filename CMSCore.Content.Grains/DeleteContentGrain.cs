@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
     using CMSCore.Content.GrainInterfaces;
     using CMSCore.Content.Grains.Extensions;
+    using Data;
     using Data.Models;
     using GrainInterfaces.Messages;
     using Orleans;
@@ -152,7 +153,7 @@
 
         // -------------------
 
-        private readonly CMSCore.Content.Data.ContentDbContext _context;
+        private readonly ContentDbContext _context;
 
 
         Task DeleteCommentByEntityId(string commentId)

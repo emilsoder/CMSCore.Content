@@ -6,12 +6,19 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
     <PackageReference Include="Microsoft.Orleans.Core.Abstractions" Version="2.0.0" />
+    <PackageReference Include="Microsoft.Orleans.OrleansCodeGenerator.Build" Version="2.0.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CMSCore.Content.Data\CMSCore.Content.Data.csproj" />
     <ProjectReference Include="..\CMSCore.Content.GrainInterfaces\CMSCore.Content.GrainInterfaces.csproj" />
-    <ProjectReference Include="..\CMSCore.Content.Models\CMSCore.Content.Models.csproj" />
+   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Data\appsettings.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

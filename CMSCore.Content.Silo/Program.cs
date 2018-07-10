@@ -6,12 +6,13 @@
     using System.Runtime.Loader;
     using System.Threading;
     using System.Threading.Tasks;
-    using CMSCore.Content.Data;
-    using CMSCore.Content.Data.Configuration;
     using CMSCore.Content.Grains;
      using CMSCore.Content.Silo.Configuration;
+    using Grains.Data;
+    using Grains.Data.Configuration;
     using Grains.Repos;
     using Grains.Repos.Interfaces;
+    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
@@ -25,12 +26,13 @@
         private static readonly ManualResetEvent siloStopped = new ManualResetEvent(false);
         private static ISiloHost silo;
         private static IClusterConfiguration _clusterConfiguration;
+        private static IDataConfiguration _dataConfiguration;
 
         private static void Main(string [ ] args)
         {
             Configuration = SiloBuilderExtensions.BuildConfiguration();
             _clusterConfiguration = new ClusterConfiguration(Configuration);
-
+            _dataConfiguration = new DataConfiguration(Configuration);
 
             silo = new SiloHostBuilder()
                 .Configure<ClusterOptions>(options =>
@@ -54,7 +56,8 @@
                     //x.AddSingleton<ContentDbContext>(new ContentDbContext());
                     x.AddSingleton<IClusterConfiguration, ClusterConfiguration>();
                     x.AddSingleton<IDataConfiguration>(new DataConfiguration(Configuration));
-                    x.AddSingleton<ContentDbContext>();
+                    //x.AddSingleton<ContentDbContext>(x =>);
+                    x.AddDbContext<ContentDbContext>(options => options.UseSqlServer(_dataConfiguration.ContentConnection));
                     x.AddRepositories();
                 })
                 .ConfigureApplicationParts(parts =>

@@ -83,6 +83,15 @@
 
         public static FeedItemViewModel ConvertToViewModel(this FeedItem x)
         {
+            var tags = x.Tags?.Select(tag => new TagViewModel(tag.Id, tag.NormalizedName, tag.Name))?.ToArray();
+            var comments = x.Comments?.Select(c => new CommentViewModel()
+            {
+                Date = c.Created,
+                Text = c.Content.Value,
+                FullName = c.FullName,
+                CommentId = c.Id
+            })?.ToArray();
+
             return new FeedItemViewModel()
             {
                 Id = x.Id,
@@ -91,15 +100,15 @@
                 Modified = x.Modified,
                 Title = x.Title,
                 NormalizedTitle = x.NormalizedTitle,
-                Tags = x.Tags?.ToList()?.Select(tag => tag.ConvertToViewModel()).ToArray(),
+                Tags = tags,
                 Content = x.Content.Value,
                 FeedId = x.FeedId,
                 CommentsEnabled = x.CommentsEnabled,
-                Comments = x.Comments?.ToList()?.Select(c => c.ConvertToViewModel()).ToArray()
+                Comments = comments
             };
-
         }
     }
+
     public static class TagExtensions
     {
         public static List<Tag> ToModels(this IList<string> tagNames)

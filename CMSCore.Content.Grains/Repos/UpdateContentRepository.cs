@@ -22,9 +22,7 @@
             var foundActiveFeed = _context.FeedItems.FirstOrDefault(x =>  x.Id == model.Id);
 
             if (foundActiveFeed == null) return Task.FromException(new Exception("FeedItem to update not found."));
-
-   
-
+             
             return _context.SaveChangesAsync();
         }
 

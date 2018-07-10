@@ -47,8 +47,10 @@ namespace CMSCore.Content.Grains
         {
             var id = this.GetPrimaryKeyString();
 
-            return await this.GetFeedItem(id);
-        }
+            var feedItem = await _context.Set<FeedItem>().FirstOrDefaultAsync(x => x.Id == feedItemId);
+
+            return feedItem?.ConvertToViewModel(); 
+         }
 
         public async Task<IEnumerable<FeedItemPreviewViewModel>> FeedItemsByFeedId(string feedId)
         {
@@ -102,7 +104,7 @@ namespace CMSCore.Content.Grains
         {
             var eq = new TagComparer();
             var tagsDistinct = await _context.Tags.Distinct(eq).ToListAsync();
-            return tagsDistinct?.Select(x => x.ConvertToViewModel());
+            return tagsDistinct?.Select(x => new TagViewModel(x.Id, x.NormalizedName, x.Name));
         }
 
         public async Task<IEnumerable<UserViewModel>> GetUsers()
